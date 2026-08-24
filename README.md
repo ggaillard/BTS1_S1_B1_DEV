@@ -6,8 +6,7 @@ Volume : **1 h / semaine × 14 semaines**. Modalité : **papier ou machine**.
 > Fil rouge du semestre : **« Du code au service : les 4 cultures Ops »**
 > DevOps → DevSecOps → DataOps → MLOps, avec la **sécurité intégrée** (secure by design) et une **évaluation papier scannable corrigée avec l'aide de l'IA**.
 
-**Enseignant** : G. Gaillard — Lycée Simone Weil, Saint-Priest-en-Jarez
-**Année** : 2026-2027
+
 
 ---
 

@@ -255,6 +255,11 @@ Ce semestre suit exactement leur parcours :
 > Cette page sert **à vous**, pour savoir où vous en êtes en sortant. Répondez d'abord,
 > ouvrez les réponses ensuite — dans cet ordre, sinon ça ne sert à rien.
 
+> 📡 **Version interactive** — la même auto-évaluation se fait en ligne dans la
+> [**Tour de contrôle**](https://claude.ai/code/artifact/f7a89996-1e0c-4441-ac77-de457220aca8) :
+> correction immédiate, et la **carte d'orientation de la classe** se construit en direct sous vos yeux.
+> Les questions ci-dessous sont identiques — utilisez l'une ou l'autre.
+
 ### Partie 1 — Le dossier d'enquête (10 questions)
 
 **1.** Le modèle de Laudon décrit un SI en 5 composants. Lequel n'en fait **pas** partie ?
@@ -375,7 +380,7 @@ La réponse tient à la façon dont une application web moderne parle à ses uti
 | 18–35' | Acte II | Incarner les 4 témoins (changer de position dans la salle). Indice n°2 en binômes. |
 | 35–47' | Acte III | Dérouler la chaîne **un maillon à la fois**. Ne pas dévoiler la fin d'avance. |
 | 47–48' | Acte IV | Court : c'est une respiration avant l'auto-évaluation. |
-| 48–60' | Épilogue | Silence complet. Insister : aucune note, aucun ramassage. Clore sur le teaser S2. |
+| 48–60' | Épilogue | Silence complet. Insister : aucune note, aucun ramassage. Projeter la **Tour de contrôle** pendant qu'ils répondent : voir la carte d'orientation se remplir en direct est le meilleur final possible. Clore sur le teaser S2. |
 
 **Si vous êtes en retard** : couper l'Acte IV et la Partie 2 de l'auto-évaluation.
 Ne jamais couper l'Acte III — c'est lui qui donne son sens à toute la séance.

@@ -1,0 +1,812 @@
+<title>Tour de contrôle SIO</title>
+
+<style id="app-style">
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --ground:#eff1f4; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#e9ecf1;
+  --ink:#14181f; --ink-2:#39424e; --muted:#616b78; --line:#dce0e6; --line-strong:#c3cad4;
+  --accent:#a8480f; --accent-2:#c36f2b; --accent-soft:#fbeee2; --on-accent:#ffffff;
+  --ops-1:#2563eb; --ops-2:#dc2626; --ops-3:#059669; --ops-4:#c026a3; --ops-0:#7b8593;
+  --step-1:#dfa469; --step-2:#c36f2b; --step-3:#87400f;
+  --shadow:0 1px 2px rgba(20,24,31,.06), 0 8px 24px -16px rgba(20,24,31,.28);
+  --r:10px;
+  --f-display:'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --f-body:'Public Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono:'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:#0f1319; --surface:#171c24; --surface-2:#1d232c; --surface-3:#252c37;
+    --ink:#e8ecf1; --ink-2:#c3cbd6; --muted:#929caa; --line:#2a313b; --line-strong:#3a434f;
+    --accent:#f0913f; --accent-2:#bc7a33; --accent-soft:#2a1c11; --on-accent:#14181f;
+    --ops-1:#4c8df6; --ops-2:#e14b4b; --ops-3:#0fa97a; --ops-4:#cb3fae; --ops-0:#79838f;
+    --step-1:#7a4e23; --step-2:#bc7a33; --step-3:#edb170;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"] {
+  --ground:#0f1319; --surface:#171c24; --surface-2:#1d232c; --surface-3:#252c37;
+  --ink:#e8ecf1; --ink-2:#c3cbd6; --muted:#929caa; --line:#2a313b; --line-strong:#3a434f;
+  --accent:#f0913f; --accent-2:#bc7a33; --accent-soft:#2a1c11; --on-accent:#14181f;
+  --ops-1:#4c8df6; --ops-2:#e14b4b; --ops-3:#0fa97a; --ops-4:#cb3fae; --ops-0:#79838f;
+  --step-1:#7a4e23; --step-2:#bc7a33; --step-3:#edb170;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+
+body {
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--f-body); font-size:15px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3 { font-family:var(--f-display); margin:0; text-wrap:balance; letter-spacing:-.015em; }
+p { margin:0; }
+button { font:inherit; color:inherit; }
+:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation:none !important; transition:none !important; } }
+
+/* ---------- top rail ---------- */
+.rail {
+  position:sticky; top:0; z-index:20; background:var(--surface);
+  border-bottom:1px solid var(--line);
+  display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  padding:12px clamp(14px,3vw,30px);
+}
+.brand { display:flex; align-items:baseline; gap:10px; margin-right:auto; }
+.brand b { font-family:var(--f-display); font-weight:800; font-size:17px; letter-spacing:-.02em; }
+.brand span { font-family:var(--f-mono); font-size:11px; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; }
+.live { display:inline-flex; align-items:center; gap:7px; font-family:var(--f-mono); font-size:11px; color:var(--muted); letter-spacing:.04em; }
+.dot { width:7px; height:7px; border-radius:50%; background:var(--accent); animation:pulse 2.4s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.28} }
+
+.tabs { display:flex; gap:3px; background:var(--surface-3); padding:3px; border-radius:var(--r); }
+.tab { border:0; background:transparent; padding:7px 15px; border-radius:7px; cursor:pointer;
+  font-family:var(--f-display); font-weight:600; font-size:13.5px; color:var(--muted); }
+.tab[aria-selected="true"] { background:var(--surface); color:var(--ink); box-shadow:var(--shadow); }
+
+.switch { display:inline-flex; align-items:center; gap:8px; font-size:12.5px; color:var(--muted); cursor:pointer; }
+.switch input { appearance:none; width:34px; height:19px; border-radius:99px; background:var(--surface-3);
+  border:1px solid var(--line-strong); position:relative; cursor:pointer; transition:background .16s; }
+.switch input::after { content:""; position:absolute; top:2px; left:2px; width:13px; height:13px; border-radius:50%;
+  background:var(--surface); box-shadow:0 1px 2px rgba(0,0,0,.3); transition:transform .16s; }
+.switch input:checked { background:var(--accent); border-color:var(--accent); }
+.switch input:checked::after { transform:translateX(15px); }
+
+/* ---------- shell ---------- */
+main { padding:clamp(16px,3vw,30px); max-width:1360px; margin:0 auto; }
+.eyebrow { font-family:var(--f-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+
+.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; margin-bottom:14px; }
+.kpi { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; box-shadow:var(--shadow); }
+.kpi .n { font-family:var(--f-mono); font-weight:700; font-size:30px; line-height:1.1; letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums; margin-top:6px; display:block; }
+.kpi .sub { font-size:12.5px; color:var(--muted); margin-top:3px; }
+.kpi.hot .n { color:var(--accent); }
+
+.grid { display:grid; grid-template-columns:minmax(330px,.85fr) 1.15fr; gap:14px; align-items:start; }
+@media (max-width:980px){ .grid { grid-template-columns:1fr; } }
+
+.panel { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow); overflow:hidden; }
+.panel + .panel { margin-top:14px; }
+.panel > header { padding:14px 16px 11px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.panel > header h2 { font-size:15px; font-weight:700; }
+.panel > header .spacer { margin-left:auto; }
+.panel .body { padding:14px 16px 16px; }
+.panel .body > * + * { margin-top:16px; }
+
+.note { font-size:12.5px; color:var(--muted); }
+.empty { padding:26px 16px; text-align:center; color:var(--muted); font-size:13.5px; }
+.empty b { display:block; font-family:var(--f-display); color:var(--ink-2); font-size:14.5px; margin-bottom:4px; }
+
+/* ---------- progression rail ---------- */
+.seances { list-style:none; margin:0; padding:0; }
+.seances li { display:grid; grid-template-columns:26px 1fr auto; gap:10px; align-items:center;
+  padding:7px 16px; border-bottom:1px solid var(--line); }
+.seances li:last-child { border-bottom:0; }
+.seances .num { font-family:var(--f-mono); font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums; text-align:right; }
+.seances .ttl { font-size:13.5px; line-height:1.35; }
+.seances .ttl small { display:block; font-family:var(--f-mono); font-size:10px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--muted); margin-top:1px; }
+.seances li[data-s="done"] .ttl { color:var(--muted); }
+.seances li[data-s="current"] { background:var(--accent-soft); }
+.seances li[data-s="current"] .ttl { font-weight:600; }
+
+.pill { font-family:var(--f-mono); font-size:10.5px; letter-spacing:.05em; text-transform:uppercase;
+  padding:3px 9px; border-radius:99px; border:1px solid var(--line-strong); color:var(--muted); white-space:nowrap; }
+.pill[data-s="done"] { background:var(--surface-3); color:var(--ink-2); border-color:transparent; }
+.pill[data-s="current"] { background:var(--accent); color:var(--on-accent); border-color:transparent; }
+button.pill { cursor:pointer; }
+button.pill:hover { border-color:var(--accent); color:var(--accent); }
+button.pill[data-s="done"]:hover, button.pill[data-s="current"]:hover { color:inherit; border-color:transparent; filter:brightness(.94); }
+
+.meter { height:6px; border-radius:99px; background:var(--surface-3); overflow:hidden; margin:0 16px 14px; }
+.meter i { display:block; height:100%; border-radius:99px; background:var(--accent); }
+
+/* ---------- charts ---------- */
+.rows { display:flex; flex-direction:column; gap:7px; }
+.row { display:grid; grid-template-columns:minmax(96px,142px) 1fr 46px; gap:10px; align-items:center; }
+.row .lbl { font-size:12.5px; color:var(--ink-2); line-height:1.25; }
+.row .lbl b { font-family:var(--f-mono); font-size:11px; color:var(--muted); font-weight:500; }
+.row .val { font-family:var(--f-mono); font-size:12px; font-variant-numeric:tabular-nums; color:var(--muted); text-align:right; }
+.track { height:16px; background:var(--surface-3); border-radius:4px; overflow:hidden; display:flex; }
+.track i { display:block; height:100%; border-radius:0 4px 4px 0; }
+.track i:first-child { border-radius:4px; }
+.stack { display:flex; gap:2px; }
+.stack i { border-radius:0; }
+.stack i:first-child { border-radius:4px 0 0 4px; }
+.stack i:last-child { border-radius:0 4px 4px 0; }
+.row.weak .val { color:var(--accent); font-weight:700; }
+
+.legend { display:flex; flex-wrap:wrap; gap:14px; font-size:12px; color:var(--muted); }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend i { width:10px; height:10px; border-radius:3px; display:inline-block; }
+
+.log { font-family:var(--f-mono); font-size:11.5px; margin:0; padding:0; list-style:none;
+  max-height:190px; overflow-y:auto; }
+.log li { display:flex; gap:12px; padding:4px 0; border-bottom:1px dashed var(--line); }
+.log li:last-child { border-bottom:0; }
+.log time { color:var(--muted); font-variant-numeric:tabular-nums; }
+.log .who { flex:1; color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.log .sc { color:var(--accent); font-weight:700; font-variant-numeric:tabular-nums; }
+
+/* ---------- buttons ---------- */
+.btn { border:1px solid var(--line-strong); background:var(--surface); border-radius:8px; padding:8px 14px;
+  font-family:var(--f-display); font-weight:600; font-size:13px; cursor:pointer; }
+.btn:hover { border-color:var(--accent); color:var(--accent); }
+.btn.primary { background:var(--accent); border-color:var(--accent); color:var(--on-accent); }
+.btn.primary:hover { color:var(--on-accent); filter:brightness(1.06); }
+.btn.danger:hover { border-color:var(--ops-2); color:var(--ops-2); }
+.btn[disabled] { opacity:.5; cursor:not-allowed; }
+.btn.sm { padding:5px 10px; font-size:12px; }
+
+/* ---------- quiz ---------- */
+.sheet { max-width:64ch; margin:0 auto; }
+.sheet > * + * { margin-top:14px; }
+.lede { font-size:15.5px; color:var(--ink-2); }
+.lede b { color:var(--ink); }
+
+fieldset { border:0; margin:0; padding:0; }
+.q { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; box-shadow:var(--shadow); }
+.q legend, .q .qh { font-family:var(--f-display); font-weight:600; font-size:14.5px; padding:0; display:block; }
+.q .qh b { font-family:var(--f-mono); color:var(--accent); font-size:12px; margin-right:8px; letter-spacing:.04em; }
+.opts { display:flex; flex-direction:column; gap:5px; margin-top:11px; }
+.opt { display:flex; align-items:flex-start; gap:9px; padding:7px 10px; border:1px solid var(--line);
+  border-radius:8px; cursor:pointer; font-size:13.5px; line-height:1.4; background:var(--surface-2); }
+.opt:hover { border-color:var(--line-strong); }
+.opt input { appearance:none; width:15px; height:15px; margin:2px 0 0; flex:none; border-radius:50%;
+  border:1.5px solid var(--line-strong); background:var(--surface); cursor:pointer; }
+.opt input:checked { border:4.5px solid var(--accent); }
+.opt:has(input:checked) { border-color:var(--accent); background:var(--accent-soft); }
+.opt code { font-family:var(--f-mono); font-size:11.5px; color:var(--muted); }
+
+.scale, .scalehead { display:grid; grid-template-columns:1fr repeat(3,minmax(72px,104px)); gap:6px; align-items:center; }
+.scale + .scale { margin-top:6px; }
+.scale .lbl { font-size:13.5px; }
+.scale label { display:flex; align-items:center; justify-content:center; gap:8px; padding:9px 6px;
+  border:1px solid var(--line); border-radius:7px; cursor:pointer; font-size:12px; text-align:center;
+  background:var(--surface-2); line-height:1.2; }
+.scale label::before { content:""; width:14px; height:14px; flex:none; border-radius:50%;
+  border:1.5px solid var(--line-strong); background:var(--surface); }
+.scale label:has(input:checked) { border-color:var(--accent); background:var(--accent-soft); font-weight:600; }
+.scale label:has(input:checked)::before { border:4.5px solid var(--accent); background:var(--surface); }
+.scale label:has(input:focus-visible) { outline:2px solid var(--accent); outline-offset:2px; }
+.scale input { position:absolute; width:1px; height:1px; opacity:0; margin:0; }
+/* La colonne porte déjà le libellé : dans la case, seul le point est visible. */
+.scale label .tx { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.scalehead { margin-bottom:8px; }
+.scalehead span { font-family:var(--f-mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--muted); text-align:center; }
+@media (max-width:620px){
+  .scale { grid-template-columns:repeat(3,1fr); }
+  .scale .lbl { grid-column:1 / -1; font-weight:600; margin-bottom:1px; }
+  .scalehead { display:none; }
+  .scale label { flex-direction:column; gap:5px; font-size:11.5px; }
+  .scale label .tx { position:static; width:auto; height:auto; overflow:visible; clip-path:none; white-space:normal; }
+}
+
+input[type="text"] { width:100%; padding:9px 11px; border:1px solid var(--line-strong); border-radius:8px;
+  background:var(--surface-2); color:var(--ink); font:inherit; font-size:14px; }
+input[type="text"]::placeholder { color:var(--muted); }
+
+.alert { border:1px solid var(--accent); background:var(--accent-soft); color:var(--ink); border-radius:var(--r);
+  padding:11px 14px; font-size:13.5px; }
+.alert b { font-family:var(--f-display); }
+
+.verdict { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow);
+  padding:22px; text-align:center; }
+.verdict .n { font-family:var(--f-mono); font-weight:700; font-size:52px; line-height:1; letter-spacing:-.03em;
+  color:var(--accent); font-variant-numeric:tabular-nums; }
+.verdict .n small { font-size:20px; color:var(--muted); }
+.correction { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:5px; }
+.correction li { display:grid; grid-template-columns:34px 1fr auto; gap:10px; align-items:center;
+  padding:7px 11px; border-radius:8px; background:var(--surface-2); border:1px solid var(--line); font-size:13px; }
+.correction li b { font-family:var(--f-mono); font-size:11.5px; color:var(--muted); }
+.correction .mark { font-family:var(--f-mono); font-size:11px; letter-spacing:.04em; white-space:nowrap; }
+.correction li.ok .mark { color:var(--ops-3); }
+.correction li.ko .mark { color:var(--ops-2); }
+.correction li.ko { border-color:var(--ops-2); }
+
+.foot { margin-top:22px; padding-top:14px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); }
+.foot code { font-family:var(--f-mono); font-size:11px; }
+</style>
+
+<script id="app-state" type="application/json">
+{"v":1,"subs":[],"seances":[
+{"n":1,"acte":"Cadrage","t":"« 03 h 47 » — métiers du dev & les 5 composants du SI","s":"current"},
+{"n":2,"acte":"Cadrage","t":"Applications web modernes : du statique au temps réel","s":"planned"},
+{"n":3,"acte":"Cadrage","t":"Données & écosystèmes : SQL, NoSQL, Data Lake/Warehouse","s":"planned"},
+{"n":4,"acte":"DevOps","t":"Culture DevOps, cycle de vie & versioning Git","s":"planned"},
+{"n":5,"acte":"DevOps","t":"Intégration continue & conteneurisation (CI/CD, Docker)","s":"planned"},
+{"n":6,"acte":"DevOps","t":"Atelier : mini-pipeline sur le projet fil rouge","s":"planned"},
+{"n":7,"acte":"DevSecOps","t":"Sécurité applicative : OWASP Top 10 & analyse de risque","s":"planned"},
+{"n":8,"acte":"DevSecOps","t":"Mission audit DevSecure : cartographie des vulnérabilités","s":"planned"},
+{"n":9,"acte":"DevSecOps","t":"Remédiation & conformité : auth, RGPD, AI Act, NIS2","s":"planned"},
+{"n":10,"acte":"Bilan","t":"Évaluation sommative mi-semestre","s":"planned"},
+{"n":11,"acte":"DataOps","t":"Industrialiser la donnée : pipelines, ETL/ELT, qualité","s":"planned"},
+{"n":12,"acte":"DataOps","t":"Mission Data « Sauver Doctolib »","s":"planned"},
+{"n":13,"acte":"MLOps","t":"Mettre l'IA en production & IA responsable (AI Act)","s":"planned"},
+{"n":14,"acte":"Synthèse","t":"Les 4 Ops en miroir + orientation métiers","s":"planned"}]}
+</script>
+
+<div id="root"></div>
+
+<script id="app-code">
+(function () {
+  "use strict";
+
+  /* ===================== données de la séance 1 ===================== */
+
+  var QUIZ = [
+    { s: "5 composants", q: "Le modèle de Laudon décrit un SI en 5 composants. Lequel n'en fait pas partie ?",
+      o: ["Matériel", "Logiciel", "Données", "Bénéfice"], r: 3 },
+    { s: "Code = Logiciel", q: "Le code d'une application relève du composant :",
+      o: ["Matériel", "Logiciel", "Données", "Procédures"], r: 1 },
+    { s: "Le SPOF humain", q: "« Une seule personne connaît la procédure de redémarrage » relève de :",
+      o: ["Matériel", "Humain", "Données", "Logiciel"], r: 1 },
+    { s: "Dev + Ops", q: "DevOps rapproche deux mondes :",
+      o: ["Design + Operations", "Développement + Operations", "Data + Options", "Développement + Design"], r: 1 },
+    { s: "Sécurité intégrée", q: "La culture qui intègre la sécurité dès la conception :",
+      o: ["DataOps", "MLOps", "DevSecOps", "SecuWeb"], r: 2 },
+    { s: "Industrialiser la donnée", q: "« Industrialiser la donnée » (pipelines, ETL, qualité) :",
+      o: ["DevOps", "DataOps", "MLOps", "DevSecOps"], r: 1 },
+    { s: "L'IA en production", q: "Mettre un modèle d'IA en production de façon fiable :",
+      o: ["MLOps", "DevOps", "DataOps", "WebOps"], r: 0 },
+    { s: "Git", q: "Git est un outil de :",
+      o: ["gestion de versions", "base de données", "messagerie", "conteneurisation"], r: 0 },
+    { s: "Cause première", q: "Dans l'enquête, la cause première de la panne était :",
+      o: ["une attaque", "un serveur défectueux", "une ligne de code écrite sans vision système", "une erreur de la base"], r: 2 },
+    { s: "Le point commun", q: "Le point commun des 4 cultures Ops :",
+      o: ["elles utilisent Docker", "automatiser, tester, surveiller, pouvoir revenir en arrière",
+          "elles concernent la sécurité", "elles sont réservées aux grandes entreprises"], r: 1 }
+  ];
+
+  var SELF = [
+    "Citer les 5 composants d'un SI",
+    "Expliquer ce que fait un ingénieur DevOps",
+    "Différencier DevSecOps et DataOps",
+    "Dire pourquoi le code impacte tout le SI",
+    "Nommer un métier qui m'intéresse"
+  ];
+  var SELF_LV = ["Pas encore", "À peu près", "Oui, clairement"];
+
+  var OPS = [
+    { k: "devops",    n: "DevOps",    who: "Maya", c: "var(--ops-1)" },
+    { k: "devsecops", n: "DevSecOps", who: "Sami", c: "var(--ops-2)" },
+    { k: "dataops",   n: "DataOps",   who: "Léa",  c: "var(--ops-3)" },
+    { k: "mlops",     n: "MLOps",     who: "Noah", c: "var(--ops-4)" },
+    { k: "indecis",   n: "Encore indécis", who: "", c: "var(--ops-0)" }
+  ];
+
+  var LETTERS = ["A", "B", "C", "D"];
+  var STATUS = { planned: "à venir", current: "en cours", done: "faite" };
+  var ORDER = ["planned", "current", "done"];
+
+  /* ===================== état ===================== */
+
+  var STATE = JSON.parse(document.getElementById("app-state").textContent);
+  if (!STATE.subs) STATE.subs = [];
+
+  var K_MINE = "tdc.mine", K_TEACHER = "tdc.teacher", K_TAB = "tdc.tab", K_PENDING = "tdc.pending";
+  var readOnly = false, busy = false, err = null, pendingTimer = null;
+
+  // Le stockage peut être refusé (aperçu local, navigation privée stricte) : ne jamais laisser
+  // une lecture ou une écriture faire tomber la page.
+  function store(kind) {
+    return {
+      get: function (k) { try { return window[kind].getItem(k); } catch (e) { return null; } },
+      set: function (k, v) { try { window[kind].setItem(k, v); } catch (e) {} },
+      del: function (k) { try { window[kind].removeItem(k); } catch (e) {} }
+    };
+  }
+  var SS = store("sessionStorage"), LS = store("localStorage");
+
+  var tab = SS.get(K_TAB) || "board";
+  var teacher = LS.get(K_TEACHER) === "1";
+
+  function mineId() { return LS.get(K_MINE); }
+  function mySub() { var id = mineId(); return id ? STATE.subs.filter(function (s) { return s.id === id; })[0] : null; }
+
+  /* ===================== utilitaires ===================== */
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function pct(a, b) { return b ? Math.round((a / b) * 100) : 0; }
+  function uid() { return "s" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+  function hhmm(iso) { var d = new Date(iso); return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"); }
+  function scoreOf(ans) { var n = 0; for (var i = 0; i < QUIZ.length; i++) if (ans[i] === QUIZ[i].r) n++; return n; }
+
+  /* ===================== publication ===================== */
+
+  function buildDoc(state) {
+    var style = document.getElementById("app-style").textContent;
+    var code = document.getElementById("app-code").textContent;
+    var json = JSON.stringify(state).replace(/</g, "\\u003c");
+    return '<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n' +
+      '<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
+      "<title>Tour de contrôle SIO</title>\n" +
+      '<style id="app-style">' + style + "</style>\n</head>\n<body>\n" +
+      '<script id="app-state" type="application/json">' + json + "<\/script>\n" +
+      '<div id="root"></div>\n' +
+      '<script id="app-code">' + code + "<\/script>\n</body>\n</html>";
+  }
+
+  var DEAD = { not_writer: 1, not_granted: 1, not_declared: 1, capability_disabled: 1, capability_removed: 1, consent_required: 1 };
+
+  function commit(next) {
+    if (busy) return Promise.resolve(false);
+    busy = true; err = null; render();
+    return Promise.resolve(window.claude && window.claude.use ? window.claude.use("artifact") : null)
+      .then(function (api) {
+        if (!api) { readOnly = true; throw { code: "not_granted" }; }
+        return api.publish(buildDoc(next));
+      })
+      .then(function () { return true; })
+      .catch(function (e) {
+        var code = e && e.code;
+        if (code === "conflict") return false;            // toutes les vues rechargent sur la version gagnante
+        if (DEAD[code]) { readOnly = true; err = null; }
+        else if (code === "rate_limited") err = "Trop d'enregistrements à la fois. Attendez quelques secondes et réessayez.";
+        else err = "L'enregistrement n'a pas abouti. Réessayez dans un instant.";
+        return false;
+      })
+      .then(function (ok) { busy = false; render(); return ok; });
+  }
+
+  /* --- soumission d'un étudiant : mise en attente + reprise après conflit --- */
+
+  function submit(sub) {
+    SS.set(K_PENDING, JSON.stringify(sub));
+    LS.set(K_MINE, sub.id);
+    flush();
+  }
+
+  function flush() {
+    var raw = SS.get(K_PENDING);
+    if (!raw || busy) return;
+    var sub;
+    try { sub = JSON.parse(raw); } catch (e) { SS.del(K_PENDING); return; }
+
+    if (STATE.subs.some(function (s) { return s.id === sub.id; })) { SS.del(K_PENDING); render(); return; }
+
+    var next = { v: STATE.v, seances: STATE.seances, subs: STATE.subs.concat([sub]) };
+    commit(next).then(function (ok) { if (ok || readOnly) SS.del(K_PENDING); });
+  }
+
+  function scheduleFlush() {
+    if (!SS.get(K_PENDING)) return;
+    clearTimeout(pendingTimer);
+    pendingTimer = setTimeout(flush, 250 + Math.random() * 1400);
+  }
+
+  /* ===================== calculs ===================== */
+
+  function stats() {
+    var subs = STATE.subs, n = subs.length;
+    var perQ = QUIZ.map(function (q, i) {
+      var ok = subs.filter(function (s) { return s.ans[i] === q.r; }).length;
+      return { i: i, ok: ok, rate: pct(ok, n) };
+    });
+    var buckets = [
+      { lbl: "0 à 4 — socle à reprendre", c: "var(--step-1)", n: 0 },
+      { lbl: "5 à 7 — les 4 Ops se mélangent", c: "var(--step-2)", n: 0 },
+      { lbl: "8 à 10 — la carte est en tête", c: "var(--step-3)", n: 0 }
+    ];
+    var total = 0;
+    subs.forEach(function (s) {
+      total += s.score;
+      buckets[s.score >= 8 ? 2 : s.score >= 5 ? 1 : 0].n++;
+    });
+    var self = SELF.map(function (lbl, i) {
+      var c = [0, 0, 0];
+      subs.forEach(function (s) { var v = s.self[i]; if (v === 0 || v === 1 || v === 2) c[v]++; });
+      return { lbl: lbl, c: c };
+    });
+    var ops = OPS.map(function (o) {
+      return { k: o.k, n: o.n, c: o.c, count: subs.filter(function (s) { return s.ops === o.k; }).length };
+    });
+    var weakest = n ? perQ.slice().sort(function (a, b) { return a.rate - b.rate; })[0] : null;
+    var done = STATE.seances.filter(function (s) { return s.s === "done"; }).length;
+    return { n: n, perQ: perQ, buckets: buckets, self: self, ops: ops, weakest: weakest,
+             avg: n ? total / n : 0, done: done };
+  }
+
+  /* ===================== rendu — barre supérieure ===================== */
+
+  function railHTML() {
+    return '<div class="rail">' +
+      '<div class="brand"><b>Tour de contrôle</b><span>BTS SIO 1 · Bloc 1 DEV</span></div>' +
+      '<span class="live"><i class="dot"></i>' + (readOnly ? "lecture seule" : "en direct") + "</span>" +
+      '<div class="tabs" role="tablist">' +
+      '<button class="tab" role="tab" data-tab="board" aria-selected="' + (tab === "board") + '">Tableau de bord</button>' +
+      '<button class="tab" role="tab" data-tab="quiz" aria-selected="' + (tab === "quiz") + '">Auto-évaluation</button>' +
+      "</div>" +
+      '<label class="switch"><input type="checkbox" id="teacher"' + (teacher ? " checked" : "") +
+      "> Mode enseignant</label></div>";
+  }
+
+  /* ===================== rendu — tableau de bord ===================== */
+
+  function rowHTML(label, sub, fills, valueText, weak) {
+    var bars = fills.map(function (f) {
+      return '<i style="width:' + f.w + "%;background:" + f.c + '"></i>';
+    }).join("");
+    return '<div class="row' + (weak ? " weak" : "") + '">' +
+      '<div class="lbl">' + label + "</div>" +
+      '<div class="track' + (fills.length > 1 ? " stack" : "") + '">' + bars + "</div>" +
+      '<div class="val">' + valueText + "</div></div>" +
+      (sub ? "" : "");
+  }
+
+  function boardHTML() {
+    var st = stats(), n = st.n;
+
+    var kpis = '<div class="kpis">' +
+      kpi("Réponses reçues", n, n === 0 ? "personne n'a encore envoyé" : (n === 1 ? "1 étudiant" : n + " étudiants"), false) +
+      kpi("Score moyen", n ? st.avg.toFixed(1).replace(".", ",") + " /10" : "—", "auto-évaluation séance 1", false) +
+      kpi("Séances terminées", st.done + " /14", "progression du semestre", false) +
+      kpi("Notion la plus fragile", st.weakest ? "Q" + (st.weakest.i + 1) : "—",
+          st.weakest ? QUIZ[st.weakest.i].s + " — " + st.weakest.rate + " % de réussite" : "en attente de réponses", !!st.weakest) +
+      "</div>";
+
+    /* --- progression --- */
+    var doneP = pct(st.done, 14);
+    var seances = STATE.seances.map(function (s) {
+      var pillTag = teacher && !readOnly
+        ? '<button class="pill" data-s="' + s.s + '" data-seance="' + s.n + '" title="Changer le statut">' + STATUS[s.s] + "</button>"
+        : '<span class="pill" data-s="' + s.s + '">' + STATUS[s.s] + "</span>";
+      return '<li data-s="' + s.s + '"><span class="num">' + s.n + "</span>" +
+        '<span class="ttl">' + esc(s.t) + "<small>" + esc(s.acte) + "</small></span>" + pillTag + "</li>";
+    }).join("");
+
+    var progression = '<section class="panel"><header><h2>Progression du semestre</h2>' +
+      '<span class="spacer"></span><span class="eyebrow">' + st.done + " / 14 · " + doneP + " %</span></header>" +
+      '<div class="meter" style="margin-top:14px"><i style="width:' + doneP + '%"></i></div>' +
+      '<ul class="seances">' + seances + "</ul>" +
+      (teacher && !readOnly
+        ? '<div class="body" style="border-top:1px solid var(--line)"><p class="note">Cliquez un statut pour le faire tourner : à venir → en cours → faite.</p></div>'
+        : "") +
+      "</section>";
+
+    /* --- résultats --- */
+    var results;
+    if (!n) {
+      results = '<section class="panel"><header><h2>Auto-évaluation — séance 1</h2></header>' +
+        '<div class="empty"><b>Aucune réponse pour l\'instant</b>' +
+        "Partagez le lien de cette page à la classe, puis ouvrez l'onglet « Auto-évaluation ».<br>" +
+        "Les relevés ci-dessous se remplissent tout seuls, à chaque envoi.</div></section>";
+    } else {
+      var qRows = st.perQ.map(function (p) {
+        return rowHTML('<b>Q' + (p.i + 1) + "</b> " + esc(QUIZ[p.i].s), null,
+          [{ w: p.rate, c: "var(--accent)" }], p.rate + " %", p.rate < 50);
+      }).join("");
+
+      var bMax = Math.max.apply(null, st.buckets.map(function (b) { return b.n; })) || 1;
+      var bRows = st.buckets.map(function (b) {
+        return rowHTML(esc(b.lbl), null, [{ w: pct(b.n, bMax), c: b.c }], String(b.n), false);
+      }).join("");
+
+      var sRows = st.self.map(function (r) {
+        var fills = r.c.map(function (v, i) { return { w: pct(v, n), c: "var(--step-" + (i + 1) + ")" }; })
+                       .filter(function (f) { return f.w > 0; });
+        var green = pct(r.c[2], n);
+        return rowHTML(esc(r.lbl), null, fills, green + " %", green < 40);
+      }).join("");
+
+      var oMax = Math.max.apply(null, st.ops.map(function (o) { return o.count; })) || 1;
+      var oRows = st.ops.map(function (o) {
+        return rowHTML(esc(o.n), null, [{ w: pct(o.count, oMax), c: o.c }], String(o.count), false);
+      }).join("");
+
+      var journal = STATE.subs.slice().sort(function (a, b) { return b.ts.localeCompare(a.ts); })
+        .slice(0, 40).map(function (s) {
+          var o = OPS.filter(function (x) { return x.k === s.ops; })[0];
+          return "<li><time>" + hhmm(s.ts) + "</time><span class=\"who\">" +
+            esc(s.pseudo || "anonyme") + " · " + esc(o ? o.n : "—") +
+            '</span><span class="sc">' + s.score + "/10</span></li>";
+        }).join("");
+
+      results = '<section class="panel"><header><h2>Auto-évaluation — séance 1</h2>' +
+        '<span class="spacer"></span><span class="eyebrow">' + n + " réponse" + (n > 1 ? "s" : "") + "</span>" +
+        (teacher && !readOnly ? '<button class="btn sm" id="csv">Exporter en CSV</button>' +
+          '<button class="btn sm danger" id="wipe">Vider</button>' : "") +
+        "</header><div class=\"body\">" +
+
+        '<div><p class="eyebrow">Réussite par question</p><div class="rows" style="margin-top:9px">' + qRows + "</div>" +
+        '<p class="note" style="margin-top:9px">Sous 50 %, la notion est à reprendre en ouverture de séance 2.</p></div>' +
+
+        '<div><p class="eyebrow">Répartition des scores</p><div class="rows" style="margin-top:9px">' + bRows + "</div></div>" +
+
+        '<div><p class="eyebrow">« Où en suis-je ? » — part de la classe par niveau</p>' +
+        '<div class="rows" style="margin-top:9px">' + sRows + "</div>" +
+        '<div class="legend" style="margin-top:10px">' +
+        SELF_LV.map(function (l, i) { return '<span><i style="background:var(--step-' + (i + 1) + ')"></i>' + l + "</span>"; }).join("") +
+        '</div><p class="note" style="margin-top:7px">Le chiffre à droite est la part de « oui, clairement ».</p></div>' +
+
+        '<div><p class="eyebrow">Carte d\'orientation de la classe</p><div class="rows" style="margin-top:9px">' + oRows + "</div>" +
+        '<p class="note" style="margin-top:9px">À relire en séance 14 : qui a changé d\'avis, et pourquoi.</p></div>' +
+
+        '<div><p class="eyebrow">Journal des envois</p><ul class="log" style="margin-top:9px">' + journal + "</ul></div>" +
+        "</div></section>";
+    }
+
+    return "<main>" + kpis + errHTML() +
+      '<div class="grid"><div>' + progression + "</div><div>" + results + "</div></div>" +
+      '<p class="foot">Cette page <b>est</b> le registre : chaque envoi la republie, et toutes les vues ouvertes se rafraîchissent. ' +
+      "Aucune donnée ne sort d'ici — seul le prénom ou pseudo saisi par l'étudiant est conservé.</p></main>";
+  }
+
+  function kpi(label, value, sub, hot) {
+    return '<div class="kpi' + (hot ? " hot" : "") + '"><span class="eyebrow">' + esc(label) + "</span>" +
+      '<span class="n">' + esc(value) + '</span><span class="sub">' + esc(sub) + "</span></div>";
+  }
+
+  function errHTML() {
+    if (readOnly) {
+      return '<div class="alert" style="margin-bottom:14px"><b>Vue en lecture seule.</b> ' +
+        "Vous pouvez consulter les relevés, mais pas enregistrer. Pour envoyer une réponse ou modifier la " +
+        "progression, il faut avoir reçu cette page en modification.</div>";
+    }
+    return err ? '<div class="alert" style="margin-bottom:14px">' + esc(err) + "</div>" : "";
+  }
+
+  /* ===================== rendu — auto-évaluation ===================== */
+
+  function quizHTML() {
+    var mine = mySub();
+    if (mine) return resultHTML(mine);
+
+    var pending = SS.get(K_PENDING);
+    if (pending && !readOnly) {
+      return '<main><div class="sheet"><div class="alert"><b>Envoi en cours…</b> ' +
+        "Quelqu'un a enregistré en même temps que vous. Votre réponse part à la prochaine tentative, " +
+        "gardez cet onglet ouvert quelques secondes.</div></div></main>";
+    }
+
+    var qs = QUIZ.map(function (q, i) {
+      var opts = q.o.map(function (o, j) {
+        return '<label class="opt"><input type="radio" name="q' + i + '" value="' + j + '">' +
+          "<span><code>" + LETTERS[j] + "</code> &nbsp;" + esc(o) + "</span></label>";
+      }).join("");
+      return '<fieldset class="q"><div class="qh"><b>Q' + (i + 1) + "</b>" + esc(q.q) + "</div>" +
+        '<div class="opts">' + opts + "</div></fieldset>";
+    }).join("");
+
+    var scaleHead = '<div class="scalehead"><span></span>' +
+      SELF_LV.map(function (l) { return "<span>" + esc(l) + "</span>"; }).join("") + "</div>";
+    var scales = SELF.map(function (lbl, i) {
+      var cells = SELF_LV.map(function (l, j) {
+        return '<label><input type="radio" name="self' + i + '" value="' + j +
+          '" aria-label="' + esc(SELF[i]) + " — " + esc(l) + '"><span class="tx">' + esc(l) + "</span></label>";
+      }).join("");
+      return '<div class="scale"><span class="lbl">' + esc(lbl) + "</span>" + cells + "</div>";
+    }).join("");
+
+    var opsOpts = OPS.map(function (o) {
+      return '<label class="opt"><input type="radio" name="ops" value="' + o.k + '">' +
+        "<span>" + esc(o.n) + (o.who ? ' <code>— ' + esc(o.who) + "</code>" : "") + "</span></label>";
+    }).join("");
+
+    return '<main><form class="sheet" id="form" novalidate>' +
+      "<div><p class=\"eyebrow\">Séance 1 · « 03 h 47 »</p>" +
+      '<h1 style="font-size:26px;margin-top:6px">Où en êtes-vous, à la sortie de l\'enquête ?</h1>' +
+      '<p class="lede" style="margin-top:9px">Aucune note, aucun classement. Vous répondez, la correction ' +
+      "s'affiche tout de suite, et la classe voit apparaître sa <b>carte d'orientation</b> sur le tableau de bord.</p></div>" +
+
+      errHTML() +
+
+      '<fieldset class="q"><div class="qh">Comment vous appeler ?</div>' +
+      '<p class="note" style="margin:6px 0 10px">Prénom ou pseudo, au choix. Rien d\'autre n\'est enregistré — ' +
+      "vous pouvez laisser vide.</p>" +
+      '<input type="text" name="pseudo" maxlength="24" placeholder="Prénom ou pseudo (facultatif)" autocomplete="off"></fieldset>' +
+
+      "<div><p class=\"eyebrow\" style=\"margin-top:8px\">Partie 1 — le dossier d'enquête</p></div>" + qs +
+
+      '<fieldset class="q"><div class="qh">Partie 2 — où en suis-je ?</div>' +
+      '<p class="note" style="margin:6px 0 12px">Sincérité plutôt que performance : ces réponses ne sont pas comptées ' +
+      "dans le score.</p>" + scaleHead + scales + "</fieldset>" +
+
+      '<fieldset class="q"><div class="qh">Partie 3 — votre choix</div>' +
+      '<p class="note" style="margin:6px 0 11px">Parmi les quatre experts arrivés dans la salle d\'incident, ' +
+      "lequel avez-vous eu envie d'être ? On relira cette réponse en séance 14.</p>" +
+      '<div class="opts">' + opsOpts + "</div></fieldset>" +
+
+      '<div id="missing"></div>' +
+      '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' +
+      '<button type="submit" class="btn primary"' + (busy || readOnly ? " disabled" : "") + ">" +
+      (busy ? "Envoi…" : "Envoyer ma réponse") + "</button>" +
+      '<span class="note">Vous verrez votre correction juste après.</span></div>' +
+      "</form></main>";
+  }
+
+  function resultHTML(sub) {
+    var verdict = sub.score >= 8
+      ? "Vous avez la carte en tête. En séance 2, poussez : demandez le <b>pourquoi</b> derrière chaque outil."
+      : sub.score >= 5
+        ? "Le socle est là, mais les 4 Ops se mélangent encore. Une culture = une question : relisez l'acte II."
+        : "Normal, c'est la séance 1 et rien n'est joué. Retenez <b>deux</b> choses aujourd'hui : <b>MLDPP</b>, " +
+          "et « le développeur agit sur le Logiciel, mais impacte tout ».";
+
+    var items = QUIZ.map(function (q, i) {
+      var ok = sub.ans[i] === q.r;
+      return '<li class="' + (ok ? "ok" : "ko") + '"><b>Q' + (i + 1) + "</b>" +
+        "<span>" + esc(q.s) + (ok ? "" : " — réponse : <b>" + LETTERS[q.r] + "</b> " + esc(q.o[q.r])) + "</span>" +
+        '<span class="mark">' + (ok ? "juste" : "à revoir") + "</span></li>";
+    }).join("");
+
+    var pick = OPS.filter(function (o) { return o.k === sub.ops; })[0];
+    var reds = SELF.filter(function (_, i) { return sub.self[i] === 0; });
+
+    return "<main><div class=\"sheet\">" +
+      '<div class="verdict"><p class="eyebrow">Votre relevé — séance 1</p>' +
+      '<p class="n">' + sub.score + "<small> /10</small></p>" +
+      '<p class="lede" style="margin-top:12px">' + verdict + "</p></div>" +
+
+      '<section class="panel"><header><h2>Question par question</h2></header><div class="body">' +
+      '<ul class="correction">' + items + "</ul></div></section>" +
+
+      '<section class="panel"><header><h2>Ce que vous emportez</h2></header><div class="body">' +
+      "<p>Culture qui vous attire : <b>" + esc(pick ? pick.n : "—") +
+      (pick && pick.who ? "</b> (" + esc(pick.who) + ")" : "</b>") + ". On la relira en séance 14.</p>" +
+      (reds.length
+        ? "<p>Vos points « pas encore » : <b>" + reds.map(esc).join("</b>, <b>") + "</b>.<br>" +
+          '<span class="note">Une ligne rouge n\'est pas un problème, c\'est une adresse. Notez-la : ' +
+          "vous vérifierez en séance 14 qu'elle est passée au vert.</span></p>"
+        : '<p>Vous n\'avez coché aucun « pas encore ». <span class="note">Vérifiez-le en séance 2 : ' +
+          "savoir reconnaître une notion et savoir l'expliquer sont deux choses différentes.</span></p>") +
+      "</div></section>" +
+
+      '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">' +
+      '<button class="btn" data-tab="board">Voir le tableau de bord de la classe</button>' +
+      (readOnly ? "" : '<button class="btn" id="redo"' + (busy ? " disabled" : "") + ">Refaire l'auto-évaluation</button>") +
+      '</div><p class="foot">« Refaire » remplace votre relevé précédent : les statistiques de la classe restent justes.</p>' +
+      "</div></main>";
+  }
+
+  /* ===================== rendu global ===================== */
+
+  function render() {
+    var root = document.getElementById("root");
+    root.innerHTML = railHTML() + (tab === "board" ? boardHTML() : quizHTML());
+  }
+
+  /* ===================== interactions ===================== */
+
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-tab]");
+    if (t) { tab = t.getAttribute("data-tab"); SS.set(K_TAB, tab); render(); return; }
+
+    var pill = e.target.closest("button[data-seance]");
+    if (pill) {
+      var num = Number(pill.getAttribute("data-seance"));
+      var next = JSON.parse(JSON.stringify(STATE));
+      next.seances.forEach(function (s) {
+        if (s.n === num) s.s = ORDER[(ORDER.indexOf(s.s) + 1) % ORDER.length];
+      });
+      commit(next);
+      return;
+    }
+
+    if (e.target.id === "redo") {
+      var id = mineId();
+      var n2 = { v: STATE.v, seances: STATE.seances, subs: STATE.subs.filter(function (s) { return s.id !== id; }) };
+      LS.del(K_MINE);
+      commit(n2);
+      return;
+    }
+
+    if (e.target.id === "wipe") {
+      if (!window.confirm("Effacer toutes les réponses de la séance 1 ? La progression du semestre est conservée.")) return;
+      commit({ v: STATE.v, seances: STATE.seances, subs: [] });
+      return;
+    }
+
+    if (e.target.id === "csv") { exportCSV(); return; }
+  });
+
+  document.addEventListener("change", function (e) {
+    if (e.target.id === "teacher") {
+      teacher = e.target.checked;
+      LS.set(K_TEACHER, teacher ? "1" : "0");
+      render();
+    }
+  });
+
+  document.addEventListener("submit", function (e) {
+    if (e.target.id !== "form") return;
+    e.preventDefault();
+    if (readOnly || busy) return;
+
+    var fd = new FormData(e.target);
+    var ans = [], self = [], missing = [];
+
+    for (var i = 0; i < QUIZ.length; i++) {
+      var v = fd.get("q" + i);
+      if (v === null) missing.push("Q" + (i + 1));
+      ans.push(v === null ? -1 : Number(v));
+    }
+    for (var j = 0; j < SELF.length; j++) {
+      var w = fd.get("self" + j);
+      if (w === null) missing.push("« " + SELF[j] + " »");
+      self.push(w === null ? -1 : Number(w));
+    }
+    var ops = fd.get("ops");
+    if (!ops) missing.push("votre choix de culture Ops");
+
+    var box = document.getElementById("missing");
+    if (missing.length) {
+      box.innerHTML = '<div class="alert"><b>Il manque ' + missing.length + " réponse" +
+        (missing.length > 1 ? "s" : "") + " :</b> " + esc(missing.join(", ")) + ".</div>";
+      box.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    box.innerHTML = "";
+
+    submit({
+      id: uid(),
+      pseudo: String(fd.get("pseudo") || "").trim().slice(0, 24),
+      seance: 1,
+      ans: ans,
+      self: self,
+      ops: ops,
+      score: scoreOf(ans),
+      ts: new Date().toISOString()
+    });
+  });
+
+  /* ===================== export CSV ===================== */
+
+  function exportCSV() {
+    var head = ["pseudo", "horodatage", "score_sur_10"]
+      .concat(QUIZ.map(function (q, i) { return "q" + (i + 1) + "_" + q.s.replace(/[^a-zA-Z0-9]+/g, "_").toLowerCase(); }))
+      .concat(SELF.map(function (s, i) { return "auto" + (i + 1); }))
+      .concat(["culture_choisie"]);
+
+    var lines = [head.join(";")];
+    STATE.subs.forEach(function (s) {
+      var row = [s.pseudo || "anonyme", s.ts, s.score]
+        .concat(s.ans.map(function (a, i) { return (a >= 0 ? LETTERS[a] : "") + (a === QUIZ[i].r ? " (ok)" : ""); }))
+        .concat(s.self.map(function (v) { return v >= 0 ? SELF_LV[v] : ""; }))
+        .concat([s.ops]);
+      lines.push(row.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(";"));
+    });
+    var csv = "﻿" + lines.join("\r\n");
+
+    Promise.resolve(window.claude && window.claude.use ? window.claude.use("downloads") : null)
+      .then(function (dl) {
+        if (!dl) { err = "Le téléchargement n'est pas disponible dans cette vue."; render(); return; }
+        return dl.save({ filename: "auto-evaluation-seance-01.csv", data: csv });
+      })
+      .catch(function () { err = "Le fichier n'a pas été enregistré."; render(); });
+  }
+
+  /* ===================== démarrage ===================== */
+
+  render();
+  scheduleFlush();
+})();
+</script>

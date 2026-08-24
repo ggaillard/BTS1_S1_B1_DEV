@@ -36,7 +36,7 @@ La **sécurité est intégrée** (secure by design), pas ajoutée à la fin : el
 
 | S | Acte | Thème de la séance | Modalité dominante | Livrable / éval |
 |---|------|--------------------|--------------------|-----------------|
-| **1** | Cadrage | Panorama des métiers du dev & les 5 composants du SI | 📄 Papier | QCM diagnostic |
+| **1** | Cadrage | « 03 h 47 » — enquête : métiers du dev & 5 composants du SI | 💻 En ligne | Auto-évaluation |
 | **2** | Cadrage | Applications web modernes : du statique au temps réel | 💻 Machine | — |
 | **3** | Cadrage | Données & écosystèmes : SQL, NoSQL, Data Lake/Warehouse | 💻/📄 | — |
 | **4** | **DevOps** | Culture DevOps, cycle de vie & versioning Git | 💻/📄 | — |
@@ -80,12 +80,12 @@ Chaque fiche suit le même canevas : **objectif** · **notions-clés** · **dér
 
 ### ACTE 0 — CADRAGE & CULTURE (S1 → S3)
 
-#### Séance 1 — Panorama des métiers du dev & les 5 composants du SI
+#### Séance 1 — « 03 h 47 » : enquête sur la nuit où DevSecure a cessé d'exister
 - **Objectif** : situer le développeur dans un SI complet ; découvrir la carte des métiers (DevOps, DevSecOps, DataOps, MLOps) qui servira de fil rouge.
-- **Notions-clés** : modèle de Laudon (M-L-D-P-H « MLDPP »), chaîne de valeur du logiciel, panorama des 4 Ops, débouchés & salaires.
-- **Déroulé (1 h)** : accroche « à quoi ressemble une journée d'un dev en 2026 ? » (5’) → les 5 composants du SI (15’) → carte des 4 cultures Ops + métiers (20’) → **QCM diagnostic** de positionnement (15’) → annonce du fil rouge (5’).
-- **📄 Papier** : schéma Laudon à compléter, carte des métiers à annoter. **💻 Machine** : QCM en ligne (Google Forms).
-- **Supports** : ♻ *Fiche enseignant SLAM* (modèle Laudon), ♻ *QCM Gouvernance & Management des SI* (adaptable en diagnostic).
+- **Notions-clés** : modèle de Laudon (M-L-D-P-H « MLDPP »), chaîne de causalité d'un incident, panorama des 4 Ops, débouchés & salaires.
+- **Déroulé (1 h)** : cold open « 03 h 47 » (5’) → Acte I *la scène de crime* : les 5 composants (13’) → Acte II *quatre experts arrivent* : les 4 cultures Ops incarnées (17’) → Acte III *le retournement* : la chaîne remonte à 11 semaines (12’) → Acte IV *et vous ?* (3’) → **auto-évaluation** en ligne (10’).
+- **💻 Tout en ligne** : la fiche de séance contient l'énoncé, les indices, les corrigés dépliables et l'auto-évaluation. Rien à imprimer.
+- **Évaluation** : **aucune note, aucun ramassage** — auto-positionnement en 4 parties (quiz corrigé, restitution des 5 composants, grille « où en suis-je ? », choix d'orientation relu en S14).
 - **Lien métiers** : ouverture sur les 4 Ops — « à la fin du semestre, vous saurez lequel vous attire ».
 
 #### Séance 2 — Applications web modernes : du statique au temps réel
@@ -229,7 +229,7 @@ Les étudiants répondent **sur une feuille-réponse standardisée**. L'enseigna
 
 | Moment | Type | Support (format scannable) | Compétences |
 |--------|------|----------------------------|-------------|
-| S1 | Diagnostic (non noté) | Feuille-réponse QCM positionnement | — |
+| S1 | **Auto-évaluation** (aucune note, aucun ramassage) | En ligne, dans la fiche de séance | — |
 | S6 | Formatif noté | Feuille-réponse TP + grille Bloc 1 | B1C2 |
 | S8 | Formatif noté | Cartographie DevSecure (grille structurée) | B1C4, B3C1 |
 | **S10** | **Sommatif n°1** | Feuille-réponse : QCM + étude de cas courte | B1C2, B1C4, B3C1, B3C2 |

@@ -1,13 +1,11 @@
 # BTS SIO 1re année — Bloc 1 « DEV » — Semestre 1
 
 Supports pédagogiques du **Bloc 1 DEV (Option SLAM)**, 1re année, **Semestre 1**.
-Volume : **1 h / semaine × 14 semaines**. Modalité : **papier ou machine**.
+Volume : **1 h / semaine × 14 semaines**. Modalité : **100 % en ligne** — aucun support papier à imprimer.
+Année : **2026-2027**
 
 > Fil rouge du semestre : **« Du code au service : les 4 cultures Ops »**
-> DevOps → DevSecOps → DataOps → MLOps, avec la **sécurité intégrée** (secure by design) et une **évaluation papier scannable corrigée avec l'aide de l'IA**.
-
-**Enseignant** : G. Gaillard — Lycée Simone Weil, Saint-Priest-en-Jarez
-**Année** : 2026-2027
+> DevOps → DevSecOps → DataOps → MLOps, avec la **sécurité intégrée** (secure by design).
 
 ---
 
@@ -16,8 +14,7 @@ Volume : **1 h / semaine × 14 semaines**. Modalité : **papier ou machine**.
 | Dossier | Fichier | Description |
 |---------|---------|-------------|
 | `progression/` | [`PROGRESSION_S1_BTS1_DEV_2026-2027.md`](progression/PROGRESSION_S1_BTS1_DEV_2026-2027.md) | Progression pédagogique complète : 14 séances, compétences, dispositif d'évaluation « scan + IA » |
-| `seances/` | [`SEANCE_01_panorama_metiers_ops.md`](seances/SEANCE_01_panorama_metiers_ops.md) | Fiche détaillée de la séance 1 (déroulé minuté + QCM diagnostic scannable + corrigé/barème) |
-| `evaluations/` | *(à venir)* | Feuilles-réponses, corrigés et barèmes structurés |
+| `seances/` | [`SEANCE_01_panorama_metiers_ops.md`](seances/SEANCE_01_panorama_metiers_ops.md) | Séance 1 en 5 actes façon thriller + auto-évaluation en ligne |
 
 ---
 
@@ -42,27 +39,25 @@ Volume : **1 h / semaine × 14 semaines**. Modalité : **papier ou machine**.
 
 ---
 
-## 🧪 Évaluation « papier scannable + correction IA »
+## 💻 Tout en ligne
 
-Les étudiants répondent sur une **feuille-réponse standardisée** → l'enseignant **scanne** les copies en un PDF → correction assistée par IA à partir d'un **corrigé + barème structuré** → l'enseignant valide.
-Détails : voir la section 5 de la progression.
+Aucune photocopie, aucune feuille à distribuer. Chaque séance tient dans son fichier Markdown :
+l'étudiant lit, manipule, puis se **positionne lui-même** via une auto-évaluation en fin de séance.
 
 ---
 
-## 🔄 Récupérer ce dépôt sur votre ordinateur
+## 🔄 Récupérer ce dépôt
 
 ```bash
-cd "C:\Users\gaill\Documents\Cours"
 git clone https://github.com/ggaillard/BTS1_S1_B1_DEV.git "BTS1 S1 B1 DEV"
 ```
 
 Pour récupérer les mises à jour ensuite :
 
 ```bash
-cd "C:\Users\gaill\Documents\Cours\BTS1 S1 B1 DEV"
 git pull
 ```
 
 ---
 
-*Dépôt généré à partir du projet BTS1 SIO Bloc 1. Contenus ajustables séance par séance.*
+*Contenus ajustables séance par séance.*

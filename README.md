@@ -5,7 +5,7 @@ Volume : **1 h / semaine × 14 semaines**. Modalité : **100 % en ligne** — au
 Année : **2026-2027**
 
 > Fil rouge du semestre : **« Du code au service : les 4 cultures Ops »**
-> DevOps → DevSecOps → DataOps → MLOps, avec la **sécurité intégrée** (secure by design).
+> DevOps → DevSecOps → DataOps → MLOps, avec la **sécurité intégrée** (secure by design) et une **évaluation scannable corrigée avec l'aide de l'IA**.
 
 ---
 
@@ -37,12 +37,7 @@ Année : **2026-2027**
 | 13 | MLOps | Mettre l'IA en production & IA responsable (AI Act) |
 | 14 | Synthèse | Les 4 Ops en miroir + orientation métiers (éval + oral) |
 
----
 
-## 💻 Tout en ligne
-
-Aucune photocopie, aucune feuille à distribuer. Chaque séance tient dans son fichier Markdown :
-l'étudiant lit, manipule, puis se **positionne lui-même** via une auto-évaluation en fin de séance.
 
 ---
 

@@ -1,8 +1,6 @@
 # BTS SIO 1re année — Bloc 1 « DEV » — Semestre 1
 
-Supports pédagogiques du **Bloc 1 DEV **, 1re année, **Semestre 1**.
-Volume : **1 h / semaine × 14 semaines**. 
-Année : **2026-2027**
+Supports pédagogiques du **Bloc 1 DEV **
 
 > Fil rouge du semestre : **« Du code au service : les 4 cultures Ops »**
 > DevOps → DevSecOps → DataOps → MLOps, avec la **sécurité intégrée** (secure by design) et une **évaluation scannable corrigée avec l'aide de l'IA**.
@@ -56,18 +54,6 @@ une vue en lecture seule peut consulter mais pas envoyer.
 
 ---
 
-## 🔄 Récupérer ce dépôt
 
-```bash
-git clone https://github.com/ggaillard/BTS1_S1_B1_DEV.git "BTS1 S1 B1 DEV"
-```
-
-Pour récupérer les mises à jour ensuite :
-
-```bash
-git pull
-```
-
----
 
 *Contenus ajustables séance par séance.*

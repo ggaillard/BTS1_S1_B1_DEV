@@ -6,6 +6,26 @@
 
 ---
 
+## 👉 Le jour de la séance, tout se passe ici
+
+# **[tdc.gaillard42.workers.dev](https://tdc.gaillard42.workers.dev)**
+
+Une seule adresse. Vous y trouverez **le cours, les questions et votre correction**,
+au même endroit. Rien à installer, rien à imprimer, rien d'autre à ouvrir.
+
+1. Ouvrez l'adresse ci-dessus dans le navigateur du poste.
+2. Saisissez le **numéro** que votre enseignant vient de vous donner.
+3. Choisissez votre **avatar** — il sera à vous seul toute l'année.
+4. Avancez **acte par acte** : vous lisez, vous répondez, vous passez au suivant.
+
+**Aucune note ne sera mise.** C'est la première heure de l'année : personne n'est
+censé savoir quoi que ce soit. Répondre faux ne coûte rien ; ne pas répondre, si.
+
+> Cette page-ci est la **trace écrite** de la séance : elle sert à **réviser après**,
+> ou à rattraper si vous étiez absent. Vous n'avez pas besoin de l'ouvrir pendant l'heure.
+
+---
+
 ## 🎬 COLD OPEN — 03 h 47
 
 ```
@@ -249,18 +269,22 @@ Ce semestre suit exactement leur parcours :
 
 ---
 
-## ✅ ÉPILOGUE — AUTO-ÉVALUATION *(≈ 12 min)*
+## ✅ ÉPILOGUE — L'AUTO-ÉVALUATION SE FAIT DANS L'APPLICATION
 
+> Elle est la dernière étape du parcours, sur
+> **[tdc.gaillard42.workers.dev](https://tdc.gaillard42.workers.dev)** : dix questions,
+> cinq lignes « où en suis-je ? », et votre choix de culture Ops. La correction
+> s'affiche dès l'envoi, et la **carte d'orientation de la classe** se construit
+> en direct au tableau.
+>
 > **Pas de note. Pas de copie à rendre. Rien à imprimer.**
-> Cette page sert **à vous**, pour savoir où vous en êtes en sortant. Répondez d'abord,
-> ouvrez les réponses ensuite — dans cet ordre, sinon ça ne sert à rien.
 
-> 📡 **Version interactive** — la même auto-évaluation se fait en ligne dans la
-> [**Tour de contrôle**](https://claude.ai/code/artifact/f7a89996-1e0c-4441-ac77-de457220aca8) :
-> correction immédiate, et la **carte d'orientation de la classe** se construit en direct sous vos yeux.
-> Les questions ci-dessous sont identiques — utilisez l'une ou l'autre.
+---
 
-### Partie 1 — Le dossier d'enquête (10 questions)
+## 📚 Réviser après la séance
+
+Les dix questions, pour vous re-tester chez vous. **Répondez d'abord, ouvrez les
+réponses ensuite** — dans cet ordre, sinon ça ne sert à rien.
 
 **1.** Le modèle de Laudon décrit un SI en 5 composants. Lequel n'en fait **pas** partie ?
 `A` Matériel · `B` Logiciel · `C` Données · `D` Bénéfice
@@ -299,19 +323,16 @@ Ce semestre suit exactement leur parcours :
 |---|---|---|---|---|---|---|---|---|---|----|
 | **Rép.** | D | B | B | B | C | B | A | A | C | B |
 
-**Comptez vos bonnes réponses :**
-
 - **8 à 10** — Vous avez la carte en tête. En S2, poussez : demandez le *pourquoi* derrière chaque outil.
 - **5 à 7** — Le socle est là, les 4 Ops se mélangent encore. Relisez l'Acte II : une culture = une question.
-- **0 à 4** — Normal, c'est la séance 1 et rien n'est joué. Retenez **deux** choses pour aujourd'hui :
-  *MLDPP* et *« le développeur agit sur L, mais impacte tout »*. Le reste viendra par la pratique.
+- **0 à 4** — Normal, c'est la séance 1. Retenez **deux** choses : *MLDPP* et
+  « le développeur agit sur L, mais impacte tout ». Le reste viendra par la pratique.
 </details>
 
----
+### Le test des 5 composants
 
-### Partie 2 — Le test des 5 composants
-
-Sans rien regarder, écrivez les **5 composants** du modèle de Laudon, avec **un exemple** pour chacun.
+Sans rien regarder, écrivez les **5 composants** du modèle de Laudon, avec **un exemple**
+pour chacun.
 
 <details>
 <summary>🔓 <b>Comparer</b></summary>
@@ -321,33 +342,6 @@ Sans rien regarder, écrivez les **5 composants** du modèle de Laudon, avec **u
 Un exemple juste par composant = vous savez vous en servir. Un composant oublié ?
 Notez lequel : c'est souvent celui-là qu'on oublie aussi… en situation réelle.
 </details>
-
----
-
-### Partie 3 — Où en suis-je ? *(sincérité > performance)*
-
-Cochez mentalement — ou notez dans votre fichier de suivi.
-
-| Je suis capable de… | 🔴 Pas encore | 🟠 À peu près | 🟢 Oui, clairement |
-|---|:---:|:---:|:---:|
-| Citer les 5 composants d'un SI | ☐ | ☐ | ☐ |
-| Expliquer ce que fait un ingénieur DevOps | ☐ | ☐ | ☐ |
-| Différencier DevSecOps et DataOps | ☐ | ☐ | ☐ |
-| Dire pourquoi le code impacte tout le SI | ☐ | ☐ | ☐ |
-| Nommer un métier qui m'intéresse | ☐ | ☐ | ☐ |
-
-**Une ligne rouge n'est pas un problème — c'est une adresse.**
-Notez-la : vous vérifierez à la S14 qu'elle est passée au vert.
-
----
-
-### Partie 4 — Votre choix (personnel, sans bonne réponse)
-
-> **Parmi Maya (DevOps), Sami (DevSecOps), Léa (DataOps) et Noah (MLOps) :
-> lequel avez-vous eu envie d'être ? En une phrase, pourquoi ?**
-
-Gardez cette phrase quelque part. On la relira **en séance 14**.
-Le semestre entier consiste à vous donner de vraies raisons de la confirmer… ou d'en changer.
 
 ---
 
@@ -371,23 +365,9 @@ La réponse tient à la façon dont une application web moderne parle à ses uti
 
 ---
 
-## 🧑‍🏫 Notes de conduite *(enseignant)*
+## 🎁 Pour aller plus loin *(facultatif)*
 
-| Temps | Acte | Conduite |
-|---|---|---|
-| 0–5' | Cold open | Projeter le bloc de logs **en silence** 10 s avant de parler. L'effet vient du silence. |
-| 5–18' | Acte I | Laisser 3 min sur l'indice n°1 **avant** d'ouvrir le rapport. Faire voter à main levée. |
-| 18–35' | Acte II | Incarner les 4 témoins (changer de position dans la salle). Indice n°2 en binômes. |
-| 35–47' | Acte III | Dérouler la chaîne **un maillon à la fois**. Ne pas dévoiler la fin d'avance. |
-| 47–48' | Acte IV | Court : c'est une respiration avant l'auto-évaluation. |
-| 48–60' | Épilogue | Silence complet. Insister : aucune note, aucun ramassage. Projeter la **Tour de contrôle** pendant qu'ils répondent : voir la carte d'orientation se remplir en direct est le meilleur final possible. Clore sur le teaser S2. |
-
-**Si vous êtes en retard** : couper l'Acte IV et la Partie 2 de l'auto-évaluation.
-Ne jamais couper l'Acte III — c'est lui qui donne son sens à toute la séance.
-
-**Différenciation**
-- *Rapide* : « inventez un 5ᵉ Ops crédible et justifiez-le » (ex. GreenOps, FinOps).
-- *En difficulté* : les tableaux restent ouverts pendant l'auto-évaluation — rien n'est noté.
-- *Prolongement* : trouver une offre d'emploi réelle et l'affecter à l'une des 4 cultures.
-
-*Les fourchettes de salaires sont à réactualiser chaque année.*
+- **Si vous avez fini avant les autres** : inventez un 5ᵉ Ops crédible et justifiez-le en trois lignes
+  (GreenOps ? FinOps ? autre chose ?). Une culture Ops = une question centrale : trouvez la vôtre.
+- **Cette semaine** : ouvrez une offre d'emploi réelle (LinkedIn, France Travail) et demandez-vous
+  à laquelle des 4 cultures elle se rattache. On s'en resservira en séance 14.

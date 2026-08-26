@@ -1,37 +1,45 @@
 # BTS SIO 1re année — Bloc 1 « DEV » — Semestre 1
 
-Supports pédagogiques du **Bloc 1 DEV **
-
-> Fil rouge du semestre : **« Du code au service : les 4 cultures Ops »**
-> DevOps → DevSecOps → DataOps → MLOps, avec la **sécurité intégrée** (secure by design) et une **évaluation scannable corrigée avec l'aide de l'IA**.
-
----
-
-## 📁 Contenu du dépôt
-
-| Dossier | Fichier | Description |
-|---------|---------|-------------|
-| `progression/` | [`PROGRESSION_S1_BTS1_DEV_2026-2027.md`](progression/PROGRESSION_S1_BTS1_DEV_2026-2027.md) | Progression pédagogique complète : 14 séances, compétences, dispositif d'évaluation « scan + IA » |
-| `seances/` | [`SEANCE_01_panorama_metiers_ops.md`](seances/SEANCE_01_panorama_metiers_ops.md) | Séance 1 en 5 actes façon thriller + auto-évaluation en ligne |
-| `outils/` | [`tour-de-controle.html`](outils/tour-de-controle.html) | Tableau de bord en direct : avancement des 14 séances + résultats des auto-évaluations |
+> ## 👉 La séance du jour se passe ici
+>
+> # **[tdc.gaillard42.workers.dev](https://tdc.gaillard42.workers.dev)**
+>
+> Ouvrez cette adresse dans le navigateur du poste, entrez le **numéro** que votre
+> enseignant vous a donné, et suivez. **Le cours, les questions et votre correction
+> sont au même endroit.** Rien à installer, rien à imprimer, rien d'autre à ouvrir.
 
 ---
 
-## 📡 Tour de contrôle
+## 🗓️ Aujourd'hui — séance 1 : « 03 h 47 »
 
-Le tableau de bord est publié ici : **https://claude.ai/code/artifact/f7a89996-1e0c-4441-ac77-de457220aca8**
+Une PME de 40 personnes s'arrête à 3 h 47 du matin. Vous avez une heure pour
+comprendre pourquoi — et découvrir, au passage, les quatre familles de métiers qui
+vous attendent.
 
-- **Onglet « Auto-évaluation »** — les étudiants répondent, la correction s'affiche immédiatement.
-- **Onglet « Tableau de bord »** — réussite par question, répartition des scores, grille « où en suis-je ? »,
-  carte d'orientation de la classe et journal des envois. Tout se met à jour **en direct**, à chaque envoi.
-- **Mode enseignant** — fait basculer le statut des 14 séances (à venir → en cours → faite) et exporte les résultats en CSV.
+- **Vous n'avez rien à préparer.** Aucun prérequis, aucune installation.
+- **Aucune note ne sera mise.** La séance sert à savoir d'où vous partez.
+- **Vous avancez à votre rythme**, acte par acte. Vos réponses sont enregistrées à
+  chaque étape : si le poste plante, rien n'est perdu.
 
-Pour que la classe puisse répondre, partagez la page **en modification** depuis son menu de partage :
-une vue en lecture seule peut consulter mais pas envoyer.
+La **trace écrite** de la séance — à relire après, ou à lire si vous étiez absent —
+est ici : [`seances/SEANCE_01_panorama_metiers_ops.md`](seances/SEANCE_01_panorama_metiers_ops.md).
+
+### Si ça coince
+
+| Vous voyez… | Faites… |
+|---|---|
+| « Chargement de la liste de classe… » qui ne part pas | Rechargez la page (F5). |
+| Votre numéro est refusé | Levez la main : votre enseignant vous ajoute en dix secondes. |
+| L'avatar que vous vouliez est grisé | Il est déjà pris. Choisissez-en un autre, il sera à vous toute l'année. |
+| Vous avez fermé l'onglet par erreur | Rouvrez l'adresse et ressaisissez votre numéro : vous reprenez où vous en étiez. |
 
 ---
 
-## 🗺️ Progression en un coup d'œil
+## 🎬 Le semestre en un coup d'œil
+
+**1 h / semaine × 14 semaines**, 100 % en ligne. Fil rouge :
+**« Du code au service — les 4 cultures Ops »** : DevOps → DevSecOps → DataOps → MLOps,
+avec la sécurité intégrée dès la conception.
 
 | S | Acte | Thème |
 |---|------|-------|
@@ -50,10 +58,30 @@ une vue en lecture seule peut consulter mais pas envoyer.
 | 13 | MLOps | Mettre l'IA en production & IA responsable (AI Act) |
 | 14 | Synthèse | Les 4 Ops en miroir + orientation métiers (éval + oral) |
 
-
+Le détail des compétences visées séance par séance :
+[`progression/PROGRESSION_S1_BTS1_DEV_2026-2027.md`](progression/PROGRESSION_S1_BTS1_DEV_2026-2027.md).
 
 ---
 
+<details>
+<summary>💻 Récupérer ce dépôt sur votre machine <i>(facultatif, pour plus tard)</i></summary>
 
+Vous n'en avez **pas besoin pour suivre les séances**. C'est utile si vous voulez
+garder les supports hors ligne, ou vous entraîner à Git avant la séance 4 — où l'on
+verra justement à quoi il sert.
 
-*Contenus ajustables séance par séance.*
+```bash
+git clone https://github.com/ggaillard/BTS1_S1_B1_DEV.git "BTS1 S1 B1 DEV"
+```
+
+Pour récupérer les mises à jour ensuite :
+
+```bash
+git pull
+```
+
+</details>
+
+---
+
+*Année 2026-2027 · contenus ajustables séance par séance.*

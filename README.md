@@ -1,7 +1,7 @@
 # BTS SIO 1re année — Bloc 1 « DEV » — Semestre 1
 
-Supports pédagogiques du **Bloc 1 DEV (Option SLAM)**, 1re année, **Semestre 1**.
-Volume : **1 h / semaine × 14 semaines**. Modalité : **100 % en ligne** — aucun support papier à imprimer.
+Supports pédagogiques du **Bloc 1 DEV **, 1re année, **Semestre 1**.
+Volume : **1 h / semaine × 14 semaines**. 
 Année : **2026-2027**
 
 > Fil rouge du semestre : **« Du code au service : les 4 cultures Ops »**

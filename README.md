@@ -2,7 +2,7 @@
 
 > ## 👉 La séance du jour se passe ici
 >
-> # **[tdc.gaillard42.workers.dev](https://tdc.gaillard42.workers.dev)**
+> # **[suivi.gaillard42.workers.dev](https://suivi.gaillard42.workers.dev)**
 >
 > Ouvrez cette adresse dans le navigateur du poste, entrez le **numéro** que votre
 > enseignant vous a donné, et suivez. **Le cours, les questions et votre correction

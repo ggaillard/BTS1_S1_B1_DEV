@@ -1,0 +1,34 @@
+# ─────────────────────────────────────────────────────────────
+#  Ce dépôt est PUBLIC : il ne contient que le support étudiant.
+#  Le matériel enseignant et l'outil de suivi vivent dans
+#  « BTS1 S1 B1 DEV - ENSEIGNANT », en dehors de ce dossier.
+#
+#  Les règles ci-dessous sont un filet de sécurité : si l'un de
+#  ces fichiers réapparaît ici par erreur, git l'ignorera.
+# ─────────────────────────────────────────────────────────────
+
+# Matériel enseignant : déroulés, conduite de séance, lecture des relevés
+enseignant/
+conduite/
+
+# Outil de suivi : contient le code d'accès enseignant et les corrigés
+outils/
+apps-script/
+Code.gs
+
+# Listes de classe, exports de relevés, données d'étudiants
+**/classe*.csv
+**/releves*.csv
+**/*eleves*.csv
+**/*.local.*
+
+# Secrets, clés, jetons
+.env
+.env.*
+*.key
+credentials*.json
+
+# Fichiers de travail
+*.tmp
+.DS_Store
+Thumbs.db

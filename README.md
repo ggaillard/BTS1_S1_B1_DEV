@@ -10,7 +10,13 @@
 
 ---
 
-## 🗓️ Aujourd'hui — séance 1 : « 03 h 47 »
+## 🗓️ La séance en cours
+
+Le **numéro de la séance du jour** vous est donné en début d'heure : l'adresse
+ci-dessus vous amène directement au bon contenu. Les **traces écrites** des séances
+déjà faites sont dans [`seances/`](seances/), et le calendrier complet est plus bas.
+
+### Séance 1 — « 03 h 47 »
 
 Une PME de 40 personnes s'arrête à 3 h 47 du matin. Vous avez une heure pour
 comprendre pourquoi — et découvrir, au passage, les quatre familles de métiers qui
@@ -21,7 +27,7 @@ vous attendent.
 - **Vous avancez à votre rythme**, acte par acte. Vos réponses sont enregistrées à
   chaque étape : si le poste plante, rien n'est perdu.
 
-La **trace écrite** de la séance — à relire après, ou à lire si vous étiez absent —
+La **trace écrite** de cette séance — à relire après, ou à lire si vous étiez absent —
 est ici : [`seances/SEANCE_01_panorama_metiers_ops.md`](seances/SEANCE_01_panorama_metiers_ops.md).
 
 ### Si ça coince

@@ -25,7 +25,7 @@ La **sécurité est intégrée** (secure by design), pas ajoutée à la fin : el
 
 ### Principes de conduite
 - **1 h = 1 idée forte.** Chaque séance vise un seul concept-clé exploitable immédiatement.
-- **Alternance cours / atelier.** Théorie et mise en situation « mission » s'enchaînent (approche déjà éprouvée dans vos supports).
+- **Alternance cours / atelier.** Théorie et mise en situation « mission » s'enchaînent (approche déjà éprouvée dans les supports existants).
 - **Entreprise fictive fil rouge.** On réutilise **DevSecure** (SaaS gestion de projets) et **MetalPrecision** comme terrains d'analyse récurrents.
 - **Papier ⇄ machine.** La progression reste jouable sans salle info : les variantes papier sont explicites.
 - **Évaluation scannable + correction IA.** Toutes les évaluations notées utilisent une **feuille-réponse standardisée** conçue pour être scannée puis corrigée avec l'aide d'une IA (barème structuré fourni). Objectif : correction rapide, régulière et homogène.
@@ -57,7 +57,7 @@ La **sécurité est intégrée** (secure by design), pas ajoutée à la fin : el
 
 ## 3. Compétences visées sur le semestre
 
-Codes repris de vos supports existants (fiche enseignant SLAM, README), complétés par les activités du référentiel BTS SIO.
+Codes repris des supports existants (fiche enseignant SLAM, README), complétés par les activités du référentiel BTS SIO.
 
 | Code | Compétence | Séances principales |
 |------|------------|---------------------|
@@ -148,10 +148,10 @@ Chaque fiche suit le même canevas : **objectif** · **notions-clés** · **dér
 - **Objectif** : réaliser un audit structuré (Blue Team) du SI DevSecure et produire une cartographie des risques.
 - **Notions-clés** : cartographie Laudon × OWASP × SPOF, matrice de criticité, RTO/RPO, différenciation par niveau.
 - **Déroulé (1 h)** : rappel mission + distribution template (5’) → audit en binôme du SI + code DevSecure (40’) → mise en commun des SPOF & risques critiques (10’) → dépôt (5’).
-- **Différenciation** (reprise de vos 3 profils) : *accompagné* (template pré-rempli, ≥10 vuln./2 SPOF) · *standard* (≥15 vuln./3 SPOF) · *avancé* (extension API, 20 vuln. + RTO/RPO).
-- **💻 Machine** : audit + saisie de la cartographie. **📄 Papier** : template cartographie imprimé + grille (dispositif 100 % papier prévu dans vos supports).
+- **Différenciation** (reprise des 3 profils de différenciation) : *accompagné* (template pré-rempli, ≥10 vuln./2 SPOF) · *standard* (≥15 vuln./3 SPOF) · *avancé* (extension API, 20 vuln. + RTO/RPO).
+- **💻 Machine** : audit + saisie de la cartographie. **📄 Papier** : template cartographie imprimé + grille (dispositif 100 % papier prévu dans les supports existants).
 - **Supports** : ♻ *SI fictif DevSecure*, ♻ *Template cartographie SLAM/risques*, ♻ *Template pré-rempli*, ♻ *Extension API Security*, ♻ *Scénario NotebookLM DevSecure* (accroche audio).
-- **Lien métiers** : le geste-clé du DevSecOps ; capitalise sur vos missions « Du Code à la Crise » et « DevSecOps Blackout ».
+- **Lien métiers** : le geste-clé du DevSecOps ; capitalise sur les missions « Du Code à la Crise » et « DevSecOps Blackout ».
 
 #### Séance 9 — Remédiation & conformité : auth, RGPD, AI Act, NIS2
 - **Objectif** : transformer les failles en remédiations et situer le cadre réglementaire.
@@ -253,10 +253,10 @@ Un seul recto, structuré pour le scan :
 4. L'IA lit chaque copie, applique le barème et renvoie : **note /20 par élève**, points ratés, court commentaire, **tableau récap de la classe** (CSV/xlsx) + **taux de réussite par question**.
 5. L'enseignant **relit et valide** (les cas d'écriture ambiguë sont signalés pour vérification).
 
-**Fiabilité** : les grilles QCM sont lues de façon quasi certaine ; le texte manuscrit libre est plus incertain → l'IA **signale les doutes** plutôt que de trancher seule. La correction finale reste sous votre responsabilité.
+**Fiabilité** : les grilles QCM sont lues de façon quasi certaine ; le texte manuscrit libre est plus incertain → l'IA **signale les doutes** plutôt que de trancher seule. La correction finale reste sous la responsabilité de l'enseignant.
 
 ### 5.5 Participation continue
-QCM courts en ligne (Google Forms) réutilisables en fin d'acte pour l'engagement, dans l'esprit de vos QCM existants (01 à 04). Les mêmes banques de questions servent aux versions papier scannables.
+QCM courts en ligne (Google Forms) réutilisables en fin d'acte pour l'engagement, dans l'esprit des QCM existants (01 à 04). Les mêmes banques de questions servent aux versions papier scannables.
 
 ---
 
@@ -272,7 +272,7 @@ QCM courts en ligne (Google Forms) réutilisables en fin d'acte pour l'engagemen
 
 ---
 
-## 7. Correspondance avec vos supports existants
+## 7. Correspondance avec les supports existants
 
 | Séance | Supports Drive / Projet réutilisables |
 |--------|----------------------------------------|

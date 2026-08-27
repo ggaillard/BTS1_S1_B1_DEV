@@ -14,7 +14,7 @@
 
 Le **numéro de la séance du jour** vous est donné en début d'heure : l'adresse
 ci-dessus vous amène directement au bon contenu. Les **traces écrites** des séances
-déjà faites sont dans [`seances/`](seances/), et le calendrier complet est plus bas.
+déjà faites sont dans [`seances/`](seances/).
 
 ### Séance 1 — « 03 h 47 »
 
@@ -38,34 +38,6 @@ est ici : [`seances/SEANCE_01_panorama_metiers_ops.md`](seances/SEANCE_01_panora
 | Votre numéro est refusé | Levez la main : votre enseignant vous ajoute en dix secondes. |
 | L'avatar que vous vouliez est grisé | Il est déjà pris. Choisissez-en un autre, il sera à vous toute l'année. |
 | Vous avez fermé l'onglet par erreur | Rouvrez l'adresse et ressaisissez votre numéro : vous reprenez où vous en étiez. |
-
----
-
-## 🎬 Le semestre en un coup d'œil
-
-**1 h / semaine × 14 semaines**, 100 % en ligne. Fil rouge :
-**« Du code au service — les 4 cultures Ops »** : DevOps → DevSecOps → DataOps → MLOps,
-avec la sécurité intégrée dès la conception.
-
-| S | Acte | Thème |
-|---|------|-------|
-| 1 | Cadrage | Panorama des métiers du dev & les 5 composants du SI |
-| 2 | Cadrage | Applications web modernes : du statique au temps réel |
-| 3 | Cadrage | Données & écosystèmes : SQL, NoSQL, Data Lake/Warehouse |
-| 4 | DevOps | Culture DevOps, cycle de vie & versioning Git |
-| 5 | DevOps | Intégration continue & conteneurisation (CI/CD, Docker) |
-| 6 | DevOps | Atelier : mini-pipeline (TP noté) |
-| 7 | DevSecOps | Sécurité applicative : OWASP Top 10, vuln./menace/risque |
-| 8 | DevSecOps | Mission audit DevSecure : cartographie des vulnérabilités |
-| 9 | DevSecOps | Remédiation & conformité : auth, RGPD, AI Act, NIS2 |
-| 10 | Bilan | Évaluation sommative mi-semestre |
-| 11 | DataOps | Industrialiser la donnée : pipelines, ETL/ELT, qualité |
-| 12 | DataOps | Mission Data (« Sauver Doctolib ») |
-| 13 | MLOps | Mettre l'IA en production & IA responsable (AI Act) |
-| 14 | Synthèse | Les 4 Ops en miroir + orientation métiers (éval + oral) |
-
-Le détail des compétences visées séance par séance :
-[`progression/PROGRESSION_S1_BTS1_DEV_2026-2027.md`](progression/PROGRESSION_S1_BTS1_DEV_2026-2027.md).
 
 ---
 

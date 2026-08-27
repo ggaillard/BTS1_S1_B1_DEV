@@ -8,7 +8,7 @@
 
 ## 👉 Le jour de la séance, tout se passe ici
 
-# **[tdc.gaillard42.workers.dev](https://tdc.gaillard42.workers.dev)**
+# **[suivi.gaillard42.workers.dev](https://suivi.gaillard42.workers.dev)**
 
 Une seule adresse. Vous y trouverez **le cours, les questions et votre correction**,
 au même endroit. Rien à installer, rien à imprimer, rien d'autre à ouvrir.
@@ -272,7 +272,7 @@ Ce semestre suit exactement leur parcours :
 ## ✅ ÉPILOGUE — L'AUTO-ÉVALUATION SE FAIT DANS L'APPLICATION
 
 > Elle est la dernière étape du parcours, sur
-> **[tdc.gaillard42.workers.dev](https://tdc.gaillard42.workers.dev)** : dix questions,
+> **[suivi.gaillard42.workers.dev](https://suivi.gaillard42.workers.dev)** : dix questions,
 > cinq lignes « où en suis-je ? », et votre choix de culture Ops. La correction
 > s'affiche dès l'envoi, et la **carte d'orientation de la classe** se construit
 > en direct au tableau.

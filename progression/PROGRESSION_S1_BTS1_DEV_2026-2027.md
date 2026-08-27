@@ -82,7 +82,7 @@ Chaque fiche suit le même canevas : **objectif** · **notions-clés** · **dér
 
 #### Séance 1 — « 03 h 47 » : enquête sur la nuit où DevSecure a cessé d'exister
 - **Objectif** : situer le développeur dans un SI complet ; découvrir la carte des métiers (DevOps, DevSecOps, DataOps, MLOps) qui servira de fil rouge.
-- **Notions-clés** : modèle de Laudon (M-L-D-P-H « MLDPP »), chaîne de causalité d'un incident, panorama des 4 Ops, débouchés & salaires.
+- **Notions-clés** : modèle de Laudon (M-L-D-P-P « MLDPP » : Matériel, Logiciel, Données, Procédures, Personnel), chaîne de causalité d'un incident, panorama des 4 Ops, débouchés & salaires.
 - **Déroulé (1 h)** : cold open « 03 h 47 » (5’) → Acte I *la scène de crime* : les 5 composants (13’) → Acte II *quatre experts arrivent* : les 4 cultures Ops incarnées (17’) → Acte III *le retournement* : la chaîne remonte à 11 semaines (12’) → Acte IV *et vous ?* (3’) → **auto-évaluation** en ligne (10’).
 - **💻 Tout en ligne** : la fiche de séance contient l'énoncé, les indices, les corrigés dépliables et l'auto-évaluation. Rien à imprimer.
 - **Évaluation** : **aucune note, aucun ramassage** — auto-positionnement en 4 parties (quiz corrigé, restitution des 5 composants, grille « où en suis-je ? », choix d'orientation relu en S14).
@@ -119,7 +119,7 @@ Chaque fiche suit le même canevas : **objectif** · **notions-clés** · **dér
 #### Séance 5 — Intégration continue & conteneurisation
 - **Objectif** : saisir l'enchaînement build → test → déploiement automatisé et le rôle des conteneurs.
 - **Notions-clés** : CI/CD, pipeline, tests automatisés (unitaires/intégration/E2E), Docker (image, conteneur, Dockerfile), staging vs prod.
-- **Déroulé (1 h)** : rappel « déployer à la main = risque » (5’, écho à l'incident DevSecure de mai) → anatomie d'un pipeline (20’) → Docker : analogie « conteneur = colis standardisé » (15’) → lecture guidée d'un fichier CI (`.github/workflows`) (15’) → synthèse (5’).
+- **Déroulé (1 h)** : rappel « déployer à la main = risque » (5’, écho à l'incident DevSecure de la séance 1) → anatomie d'un pipeline (20’) → Docker : analogie « conteneur = colis standardisé » (15’) → lecture guidée d'un fichier CI (`.github/workflows`) (15’) → synthèse (5’).
 - **📄 Papier** : reconstituer les étapes d'un pipeline dans le désordre + annoter un Dockerfile. **💻 Machine** : lire/lancer un pipeline de démo (GitHub Actions) ou Play-with-Docker.
 - **Supports** : ♻ *CDT — Séance DevOps*, doc GitHub Actions, labs.play-with-docker.com.
 - **Lien métiers** : passerelle Dev → Ops ; introduit le dossier de choix d'architecture (A1.3.2).
@@ -249,7 +249,7 @@ Un seul recto, structuré pour le scan :
 ### 5.4 Workflow de correction IA (5 étapes)
 1. Les étudiants répondent sur la feuille-réponse.
 2. **Scan** de toutes les copies en un PDF (ou photos nettes, bien cadrées, contrastées).
-3. Dépôt du PDF **dans cette conversation** avec le **corrigé + barème structuré**.
+3. Dépôt du PDF, accompagné du **corrigé + barème structuré**, auprès de l'assistant IA de correction.
 4. L'IA lit chaque copie, applique le barème et renvoie : **note /20 par élève**, points ratés, court commentaire, **tableau récap de la classe** (CSV/xlsx) + **taux de réussite par question**.
 5. L'enseignant **relit et valide** (les cas d'écriture ambiguë sont signalés pour vérification).
 
@@ -268,7 +268,7 @@ QCM courts en ligne (Google Forms) réutilisables en fin d'acte pour l'engagemen
 | **Papier** | Templates imprimés (cartographie, grille vuln., pipeline), jeux de cartes « commits », études de cas |
 | **Commun** | Vidéoprojecteur, supports pptx/pdf existants, entreprise fictive DevSecure / MetalPrecision |
 
-> **Bascule papier ↔ machine** : les séances 1, 5, 7, 9, 10, 13, 14 fonctionnent intégralement sur papier ; les séances 2, 3, 4, 6, 8, 11, 12 gagnent à être sur machine mais disposent toutes d'une variante papier ci-dessus.
+> **Bascule papier ↔ machine** : les séances 5, 7, 9, 10, 13, 14 fonctionnent intégralement sur papier (la séance 1 est, elle, 100 % en ligne) ; les séances 2, 3, 4, 6, 8, 11, 12 gagnent à être sur machine mais disposent toutes d'une variante papier ci-dessus.
 
 ---
 

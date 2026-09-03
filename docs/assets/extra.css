@@ -174,3 +174,22 @@
 [data-md-color-scheme="slate"] .tdc-erreur {
   color: #e57373;
 }
+
+/* Renvoi vers le portail et bandeau d'identité */
+
+.tdc-note {
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+.tdc-connecte {
+  margin: 0 0 0.6rem;
+  padding: 0.35rem 0.6rem;
+  border-left: 3px solid var(--md-primary-fg-color);
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 0 4px 4px 0;
+}
+
+[data-md-color-scheme="slate"] .tdc-connecte {
+  background: rgba(255, 255, 255, 0.05);
+}

@@ -34,6 +34,10 @@
 
   const STORAGE_KEY = "tdc_eleve_" + CFG.classeCode;
 
+  // Portail commun. Même origine que ce site : la session y est partagée,
+  // l'élève ne saisit donc son numéro qu'une fois par poste.
+  const PORTAIL = "/portail-bts/";
+
   const AVATARS = [
     "🦊", "🐢", "🦉", "🐙", "🦁", "🐺", "🦄", "🐝", "🐬", "🦋",
     "🐧", "🦔", "🐳", "🦅", "🐨", "🦝", "🐸", "🦖", "🐿️", "🦩",
@@ -270,6 +274,33 @@
 
   /* ---- Écran 2 : questionnaire ----------------------------------------- */
 
+  /* ------------------------------------------------------------------ */
+  /* Renvoi vers le portail                                              */
+  /* ------------------------------------------------------------------ */
+
+  function ecranPortail(widget) {
+    vider(widget);
+    widget.appendChild(el("h2", { class: "tdc-titre" }, ["Identifiez-vous pour participer"]));
+    widget.appendChild(el("p", {}, [
+      "Vos réponses s'enregistrent depuis le portail commun. Connectez-vous une " +
+      "seule fois avec votre numéro et votre code, puis revenez : cette page vous " +
+      "reconnaîtra automatiquement, ici comme sur vos autres projets."
+    ]));
+    widget.appendChild(el("p", {}, [
+      el("a", { class: "tdc-bouton", href: PORTAIL }, ["Ouvrir le portail"])
+    ]));
+    widget.appendChild(el("p", { class: "tdc-note" }, [
+      "Le texte de la séance reste lisible ci-dessous sans identification."
+    ]));
+  }
+
+  function bandeauConnecte(numero) {
+    return el("p", { class: "tdc-note tdc-connecte" }, [
+      "Connecté, numéro " + numero + ". ",
+      el("a", { href: PORTAIL }, ["Ce n'est pas moi"])
+    ]);
+  }
+
   async function ecranQuestionnaire(widget, eleve, seance, questions) {
     // Progression déjà enregistrée pour cette séance
     const { data: reponsesExistantes } = await sb
@@ -284,7 +315,8 @@
 
     function afficherFin() {
       vider(widget);
-      widget.appendChild(el("h2", { class: "tdc-titre" }, ["Bravo, " + (eleve.avatar || "") + " !"]));
+      const nom = eleve.avatar || (eleve.numero ? "numéro " + eleve.numero : "");
+      widget.appendChild(el("h2", { class: "tdc-titre" }, ["Bravo, " + nom + " !"]));
       widget.appendChild(el("p", {}, [
         "Vous avez répondu aux " + questions.length + " questions de cette séance."
       ]));
@@ -435,13 +467,34 @@
       return;
     }
 
-    const eleveConnu = lireEleve();
-    if (eleveConnu && eleveConnu.classeCode === CFG.classeCode) {
-      ecranQuestionnaire(widget, eleveConnu, seance, questions);
+    // Identité ouverte sur le portail : on la reprend sans rien redemander.
+    let moi = null;
+    try {
+      const { data } = await sb.rpc("qui_suis_je");
+      if (data && data.classe_code === CFG.classeCode) moi = data;
+    } catch (e) {
+      // Portail pas encore déployé : on retombe sur l'ancien parcours.
+    }
+
+    // qui_suis_je() renvoie classe_code ; le stockage local utilise classeCode.
+    if (moi) {
+      moi = {
+        eleve_id: moi.eleve_id,
+        avatar: moi.avatar,
+        numero: moi.numero,
+        classeCode: moi.classe_code
+      };
+      ecrireEleve(moi);
+    }
+
+    const eleve = moi || lireEleve();
+    if (eleve && eleve.classeCode === CFG.classeCode) {
+      if (eleve.numero) {
+        widget.parentNode.insertBefore(bandeauConnecte(eleve.numero), widget);
+      }
+      ecranQuestionnaire(widget, eleve, seance, questions);
     } else {
-      ecranIdentification(widget, (eleve) => {
-        ecranQuestionnaire(widget, { eleve_id: eleve.eleve_id, avatar: eleve.avatar }, seance, questions);
-      });
+      ecranPortail(widget);
     }
   }
 

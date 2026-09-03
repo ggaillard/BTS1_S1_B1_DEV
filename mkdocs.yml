@@ -1,0 +1,51 @@
+site_name: BTS SIO 1 — Bloc 1 DEV
+site_url: https://ggaillard.github.io/BTS1_S1_B1_DEV/
+docs_dir: docs
+
+theme:
+  name: material
+  language: fr
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      toggle: { icon: material/weather-night, name: Mode sombre }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      toggle: { icon: material/weather-sunny, name: Mode clair }
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+    - content.code.copy
+    - toc.follow
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed: { alternate_style: true }
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra_javascript:
+  # L'ordre compte : la librairie, puis la config, puis le composant.
+  - https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js
+  - assets/config.js
+  - assets/suivi.js
+
+extra_css:
+  - assets/extra.css
+
+nav:
+  - Accueil: index.md
+  - Séances:
+      - "1 — « 03 h 47 »": seances/seance-01.md
+  - Progression: progression.md
+  - Données personnelles: rgpd.md

@@ -32,3 +32,6 @@ credentials*.json
 *.tmp
 .DS_Store
 Thumbs.db
+
+# Build MkDocs local
+site/

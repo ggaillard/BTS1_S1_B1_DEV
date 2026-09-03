@@ -92,10 +92,29 @@ notee: false
 
 ---
 
+## Portail d'authentification
+
+**L'élève ne s'identifie plus sur ce site.** Il passe par le portail commun :
+<https://ggaillard.github.io/portail-bts/> (dépôt `ggaillard/portail-bts`).
+
+Tous les sites vivent sous `ggaillard.github.io`, donc **même origine** : la session
+Supabase ouverte sur le portail est partagée. Ce site appelle `qui_suis_je()` au
+chargement, reprend l'identité s'il en trouve une, et affiche « Connecté, numéro NN ».
+Sinon il renvoie vers le portail.
+
+- L'élève saisit **numéro + code PIN à 4 chiffres**, une fois par poste.
+- Le **choix de l'avatar** se fait sur le portail, plus ici.
+- `ecranIdentification()` subsiste dans `suivi.js` mais n'est plus appelé.
+  Ne pas le rebrancher : l'identification doit rester centralisée.
+
 ## Base de données
 
-Tables : `classes`, `eleves`, `seances`, `corriges`, `reponses`, `enseignants`.
-RLS actif partout. Fonctions : `rejoindre()`, `repondre()`, `avatars_pris()`, `purger_annee()`.
+Tables : `classes`, `eleves`, `seances`, `corriges`, `reponses`, `enseignants`, `projets`.
+RLS actif partout. Fonctions : `rejoindre()`, `repondre()`, `avatars_pris()`,
+`qui_suis_je()`, `choisir_avatar()`, `est_enseignant()`, `purger_annee()`.
+
+`rejoindre(p_classe_code, p_numero, p_avatar, p_pin)` exige le PIN **seulement si
+l'élève en a un**. Les élèves sans PIN restent acceptés sans code.
 
 **Règle absolue :** la table `eleves` ne contient **ni nom, ni prénom, ni adresse**.
 Numéro + avatar uniquement. Ne jamais proposer d'y ajouter un champ nominatif.
@@ -125,6 +144,7 @@ Une séance `notee = true` enregistre sans renvoyer la bonne réponse à l'élè
 ## Points de vigilance
 
 - **`extra_javascript` : l'ordre compte.** Librairie Supabase, puis `config.js`, puis `suivi.js`. Si `config.js` disparaît de la liste, le suivi se désactive en silence et la séance tombe à plat en classe.
+- **Ne pas réintroduire de saisie de numéro sur ce site.** L'identification appartient au portail. Un formulaire local recréerait un second point d'entrée et contournerait le code PIN.
 - **Ne jamais committer la clé `service_role`.** Seule la clé `anon` va dans `config.js`, et c'est prévu : les règles RLS la rendent inoffensive.
 - **Vérifier avant de pousser** : `python -m mkdocs build --strict`, puis `python -m mkdocs serve` pour regarder le rendu sur `localhost:8000`.
 - **Dupliquer pour une autre classe** : seule la valeur `classeCode` de `config.js` change, plus la ligne `insert into public.classes`.

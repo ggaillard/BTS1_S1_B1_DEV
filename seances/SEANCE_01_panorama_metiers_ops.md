@@ -1,3 +1,8 @@
+> ⚠️ **Copie d'archive.** La version tenue à jour de cette séance est
+> `docs/seances/seance-01.md`, publiée sur
+> [le site du cours](https://ggaillard.github.io/BTS1_S1_B1_DEV/seances/seance-01/).
+> Ce fichier n'est plus modifié : ne pas le distribuer.
+
 # SÉANCE 1 — « 03 h 47 »
 ### Enquête sur la nuit où DevSecure a cessé d'exister
 
@@ -8,7 +13,7 @@
 
 ## 👉 Le jour de la séance, tout se passe ici
 
-# **[suivi.gaillard42.workers.dev](https://suivi.gaillard42.workers.dev)**
+# **[ggaillard.github.io/portail-bts](https://ggaillard.github.io/portail-bts/)**
 
 Une seule adresse. Vous y trouverez **le cours, les questions et votre correction**,
 au même endroit. Rien à installer, rien à imprimer, rien d'autre à ouvrir.
@@ -272,7 +277,7 @@ Ce semestre suit exactement leur parcours :
 ## ✅ ÉPILOGUE — L'AUTO-ÉVALUATION SE FAIT DANS L'APPLICATION
 
 > Elle est la dernière étape du parcours, sur
-> **[suivi.gaillard42.workers.dev](https://suivi.gaillard42.workers.dev)** : dix questions,
+> **[le portail](https://ggaillard.github.io/portail-bts/)** : dix questions,
 > cinq lignes « où en suis-je ? », et votre choix de culture Ops. La correction
 > s'affiche dès l'envoi, et la **carte d'orientation de la classe** se construit
 > en direct au tableau.
@@ -293,10 +298,10 @@ réponses ensuite** — dans cet ordre, sinon ça ne sert à rien.
 `A` Matériel · `B` Logiciel · `C` Données · `D` Procédures
 
 **3.** « Une seule personne connaît la procédure de redémarrage » relève de :
-`A` Matériel · `B` Humain · `C` Données · `D` Logiciel
+`A` Matériel · `B` Logiciel · `C` Humain · `D` Données
 
 **4.** **DevOps** rapproche deux mondes :
-`A` Design + Operations · `B` Développement + Operations · `C` Data + Options · `D` Développement + Design
+`A` Développement + Operations · `B` Design + Operations · `C` Data + Options · `D` Développement + Design
 
 **5.** La culture qui intègre la **sécurité dès la conception** :
 `A` DataOps · `B` MLOps · `C` DevSecOps · `D` SecuWeb
@@ -308,7 +313,7 @@ réponses ensuite** — dans cet ordre, sinon ça ne sert à rien.
 `A` MLOps · `B` DevOps · `C` DataOps · `D` WebOps
 
 **8.** **Git** est un outil de :
-`A` gestion de versions · `B` base de données · `C` messagerie · `D` conteneurisation
+`A` base de données · `B` messagerie · `C` conteneurisation · `D` gestion de versions
 
 **9.** Dans l'enquête, la cause **première** de la panne était :
 `A` une attaque · `B` un serveur défectueux · `C` une ligne de code écrite sans vision système · `D` une erreur de la base
@@ -321,7 +326,7 @@ réponses ensuite** — dans cet ordre, sinon ça ne sert à rien.
 
 | Q | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 |---|---|---|---|---|---|---|---|---|---|----|
-| **Rép.** | D | B | B | B | C | B | A | A | C | B |
+| **Rép.** | D | B | C | A | C | B | A | D | C | B |
 
 - **8 à 10** — Vous avez la carte en tête. En S2, poussez : demandez le *pourquoi* derrière chaque outil.
 - **5 à 7** — Le socle est là, les 4 Ops se mélangent encore. Relisez l'Acte II : une culture = une question.

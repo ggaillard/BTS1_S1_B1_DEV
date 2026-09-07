@@ -1,37 +1,42 @@
 # BTS SIO 1re année — Bloc 1 « DEV » — Semestre 1
 
-> ## 👉 La séance du jour se passe ici
+> ## 👉 On entre toujours par le portail
 >
-> # **[ggaillard.github.io/BTS1_S1_B1_DEV](https://ggaillard.github.io/BTS1_S1_B1_DEV)**
+> # **[ggaillard.github.io/portail-bts](https://ggaillard.github.io/portail-bts/)**
 >
-> Ouvrez cette adresse dans le navigateur du poste, entrez le **numéro** que votre
-> enseignant vous a donné, et suivez. **Le cours, les questions et votre correction
-> sont au même endroit.** Rien à installer, rien à imprimer, rien d'autre à ouvrir.
+> Identifiez-vous là-bas — code classe, numéro, code à quatre chiffres — puis
+> ouvrez la séance depuis « Vos projets ». C'est ce passage qui enregistre
+> votre présence et votre progression : arriver ici par un autre chemin, c'est
+> travailler sans que rien ne soit compté.
 
 ---
 
-## 🗓️ Aujourd'hui — séance 1 : « 03 h 47 »
+## 🗓️ Aujourd'hui — séance 2 : « À la seconde près »
 
-Une PME de 40 personnes s'arrête à 3 h 47 du matin. Vous avez une heure pour
-comprendre pourquoi — et découvrir, au passage, les quatre familles de métiers qui
-vous attendent.
+Neuf mille quatre cents personnes ont vu la panne de DevSecure **au même instant**.
+Une heure pour comprendre ce que cela dit de la façon dont une application parle à
+ses utilisateurs — et pour apprendre à lire une conversation entre un navigateur et
+un serveur.
+
+> Séance précédente : [« 03 h 47 »](seances/seance-01.md) — les métiers du dev et
+> les cinq composants d'un système d'information.
 
 - **Vous n'avez rien à préparer.** Aucun prérequis, aucune installation.
-- **Aucune note ne sera mise.** La séance sert à savoir d'où vous partez.
+- **Aucune note ne sera mise.** Les séances de cadrage servent à savoir d'où vous partez.
 - **Vous avancez à votre rythme**, acte par acte. Vos réponses sont enregistrées à
   chaque étape : si le poste plante, rien n'est perdu.
 
 La **trace écrite** de la séance — à relire après, ou à lire si vous étiez absent —
-est ici : [`seances/seance-01.md`](seances/seance-01.md).
+est ici : [« À la seconde près »](seances/seance-02.md).
 
 ### Si ça coince
 
 | Vous voyez… | Faites… |
 |---|---|
 | « Chargement de la liste de classe… » qui ne part pas | Rechargez la page (F5). |
-| Votre numéro est refusé | Levez la main : votre enseignant vous ajoute en dix secondes. |
+| Votre numéro ou votre code est refusé | Levez la main : votre enseignant vérifie en dix secondes. |
 | L'avatar que vous vouliez est grisé | Il est déjà pris. Choisissez-en un autre, il sera à vous toute l'année. |
-| Vous avez fermé l'onglet par erreur | Rouvrez l'adresse et ressaisissez votre numéro : vous reprenez où vous en étiez. |
+| Vous avez fermé l'onglet par erreur | Rouvrez le portail : vous reprenez où vous en étiez, rien n'est perdu. |
 
 ---
 

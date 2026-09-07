@@ -47,5 +47,6 @@ nav:
   - Accueil: index.md
   - Séances:
       - "1 — « 03 h 47 »": seances/seance-01.md
+      - "2 — « À la seconde près »": seances/seance-02.md
   - Progression: progression.md
   - Données personnelles: rgpd.md

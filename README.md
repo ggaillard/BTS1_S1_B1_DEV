@@ -1,87 +1,62 @@
 # BTS SIO 1re année — Bloc 1 « DEV » — Semestre 1
 
-> ## 👉 La séance du jour se passe ici
+> ## 👉 On entre toujours par le portail
 >
-> # **[suivi.gaillard42.workers.dev](https://suivi.gaillard42.workers.dev)**
+> # **[ggaillard.github.io/portail-bts](https://ggaillard.github.io/portail-bts/)**
 >
-> Ouvrez cette adresse dans le navigateur du poste, entrez le **numéro** que votre
-> enseignant vous a donné, et suivez. **Le cours, les questions et votre correction
-> sont au même endroit.** Rien à installer, rien à imprimer, rien d'autre à ouvrir.
+> Identifiez-vous là-bas — code classe, numéro, code à quatre chiffres — puis
+> ouvrez la séance depuis « Vos projets ». C'est ce passage qui enregistre votre
+> présence et votre progression : entrer par une autre porte, c'est travailler
+> sans que rien ne soit compté.
+
+**Le cours se lit ici :** [ggaillard.github.io/BTS1_S1_B1_DEV](https://ggaillard.github.io/BTS1_S1_B1_DEV/)
+— mais on y arrive par le portail, pas en tapant l'adresse.
 
 ---
 
-## 🗓️ Aujourd'hui — séance 1 : « 03 h 47 »
+## Le semestre
 
-Une PME de 40 personnes s'arrête à 3 h 47 du matin. Vous avez une heure pour
-comprendre pourquoi — et découvrir, au passage, les quatre familles de métiers qui
-vous attendent.
+**1 h / semaine × 14 semaines**, 100 % en ligne.
+Fil rouge : *Du code au service — les 4 cultures Ops*.
 
-- **Vous n'avez rien à préparer.** Aucun prérequis, aucune installation.
-- **Aucune note ne sera mise.** La séance sert à savoir d'où vous partez.
-- **Vous avancez à votre rythme**, acte par acte. Vos réponses sont enregistrées à
-  chaque étape : si le poste plante, rien n'est perdu.
+| | Culture | La question qu'elle pose | Le métier |
+|---|---|---|---|
+| S4 → S6 | **DevOps** | Comment livrer du code vite **et** sans casse ? | Ingénieur DevOps |
+| S7 → S9 | **DevSecOps** | Comment livrer du code sécurisé dès la conception ? | Développeur sécurité |
+| S11 → S12 | **DataOps** | Comment industrialiser la donnée ? | Data Engineer |
+| S13 | **MLOps** | Comment mettre l'IA en production de façon fiable ? | ML Engineer |
 
-La **trace écrite** de la séance — à relire après, ou à lire si vous étiez absent —
-est ici : [`seances/SEANCE_01_panorama_metiers_ops.md`](seances/SEANCE_01_panorama_metiers_ops.md).
+Les séances 1 à 3 posent le terrain, la 10 et la 14 font le bilan.
 
-### Si ça coince
+## Les séances publiées
+
+| | Séance | Trace écrite |
+|---|---|---|
+| **1** | « 03 h 47 » — enquête : les métiers du dev et les 5 composants du SI | [lire](https://ggaillard.github.io/BTS1_S1_B1_DEV/seances/seance-01/) |
+| **2** | « À la seconde près » — du web statique au temps réel | [lire](https://ggaillard.github.io/BTS1_S1_B1_DEV/seances/seance-02/) |
+
+## Ce dépôt
+
+`docs/` est la **source de vérité** : c'est ce dossier que MkDocs publie.
+Les fichiers hors de `docs/` sont des archives de travail.
+
+| | |
+|---|---|
+| `docs/seances/seance-NN.md` | une séance par fichier, avec son quiz |
+| `docs/assets/suivi.js` | le suivi élève : identification, quiz interactif, envoi des réponses |
+| `progression/` | la progression pédagogique des 14 séances |
+
+## Si ça coince, le jour J
 
 | Vous voyez… | Faites… |
 |---|---|
 | « Chargement de la liste de classe… » qui ne part pas | Rechargez la page (F5). |
-| Votre numéro est refusé | Levez la main : votre enseignant vous ajoute en dix secondes. |
+| Votre numéro ou votre code est refusé | Levez la main : votre enseignant vérifie en dix secondes. |
 | L'avatar que vous vouliez est grisé | Il est déjà pris. Choisissez-en un autre, il sera à vous toute l'année. |
-| Vous avez fermé l'onglet par erreur | Rouvrez l'adresse et ressaisissez votre numéro : vous reprenez où vous en étiez. |
+| Vous avez fermé l'onglet par erreur | Rouvrez le portail : vous reprenez où vous en étiez, rien n'est perdu. |
 
----
+## Données personnelles
 
-## 🎬 Le semestre en un coup d'œil
-
-**1 h / semaine × 14 semaines**, 100 % en ligne. Fil rouge :
-**« Du code au service — les 4 cultures Ops »** : DevOps → DevSecOps → DataOps → MLOps,
-avec la sécurité intégrée dès la conception.
-
-| S | Acte | Thème |
-|---|------|-------|
-| 1 | Cadrage | Panorama des métiers du dev & les 5 composants du SI |
-| 2 | Cadrage | Applications web modernes : du statique au temps réel |
-| 3 | Cadrage | Données & écosystèmes : SQL, NoSQL, Data Lake/Warehouse |
-| 4 | DevOps | Culture DevOps, cycle de vie & versioning Git |
-| 5 | DevOps | Intégration continue & conteneurisation (CI/CD, Docker) |
-| 6 | DevOps | Atelier : mini-pipeline (TP noté) |
-| 7 | DevSecOps | Sécurité applicative : OWASP Top 10, vuln./menace/risque |
-| 8 | DevSecOps | Mission audit DevSecure : cartographie des vulnérabilités |
-| 9 | DevSecOps | Remédiation & conformité : auth, RGPD, AI Act, NIS2 |
-| 10 | Bilan | Évaluation sommative mi-semestre |
-| 11 | DataOps | Industrialiser la donnée : pipelines, ETL/ELT, qualité |
-| 12 | DataOps | Mission Data (« Sauver Doctolib ») |
-| 13 | MLOps | Mettre l'IA en production & IA responsable (AI Act) |
-| 14 | Synthèse | Les 4 Ops en miroir + orientation métiers (éval + oral) |
-
-Le détail des compétences visées séance par séance :
-[`progression/PROGRESSION_S1_BTS1_DEV_2026-2027.md`](progression/PROGRESSION_S1_BTS1_DEV_2026-2027.md).
-
----
-
-<details>
-<summary>💻 Récupérer ce dépôt sur votre machine <i>(facultatif, pour plus tard)</i></summary>
-
-Vous n'en avez **pas besoin pour suivre les séances**. C'est utile si vous voulez
-garder les supports hors ligne, ou vous entraîner à Git avant la séance 4 — où l'on
-verra justement à quoi il sert.
-
-```bash
-git clone https://github.com/ggaillard/BTS1_S1_B1_DEV.git "BTS1 S1 B1 DEV"
-```
-
-Pour récupérer les mises à jour ensuite :
-
-```bash
-git pull
-```
-
-</details>
-
----
-
-*Année 2026-2027 · contenus ajustables séance par séance.*
+Aucun nom, aucune adresse électronique d'élève n'est enregistré : un numéro et un
+avatar, rien d'autre. Données hébergées dans l'Union européenne (Francfort),
+supprimées en fin d'année scolaire. Détail : [mention RGPD](https://ggaillard.github.io/BTS1_S1_B1_DEV/rgpd/).

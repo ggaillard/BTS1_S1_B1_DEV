@@ -19,6 +19,15 @@ Répondre en **français**. Modifier directement les fichiers, ne pas se content
 Ancienne plateforme : `suivi.gaillard42.workers.dev` (Cloudflare Worker). **Décommissionnée.**
 Ne plus jamais référencer cette adresse dans un contenu.
 
+**L'entrée étudiante est le portail**, jamais ce site : `https://ggaillard.github.io/portail-bts/`.
+C'est le passage par le portail qui enregistre la présence et la progression ; on
+arrive ici depuis « Vos projets ». Ne jamais annoncer l'adresse du site comme
+point d'entrée, même si c'est la page qu'ils ont sous les yeux.
+
+**`docs/` est la source de vérité.** Les fichiers hors de `docs/` (`README.md` mis à
+part, qui est la page d'accueil GitHub) sont des archives : ne pas les faire vivre
+en parallèle.
+
 ```
 docs/
 ├── index.md              page d'accueil (ex-README élève)
@@ -32,6 +41,29 @@ docs/
 ```
 
 ---
+
+## Le quiz et le suivi
+
+Chaque séance se termine par « Réviser après la séance » : dix questions numérotées
+`**1.**` à `**10.**`, chacune suivie d'une ligne d'options `` `A` libellé · `B` … ``.
+Ce n'est pas une mise en forme, c'est un **contrat** : `docs/assets/suivi.js` lit ce
+bloc dans le HTML rendu et en fabrique les clés `q1` à `q10`, puis appelle
+`repondre(seance_id, 'q7', 'C')`.
+
+Trois règles qui en découlent :
+
+1. **Pas de `code` dans l'énoncé d'une question.** Le parseur prend le premier
+   `<code>` du paragraphe comme début des options : un `` `truc` `` dans la question
+   tronque l'énoncé et ajoute une fausse option. Mettre l'élément en **gras**.
+2. **Quatre options, dans cet ordre A B C D**, séparées par ` · `.
+3. **Les bonnes réponses vivent en base**, pas dans la page : `BTS1_SEANCES.sql` du
+   dépôt `portail-bts`. Changer l'ordre des options ici oblige à changer la
+   `bonne_reponse` là-bas — l'un ne se déduit pas de l'autre.
+
+Répartir les bonnes réponses sur A, B, C et D : une classe repère très vite un motif.
+
+La séance doit exister en base (`seances`, numéro = le NN du nom de fichier) **avant**
+le cours, sinon `repondre()` échoue et rien n'est enregistré.
 
 ## Format d'une séance
 

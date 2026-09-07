@@ -141,6 +141,25 @@ Une séance `notee = true` enregistre sans renvoyer la bonne réponse à l'élè
 
 ---
 
+## L'appel et le suivi en direct
+
+**L'appel se fait au portail, pas ici.** Séance **numéro 99** de la classe,
+intitulée « Appel - question du jour » (99 et non 0 : le BTS2 utilise déjà la séance 0 pour son TP0), ouverte en permanence et non notée.
+Avant chaque séance, ajouter une question nommée `appel-AAAA-MM-JJ` : script
+`APPEL.sql` du dépôt `portail-bts`, section 2. Y répondre, c'est être présent :
+l'appel est fait sans le faire.
+
+Cette question ouvre la séance. Simple, dix secondes, elle réactive la séance
+précédente. Elle ne fait **pas** partie du quiz de révision de 10 questions :
+celui-ci reste en fin de séance, sur la séance numérotée.
+
+Pendant l'heure : portail → espace enseignant → classe `BTS1-DEV-2026` → la
+séance du jour. Progression, Classement et Répartition se mettent à jour au fil
+des réponses ; c'est là que se voit un étudiant qui décroche.
+
+Après l'heure : vue `v_appel` pour le jour même, vue `v_absences` pour le cumul
+des absences depuis la rentrée, avec les dates manquées.
+
 ## Points de vigilance
 
 - **`extra_javascript` : l'ordre compte.** Librairie Supabase, puis `config.js`, puis `suivi.js`. Si `config.js` disparaît de la liste, le suivi se désactive en silence et la séance tombe à plat en classe.

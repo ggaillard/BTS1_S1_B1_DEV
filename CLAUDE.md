@@ -192,6 +192,43 @@ des réponses ; c'est là que se voit un étudiant qui décroche.
 Après l'heure : vue `v_appel` pour le jour même, vue `v_absences` pour le cumul
 des absences depuis la rentrée, avec les dates manquées.
 
+## Une séance n'est visible que si elle est publiée
+
+Le 09/09, la séance 1 faite avec le BTS1 — et la séance 2 déjà lisible ici.
+Le sommaire de MkDocs liste les quatorze séances dès qu'elles sont écrites,
+et rien ne l'en empêchait.
+
+**C'est le portail qui décide, ce site obéit.** La colonne `seances.publiee`
+(base Supabase) dit si les étudiants ont le droit de LIRE une séance. À ne pas
+confondre avec `ouverte`, qui dit s'ils peuvent y RÉPONDRE.
+
+`docs/assets/suivi.js` fait deux choses au chargement, et il faut les deux :
+
+1. **`elaguerSommaire()`** retire du menu les séances non publiées. Il tourne
+   sur *toutes* les pages du site, pas seulement celles de séance : c'est dans
+   le menu qu'on clique pour aller voir trop loin. Sans lui, la page serait
+   bien vide mais son titre resterait affiché — autant annoncer ce qu'on
+   voulait cacher.
+2. **`pageNonPubliee()`** masque le contenu, titre excepté, et affiche
+   « Cette séance n'a pas encore eu lieu ». **Ne pas reprendre la formule de la
+   séance fermée** — « le contenu ci-dessous reste consultable » — qui
+   dévoilerait exactement ce qu'on protège.
+
+**La session anonyme est établie AVANT la lecture** (`assurerSession()`). Sans
+elle la requête peut échouer, `seancesPubliees()` rend `null`, rien n'est
+élagué, et le défaut revient à l'identique sans que rien ne le signale.
+
+Le repli est volontairement permissif : si la colonne `publiee` n'existe pas
+encore sur la base, on ne cache rien. Un site vide par accident coûterait plus
+cher qu'une séance vue une semaine trop tôt — mais c'est bien un repli, pas
+l'état normal.
+
+Publier une séance : portail → **Vue d'ensemble** → « Le semestre » → bouton
+**Visible / Cachée**. « Démarrer la séance » publie aussi, ce qui suffit le
+jour J.
+
+---
+
 ## Points de vigilance
 
 - **`extra_javascript` : l'ordre compte.** Librairie Supabase, puis `config.js`, puis `suivi.js`. Si `config.js` disparaît de la liste, le suivi se désactive en silence et la séance tombe à plat en classe.

@@ -417,23 +417,97 @@
   /* Initialisation                                                       */
   /* ------------------------------------------------------------------ */
 
+  /* ------------------------------------------------------------------ */
+  /* Publication : ce que la classe a le droit de lire                     */
+  /* ------------------------------------------------------------------ */
+  /* Deux notions distinctes, longtemps confondues :
+   *   ouverte — la séance accepte des réponses (pendant l'heure) ;
+   *   publiee — les étudiants ont le droit de la LIRE.
+   * Le 09/09, la séance 2 était lisible le jour de la séance 1 : le sommaire
+   * de MkDocs liste tout ce qui est écrit, et rien ne l'en empêchait.
+   * L'enseignant décide depuis le portail ; ce fichier ne fait qu'obéir. */
+
+  async function seancesPubliees() {
+    const { data, error } = await sb
+      .from("seances")
+      .select("numero, publiee, classes!inner(code)")
+      .eq("classes.code", CFG.classeCode);
+    if (error || !data) return null;   // colonne absente : on ne cache rien
+    const m = new Map();
+    data.forEach((s) => m.set(Number(s.numero), s.publiee !== false));
+    return m;
+  }
+
+  /* Retire du sommaire les séances que la classe ne doit pas encore voir.
+   * Sans cela, la page serait bien vide mais son titre resterait affiché
+   * dans le menu — ce qui revient à annoncer ce qu'on voulait cacher. */
+  function elaguerSommaire(publiees) {
+    document.querySelectorAll('a[href*="seance-"]').forEach((a) => {
+      const m = a.getAttribute("href").match(/seance-(\d+)/i);
+      if (!m) return;
+      const n = Number(m[1]);
+      if (publiees.has(n) && publiees.get(n) === false) {
+        const li = a.closest("li");
+        (li || a).setAttribute("hidden", "hidden");
+      }
+    });
+  }
+
+  /* La séance n'est pas publiée : on retire le contenu de la page et on dit
+   * pourquoi. Laisser lire « le contenu ci-dessous reste consultable », comme
+   * le faisait la séance fermée, dévoilerait exactement ce qu'on protège. */
+  function pageNonPubliee(racine, numero) {
+    const garder = racine.querySelector("h1");
+    Array.from(racine.children).forEach((n) => {
+      if (n !== garder) n.setAttribute("hidden", "hidden");
+    });
+    const bloc = el("div", { class: "tdc-widget" }, [
+      el("h2", { class: "tdc-titre" }, ["Séance pas encore ouverte"]),
+      el("p", {}, [
+        "Cette séance n'a pas encore eu lieu. Elle s'ouvrira le jour venu, " +
+        "et restera consultable ensuite pour réviser."
+      ]),
+      el("p", {}, [
+        el("a", { href: PORTAIL }, ["Retour au portail"])
+      ])
+    ]);
+    if (garder && garder.parentNode) garder.parentNode.insertBefore(bloc, garder.nextSibling);
+    else racine.insertBefore(bloc, racine.firstChild);
+  }
+
+  async function assurerSession() {
+    const { data } = await sb.auth.getSession();
+    if (data && data.session) return true;
+    const { error } = await sb.auth.signInAnonymously();
+    if (error) { console.error("[suivi] connexion anonyme impossible", error); return false; }
+    return true;
+  }
+
   async function init() {
     const numero = numeroSeanceCourante();
-    if (!numero) return; // pas une page de séance : rien à faire
+
+    // La session vient AVANT la lecture des publications. Sans elle, la
+    // requête peut échouer, seancesPubliees() rend null, et on n'élague rien :
+    // le défaut qu'on corrige reviendrait exactement comme avant.
+    await assurerSession();
+
+    // Le sommaire s'élague sur TOUTES les pages du site, pas seulement sur
+    // celles de séance : c'est là qu'on clique pour aller voir trop loin.
+    const publiees = await seancesPubliees();
+    if (publiees) elaguerSommaire(publiees);
+
+    if (!numero) return; // pas une page de séance : rien de plus à faire
+
+    if (publiees && publiees.has(numero) && publiees.get(numero) === false) {
+      const r = document.querySelector("article") ||
+                document.querySelector(".md-content") || document.body;
+      pageNonPubliee(r, numero);
+      return;
+    }
 
     const racine = document.querySelector("article") || document.querySelector(".md-content") || document.body;
     const questions = extraireQuestions(racine);
     if (questions.length === 0) return; // pas de quiz sur cette page
-
-    // Session anonyme
-    const { data: sessionData } = await sb.auth.getSession();
-    if (!sessionData || !sessionData.session) {
-      const { error } = await sb.auth.signInAnonymously();
-      if (error) {
-        console.error("[suivi] connexion anonyme impossible", error);
-        return;
-      }
-    }
 
     // Séance courante
     const { data: seance, error: erreurSeance } = await sb

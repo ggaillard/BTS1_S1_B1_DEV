@@ -77,8 +77,41 @@ Toute nouvelle séance reprend cette trame.
 5. **Indices** — exercices intercalés, corrigés en bloc replié `??? question`
 6. **Épilogue** — auto-évaluation, renvoi vers le suivi en ligne
 7. **Quiz de révision** — 10 questions à 4 options (A/B/C/D)
-8. **À retenir** — synthèse courte
-9. **Teaser** de la séance suivante
+8. **À retenir** — synthèse courte, en bloc de citation
+9. **Concepts à connaître** — la liste projetée au débriefing de fin d'heure
+10. **Teaser** de la séance suivante
+
+### Les « Concepts à connaître » — obligatoire depuis la séance 1
+
+Cinq concepts numérotés, entre « À retenir » et le teaser. Ce n'est pas un doublon
+de « À retenir » : celui-ci est un paragraphe qu'on lit, celle-là est une **liste
+qu'on projette** en fin d'heure, chaque ligne portant le pourcentage que la classe
+vient de lui donner.
+
+```markdown
+## 🎓 Concepts à connaître
+
+*La liste qu'on projette à la fin de l'heure. Pour chacun, une seule question :
+**sauriez-vous l'expliquer à voix haute, sans regarder ?** C'est aussi sur ces
+concepts que portera le contrôle d'entrée de la séance suivante.*
+
+1. **Les codes de statut** — 4xx le client s'est trompé, 5xx le serveur a échoué.
+2. …
+```
+
+Trois règles, et le workflow `fiche` les vérifie toutes les trois :
+
+- **Cinq concepts**, numérotés, l'intitulé en gras en tête de ligne.
+- **La même liste en base**, recopiée dans une migration via `definir_concepts()`,
+  dans le même ordre et avec les mêmes intitulés. Le support est la source ; le
+  portail ne lit pas le markdown, et c'est lui qui projette.
+- **Chaque concept rattaché aux questions du quiz qui le mesurent**, entre crochets
+  à la fin de la ligne en base : `… [3 4 5]`. Un concept sans question s'affiche
+  « sans mesure » — acceptable pour un seul, jamais pour toute la liste.
+
+Et une contrainte de fond : **les cinq concepts d'une séance sont exactement ce que
+teste le contrôle d'entrée de la suivante.** Écrire les concepts, c'est écrire le
+contrôle d'entrée d'après.
 
 ### Personnages récurrents
 

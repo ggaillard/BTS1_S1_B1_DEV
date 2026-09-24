@@ -365,10 +365,10 @@ réponses ensuite** — dans cet ordre, sinon ça ne sert à rien.
 `A` une page HTML complète · `B` une image · `C` un fichier à télécharger · `D` de la donnée en JSON
 
 **9.** Dans une API REST, l'adresse **/api/projets/42** désigne :
-`A` la 42ᵉ page du site · `B` une ressource précise, le projet 42 · `C` une erreur · `D` un dossier sur le serveur
+`A` la 42ᵉ page du site · `B` une ressource précise, le projet 42 · `C` une erreur · `D` un répertoire sur le serveur
 
 **10.** Pourquoi les 9 400 utilisateurs de DevSecure ont-ils vu la panne à la même seconde ?
-`A` Ils rechargeaient tous la page au même moment · `B` Le serveur leur a envoyé un mail · `C` Chacun avait une connexion ouverte en permanence, coupée d'un coup · `D` C'est une coïncidence
+`A` Ils rechargeaient tous la page exactement au même moment · `B` Le serveur a envoyé un message d'alerte à chacun d'eux · `C` Chacun avait une connexion ouverte en permanence, coupée d'un coup · `D` C'est une coïncidence que rien n'explique vraiment
 
 ??? question "🔓 Vérifier mes réponses"
 
@@ -411,6 +411,29 @@ un bouton « Supprimer ce projet ».
 > de statut** : `4xx` le client s'est trompé, `5xx` le serveur a échoué. Une **API
 > REST** donne une adresse à chaque chose et renvoie de la **donnée**, pas une page.
 > Et le temps réel se paie : il rend l'application vivante, et la panne instantanée.
+
+C'est la réponse à la question restée ouverte en fin de séance 1 : si les
+9 400 utilisateurs ont vu la panne **à la seconde près**, ce n'est pas une
+coïncidence — chacun tenait une ligne ouverte vers un serveur qui s'est tu.
+
+---
+
+## 🎓 Concepts à connaître
+
+*La liste qu'on projette à la fin de l'heure. Pour chacun, une seule question :
+**sauriez-vous l'expliquer à voix haute, sans regarder ?** C'est aussi sur ces
+concepts que portera le contrôle d'entrée de la séance suivante.*
+
+1. **Client et serveur** — le client demande toujours en premier, le serveur
+   répond. [1 2]
+2. **Les codes de statut** — 4xx le client s'est trompé, 5xx le serveur a échoué,
+   404 la ressource n'existe pas. [3 4 5]
+3. **Page complète, AJAX, WebSocket** — trois façons de mettre un écran à jour ;
+   seul le WebSocket laisse le serveur parler le premier. [6 7]
+4. **Une API REST** — une adresse par ressource, et de la donnée en retour, pas une
+   page. [8 9]
+5. **Le temps réel se paie** — la ligne ouverte rend l'application vivante, et la
+   panne instantanée. [10]
 
 ---
 

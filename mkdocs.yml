@@ -48,5 +48,7 @@ nav:
   - Séances:
       - "1 — « 03 h 47 »": seances/seance-01.md
       - "2 — « À la seconde près »": seances/seance-02.md
+      - "3 — « 60, 47, 72 »": seances/seance-03.md
+      - "4 — « Ça marche sur mon poste »": seances/seance-04.md
   - Progression: progression.md
   - Données personnelles: rgpd.md

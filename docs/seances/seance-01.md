@@ -325,7 +325,7 @@ réponses ensuite** — dans cet ordre, sinon ça ne sert à rien.
 `A` base de données · `B` messagerie · `C` conteneurisation · `D` gestion de versions
 
 **9.** Dans l'enquête, la cause **première** de la panne était :
-`A` une attaque · `B` un serveur défectueux · `C` une ligne de code écrite sans vision système · `D` une erreur de la base
+`A` une attaque informatique venue de l'extérieur · `B` un serveur tombé en panne dans la nuit · `C` une ligne de code écrite sans vision système · `D` une erreur de saisie dans la base de données
 
 **10.** Le point commun des 4 cultures Ops :
 `A` elles utilisent Docker · `B` automatiser, tester, surveiller, pouvoir revenir en arrière · `C` elles concernent la sécurité · `D` elles sont réservées aux grandes entreprises
@@ -363,6 +363,29 @@ pour chacun.
 > impactent les quatre autres. Ce semestre, on apprend à industrialiser
 > le **code** (DevOps), la **sécurité** (DevSecOps), la **donnée** (DataOps) et l'**IA** (MLOps).
 > Même réflexe à chaque fois : **automatiser, tester, surveiller, pouvoir revenir en arrière.**
+
+Et l'heure se referme là où elle s'est ouverte : **03 h 47** n'était pas l'heure
+d'une panne de serveur, mais l'heure où une ligne de code écrite sans vision
+système a rencontré les quatre autres composants.
+
+---
+
+## 🎓 Concepts à connaître
+
+*La liste qu'on projette à la fin de l'heure. Pour chacun, une seule question :
+**sauriez-vous l'expliquer à voix haute, sans regarder ?** C'est aussi sur ces
+concepts que portera le contrôle d'entrée de la séance suivante.*
+
+1. **Un système d'information, c'est cinq composants** — matériel, logiciel, données,
+   procédures, humain. Aucun ne fonctionne seul. [1 3]
+2. **La place du développeur** — il agit sur le logiciel, mais ses choix se propagent
+   aux quatre autres. [2]
+3. **Les quatre cultures Ops** — DevOps le code, DevSecOps la sécurité, DataOps la
+   donnée, MLOps l'IA. [4 5 6 7]
+4. **Le réflexe commun aux quatre** — automatiser, tester, surveiller, pouvoir revenir
+   en arrière. [8 10]
+5. **Une panne n'a jamais une seule cause** — on cherche le composant, pas la
+   personne. [9]
 
 ---
 

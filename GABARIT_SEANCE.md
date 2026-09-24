@@ -204,6 +204,13 @@ Les crochets disent sur quelles questions le concept se mesure. **Les dix
 questions doivent être couvertes** ; un concept peut partager une question avec
 un autre.
 
+**Le contrôle d'entrée de la séance suivante suit l'ordre des concepts** : sa
+notion pre-01 reprend le concept 1, pre-02 le concept 2, et ainsi de suite. Ce
+n'est pas de la présentation : « Sur le semestre » s'en sert pour repérer les
+**notions perdues en une semaine** (juste au quiz de N, faux au contrôle de
+N+1). Un contrôle écrit dans un autre ordre ne fausse rien, il rend la règle
+muette.
+
 ---
 
 ## 5. L'ordre des gestes, une séance à produire

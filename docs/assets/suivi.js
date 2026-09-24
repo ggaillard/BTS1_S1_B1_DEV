@@ -413,6 +413,231 @@
     afficherQuestion();
   }
 
+
+  /* ------------------------------------------------------------------ */
+  /* Points de passage et main levée (24/09/2026)                        */
+  /* ------------------------------------------------------------------ */
+  /* Le quiz est à la fin de la trace : pendant les actes, l'enseignant ne
+   * voyait rien. Un point de passage à la fin de chaque acte dit où en est
+   * chacun pendant l'heure — une question courte, ou un simple « j'ai fini ».
+   * Et « Je bloque » remplace la main levée qu'un cours en ligne n'a pas.
+   *
+   * Les points vivent EN BASE (points_passage), comme le contrôle d'entrée :
+   * la page ne porte ni la question ni la bonne réponse. Si la fonction
+   * n'existe pas encore en base, rien n'apparaît et la page reste ce
+   * qu'elle était. */
+
+  const ROMAINS = { I: 1, II: 2, III: 3, IV: 4, V: 5, VI: 6, VII: 7, VIII: 8 };
+
+  function titresActes(racine) {
+    const m = new Map();
+    racine.querySelectorAll("h2").forEach((h) => {
+      const r = h.textContent.match(/ACTE\s+([IVX]+)\b/);
+      if (r && ROMAINS[r[1]]) m.set(ROMAINS[r[1]], h);
+    });
+    return m;
+  }
+
+  // La fin d'un acte : juste avant le trait (---) qui précède le titre
+  // suivant, ou juste avant ce titre s'il n'y a pas de trait.
+  function finDActe(h2) {
+    let n = h2.nextElementSibling, dernierHr = null;
+    while (n && n.tagName !== "H2") {
+      dernierHr = n.tagName === "HR" ? n : (n.tagName === "P" && !n.textContent.trim() ? dernierHr : null);
+      n = n.nextElementSibling;
+    }
+    return dernierHr || n;   // null : fin de page
+  }
+
+  function acteCourant(actes) {
+    let courant = null;
+    const milieu = window.innerHeight / 2;
+    actes.forEach((h, num) => {
+      if (h.getBoundingClientRect().top < milieu && (!courant || num > courant)) courant = num;
+    });
+    return courant;
+  }
+
+  function blocPassage(seance, point) {
+    const bloc = el("section", { class: "tdc-passage", "aria-label": "Point de passage, acte " + point.acte });
+    bloc.appendChild(el("p", { class: "tdc-passage-titre" }, [
+      "📍 Point de passage — fin de l'acte " + Object.keys(ROMAINS)[point.acte - 1]
+    ]));
+    const retour = el("div", { class: "tdc-retour", "aria-live": "polite" });
+
+    function montrerResultat(r) {
+      vider(retour);
+      if (point.intitule && typeof r.correct === "boolean") {
+        retour.appendChild(el("p", { class: r.correct ? "tdc-correct" : "tdc-incorrect" }, [
+          r.correct ? "✅ Juste. Passez à la suite." : "❌ Pas tout à fait — la bonne réponse était " + r.bonne + "."
+        ]));
+        if (r.explication) retour.appendChild(el("p", { class: "tdc-explication" }, [r.explication]));
+      } else {
+        retour.appendChild(el("p", { class: "tdc-correct" }, ["✅ C'est noté. Passez à la suite."]));
+      }
+    }
+
+    if (point.fait) {
+      if (point.intitule) bloc.appendChild(el("p", { class: "tdc-question-texte" }, [point.intitule]));
+      bloc.appendChild(retour);
+      montrerResultat(point);
+      return bloc;
+    }
+
+    const form = el("form", { class: "tdc-form" });
+    let groupe = null;
+    if (point.intitule) {
+      groupe = el("div", { class: "tdc-options", role: "radiogroup", "aria-label": point.intitule });
+      (point.options || []).forEach((o, i) => {
+        const lettre = "ABCD"[i];
+        const id = "tdc-pp-" + point.acte + "-" + lettre;
+        groupe.appendChild(el("label", { class: "tdc-option", for: id }, [
+          el("input", { type: "radio", name: "pp-" + point.acte, id: id, value: lettre }),
+          el("span", {}, [lettre + " — " + o])
+        ]));
+      });
+      form.appendChild(el("fieldset", { class: "tdc-fieldset" }, [
+        el("legend", { class: "tdc-question-texte" }, [point.intitule]), groupe]));
+    }
+    const bouton = el("button", { type: "submit", class: "tdc-bouton tdc-bouton-principal" }, [
+      point.intitule ? "Valider et continuer" : "J'ai fini cet acte"
+    ]);
+    form.appendChild(retour);
+    form.appendChild(bouton);
+    form.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      let rep = null;
+      if (groupe) {
+        const c = form.querySelector("input:checked");
+        if (!c) {
+          vider(retour);
+          retour.appendChild(el("p", { class: "tdc-erreur", role: "alert" }, ["Choisissez une réponse."]));
+          return;
+        }
+        rep = c.value;
+      }
+      bouton.disabled = true;
+      try {
+        const { data, error } = await sb.rpc("passer_acte", {
+          p_seance_id: seance.id, p_acte: point.acte, p_reponse: rep
+        });
+        if (error) throw error;
+        if (!data || !data.ok) throw new Error(data && data.motif === "fermee"
+          ? "La séance est fermée." : "Réponse non enregistrée.");
+        form.querySelectorAll("input").forEach((i) => { i.disabled = true; });
+        bouton.setAttribute("hidden", "hidden");
+        montrerResultat(data);
+      } catch (err) {
+        vider(retour);
+        retour.appendChild(el("p", { class: "tdc-erreur", role: "alert" }, [messageLisible(err)]));
+        bouton.disabled = false;
+      }
+    });
+    bloc.appendChild(form);
+    return bloc;
+  }
+
+  function boutonMain(seance, actes, etat) {
+    const zone = el("div", { class: "tdc-main", role: "region", "aria-label": "Demander de l'aide" });
+    const statut = el("p", { class: "tdc-main-statut", "aria-live": "polite" });
+    const panneau = el("form", { class: "tdc-main-panneau", hidden: "hidden" });
+    const mot = el("input", { type: "text", class: "tdc-input", maxlength: "140",
+      placeholder: "Où bloquez-vous ? (facultatif)", "aria-label": "Où bloquez-vous ?" });
+    const lever = el("button", { type: "submit", class: "tdc-bouton tdc-bouton-principal" }, ["Lever la main"]);
+    const annuler = el("button", { type: "button", class: "tdc-bouton" }, ["Annuler"]);
+    panneau.appendChild(mot);
+    panneau.appendChild(el("div", { class: "tdc-main-actions" }, [lever, annuler]));
+    const bouton = el("button", { type: "button", class: "tdc-bouton tdc-main-bouton", "aria-expanded": "false" });
+    zone.appendChild(statut);
+    zone.appendChild(panneau);
+    zone.appendChild(bouton);
+
+    let main = etat;   // la main levée en cours, ou null
+    let minuteur = null;
+    function afficher() {
+      panneau.setAttribute("hidden", "hidden");
+      bouton.setAttribute("aria-expanded", "false");
+      bouton.textContent = !main ? "✋ Je bloque"
+        : main.vue ? "👀 Vu — baisser la main" : "✋ Main levée — la baisser";
+      bouton.classList.toggle("levee", !!main);
+      statut.textContent = !main ? "" : main.vue
+        ? "👀 L'enseignant a vu votre demande."
+        : "Votre demande est envoyée. Continuez à lire en attendant.";
+      // La bulle dit que c'est parti, puis s'efface : elle ne doit pas rester
+      // posée sur le texte qu'on continue de lire. Le bouton garde l'état.
+      statut.hidden = !main;
+      clearTimeout(minuteur);
+      if (main) minuteur = setTimeout(() => { statut.hidden = true; }, 6000);
+    }
+    bouton.addEventListener("click", async () => {
+      if (main) {
+        bouton.disabled = true;
+        await sb.rpc("baisser_main", { p_seance_id: seance.id });
+        bouton.disabled = false;
+        main = null;
+        return afficher();
+      }
+      const ouvert = !panneau.hasAttribute("hidden");
+      if (ouvert) return afficher();
+      panneau.removeAttribute("hidden");
+      bouton.setAttribute("aria-expanded", "true");
+      mot.focus();
+    });
+    annuler.addEventListener("click", afficher);
+    panneau.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      lever.disabled = true;
+      const acte = acteCourant(actes);
+      const { data, error } = await sb.rpc("lever_main", {
+        p_seance_id: seance.id, p_acte: acte, p_mot: mot.value || ""
+      });
+      lever.disabled = false;
+      if (error || !data || !data.ok) {
+        statut.hidden = false;
+        statut.textContent = "La demande n'est pas partie. Réessayez dans un instant.";
+        return;
+      }
+      main = { id: data.id, acte: acte, vue: false };
+      mot.value = "";
+      afficher();
+    });
+    afficher();
+
+    // « Vu » arrive de l'enseignant : on relit toutes les vingt secondes tant
+    // qu'une main est levée, et seulement dans ce cas.
+    setInterval(async () => {
+      if (!main || main.vue || document.hidden) return;
+      const { data } = await sb.rpc("mes_points_passage", { p_seance_id: seance.id });
+      if (data && data.ok) {
+        const avant = main && main.vue;
+        main = data.main || null;
+        if (!main || main.vue !== avant) afficher();
+      }
+    }, 20000);
+    return zone;
+  }
+
+  async function initPassages(seance, racine) {
+    let data;
+    try {
+      const r = await sb.rpc("mes_points_passage", { p_seance_id: seance.id });
+      if (r.error) return;           // fonction pas encore en base
+      data = r.data;
+    } catch (e) { return; }
+    if (!data || !data.ok) return;
+
+    const actes = titresActes(racine);
+    (data.points || []).forEach((point) => {
+      const h = actes.get(point.acte);
+      if (!h) return;
+      const fin = finDActe(h);
+      const bloc = blocPassage(seance, point);
+      if (fin && fin.parentNode) fin.parentNode.insertBefore(bloc, fin);
+      else h.parentNode.appendChild(bloc);
+    });
+    if (data.ouverte) document.body.appendChild(boutonMain(seance, actes, data.main || null));
+  }
+
   /* ------------------------------------------------------------------ */
   /* Initialisation                                                       */
   /* ------------------------------------------------------------------ */
@@ -567,6 +792,7 @@
         widget.parentNode.insertBefore(bandeauConnecte(eleve.numero), widget);
       }
       ecranQuestionnaire(widget, eleve, seance, questions);
+      initPassages(seance, racine);
     } else {
       ecranPortail(widget);
     }

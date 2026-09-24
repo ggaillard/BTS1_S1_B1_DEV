@@ -213,6 +213,12 @@ un autre.
 3. Écrire la migration des corrigés, **options recopiées de la page**.
 4. Écrire les cinq concepts dans une migration `…_debriefing.sql` par
    `migration_definir_concepts()`, en **lisant** sa réponse.
-5. Rejouer les trois contrôles en local ; corriger jusqu'au vert.
-6. Pousser les deux dépôts. La migration s'applique toute seule.
-7. Le jour J : « Démarrer la séance » — qui ouvre, publie et lance le chrono.
+5. Écrire les **points de passage** — un par acte, dans `…_passages.sql` :
+   une question courte sur l'acte (ou aucune, pour un acte d'observation).
+   L'heure attendue de fin d'acte se déduit des durées de la trace ; la bonne
+   lettre reste en base, jamais dans la page. `fiche` refuse une séance, à
+   partir de la 4, dont un acte n'a pas son point : pendant les actes, c'est
+   la seule chose que le portail voit.
+6. Rejouer les trois contrôles en local ; corriger jusqu'au vert.
+7. Pousser les deux dépôts. La migration s'applique toute seule.
+8. Le jour J : « Démarrer la séance » — qui ouvre, publie et lance le chrono.

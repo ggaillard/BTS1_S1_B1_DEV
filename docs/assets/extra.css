@@ -193,3 +193,68 @@
 [data-md-color-scheme="slate"] .tdc-connecte {
   background: rgba(255, 255, 255, 0.05);
 }
+
+/* Points de passage : un encadré à la fin de chaque acte (24/09/2026) */
+
+.tdc-passage {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--md-primary-fg-color, #009688);
+  border-radius: 0 0.5rem 0.5rem 0;
+  background: var(--md-code-bg-color, #f5f5f5);
+}
+
+.tdc-passage-titre {
+  margin-top: 0 !important;
+  font-weight: 700;
+  color: var(--md-primary-fg-color, #009688);
+}
+
+/* « Je bloque » : toujours à portée de doigt, jamais par-dessus le texte
+   qu'on lit — en bas à droite, et replié tant qu'on ne s'en sert pas. */
+
+.tdc-main {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 5;
+  max-width: min(22rem, calc(100vw - 2rem));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.tdc-main-bouton {
+  min-height: 44px;
+  background: var(--md-default-bg-color, #fff);
+  color: var(--md-primary-fg-color, #009688);
+  border: 2px solid var(--md-primary-fg-color, #009688);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tdc-main-bouton.levee {
+  background: #b45309;
+  border-color: #b45309;
+  color: #fff;
+}
+
+.tdc-main-panneau,
+.tdc-main-statut {
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: var(--md-default-bg-color, #fff);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  font-size: 0.85rem;
+}
+
+.tdc-main-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.tdc-main-actions .tdc-bouton {
+  min-height: 44px;
+}

@@ -6,7 +6,7 @@ notee: false
 ---
 
 # SÉANCE 4 — « Ça marche sur mon poste »
-### Qui a écrit quoi, quand — et comment revenir en arrière
+### Qui a écrit quoi, quand, avec quoi — et comment revenir en arrière
 
 > **Séance 4 / 14** · Acte 1 — DevOps : industrialiser le code · **Durée : 1 h** · **100 % en ligne**
 > Fil rouge du semestre : *Du code au service — les 4 cultures Ops*
@@ -33,7 +33,7 @@ par une autre porte, c'est travailler sans que rien ne soit compté.
 
 ---
 
-## 🎬 COLD OPEN — six jours, trois fichiers
+## 🎬 COLD OPEN — six jours, quatre fichiers, un assistant
 
 Vous vous souvenez du 47 de l'entrepôt ? Il était faux. Pas le chiffre : le
 **code** qui le calculait. Voici le dossier partagé de l'équipe, lundi matin :
@@ -55,13 +55,30 @@ Maya ouvre les quatre fichiers. Deux se ressemblent à une ligne près. Personne
 ne sait lequel tourne en production, ni depuis quand, ni ce que contenait la
 version d'avant.
 
-**Le code change tous les jours. La question est de savoir qui l'a changé,
-quand, pourquoi — et comment revenir en arrière.** C'est l'objet de cette heure.
+Et ce n'est pas le seul témoin qui se trompe. Depuis la rentrée, l'équipe a un
+**assistant** : on lui pose une question en français, il cherche dans les
+comptes rendus et il répond. Léa essaie :
+
+```
+> Le nouveau site, on en est où ?
+Assistant : « D'après le compte rendu du 13 septembre,
+              la refonte du site est avancée à 47 %. »
+```
+
+Elle n'a écrit ni « refonte », ni « projet 42 » — et il a pourtant trouvé le
+bon document. Mais il répète le mauvais chiffre. Noah soupire :
+*« Son index date d'avant la correction. Et depuis, j'ai changé de modèle… je
+crois. »*
+
+**Le code change tous les jours — et maintenant, les données qui font parler
+l'assistant aussi. La question est de savoir qui a changé quoi, quand, avec
+quoi — et comment revenir en arrière.** C'est l'objet de cette heure.
 
 !!! info "Votre rôle aujourd'hui"
     Vous devez expliquer à la direction **pourquoi la correction de Thomas n'est
-    jamais arrivée**. À la fin de l'heure, vous saurez que Thomas n'a pas menti —
-    et vous saurez ce qui manquait à l'équipe.
+    jamais arrivée**, et **pourquoi l'assistant répète un vieux chiffre**. À la fin
+    de l'heure, vous saurez que personne n'a menti — et ce qui manquait à
+    l'équipe.
 
 ---
 
@@ -74,13 +91,14 @@ quand, pourquoi — et comment revenir en arrière.** C'est l'objet de cette heu
 | 📸 | Expliquer ce qu'est un **commit** et ce qu'il contient | Acte III |
 | 🌿 | Dérouler un travail sur **branche** jusqu'à la **pull request** | Indice n° 3 |
 | 🔴 | Expliquer pourquoi « ça marche sur mon poste » ne prouve rien | Acte III |
+| 🧭 | Dire ce que fait une **base vectorielle**, et pourquoi son index se versionne | Indice n° 4 |
 
 *Compétence visée : **B1C2** — développer des solutions applicatives, en gérant leurs versions.*
 *Prérequis : la séance 3. Si vous étiez absent, lisez d'abord « 60, 47, 72 ».*
 
 ---
 
-## 🔁 ACTE I — TROIS FAÇONS DE MENER UN PROJET *(≈ 13 min)*
+## 🔁 ACTE I — TROIS FAÇONS DE MENER UN PROJET *(≈ 9 min)*
 
 Avant de parler d'outils, une question plus ancienne : **dans quel ordre fait-on
 les choses** quand on fabrique un logiciel ? Trois réponses ont marqué le métier.
@@ -148,7 +166,7 @@ Elle coûte deux semaines.
 
 ---
 
-## 🤝 ACTE II — LE MUR ENTRE DEUX ÉQUIPES *(≈ 12 min)*
+## 🤝 ACTE II — LE MUR ENTRE DEUX ÉQUIPES *(≈ 8 min)*
 
 Retour à Thomas. Dans son entreprise, deux équipes :
 
@@ -195,7 +213,7 @@ C'est une **culture** qui abat ce mur, par trois gestes :
 
 ---
 
-## 📸 ACTE III — GIT, LA MÉMOIRE DU CODE *(≈ 20 min)*
+## 📸 ACTE III — GIT, LA MÉMOIRE DU CODE *(≈ 14 min)*
 
 La source unique a un nom : un **dépôt Git**. Git est un **gestionnaire de
 versions** : il garde toute l'histoire du code, et il sait dire qui a écrit quoi,
@@ -288,7 +306,87 @@ poste à la production.
 
 ---
 
-## 🧭 ACTE IV — OUVREZ LE CAPOT *(≈ 3 min)*
+## 🧲 ACTE IV — LA BASE QUI CHERCHE PAR LE SENS *(≈ 9 min)*
+
+Reste l'assistant. Il ne cherche pas comme les bases de la séance 3.
+
+### Chercher un mot, chercher un sens
+
+Une requête SQL cherche ce qui est **égal** : le nom exact, l'identifiant exact.
+Demandez « le nouveau site » à la table des projets : elle ne trouve rien, aucune
+ligne ne s'appelle ainsi. Léa, elle, a été comprise.
+
+### Transformer un texte en nombres
+
+Un **modèle d'embedding** — un petit modèle d'IA — lit un texte et le transforme
+en **vecteur** : une liste de plusieurs centaines de nombres. Deux textes qui
+veulent dire la même chose donnent deux vecteurs **proches**, même sans un seul
+mot en commun.
+
+```
+« Le nouveau site, on en est où ? »          → [ 0.12, -0.48, 0.91, … ]
+« Refonte du site : avancement 47 % »        → [ 0.10, -0.51, 0.88, … ]  proche
+« Contrat de maintenance des imprimantes »   → [-0.73,  0.22, 0.05, … ]  loin
+```
+
+### La base de données vectorielle
+
+Elle range ces vecteurs, avec le texte d'origine. Et elle sait répondre très
+vite à une seule question : **quels sont les plus proches de celui-ci ?** C'est la
+**recherche par similarité** — pas « égal ou différent », mais un classement du
+plus proche au plus lointain.
+
+| | Base relationnelle | Base vectorielle |
+|---|---|---|
+| Elle range | des lignes et des colonnes | des vecteurs, avec leur texte |
+| Elle répond à | « qu'est-ce qui est **égal** à… ? » | « qu'est-ce qui **ressemble** à… ? » |
+| Exemple | le projet n° 42 | les trois comptes rendus les plus proches |
+
+C'est une famille de plus à côté de celles de la séance 3 — parfois une simple
+extension : **pgvector** ajoute les vecteurs à PostgreSQL. L'assistant de Léa
+travaille en deux temps : la base vectorielle retrouve les passages les plus
+proches, puis un modèle de langage rédige la réponse à partir d'eux. On appelle
+cela le **RAG**, la génération augmentée par la recherche.
+
+### Pourquoi c'est une affaire de versions
+
+L'**index** — l'ensemble des vecteurs rangés dans la base — n'est écrit par
+personne : il est **fabriqué** par un script, avec un modèle. Deux conséquences :
+
+- l'index a une **date** : il ne connaît que les documents qu'on lui a donnés.
+  Celui de Léa a été construit avant la correction — d'où le 47 ;
+- deux modèles ne donnent pas les mêmes nombres. Changer de modèle sans **tout
+  recalculer**, c'est comparer des vecteurs qui ne parlent pas la même langue :
+  les résultats deviennent absurdes, sans le moindre message d'erreur.
+
+> 🔑 **Ce qui fabrique l'index se versionne comme le code** : le script
+> d'indexation dans Git, le nom et la version du modèle dans un fichier commité,
+> la date de construction notée avec l'index. Alors « quel modèle répond, et
+> depuis quand ? » a une réponse : un commit.
+
+### 🧪 Indice n° 4 — l'assistant qui se trompe
+
+| # | Question | Votre réponse |
+|---|---|---|
+| a | Comment l'assistant a-t-il trouvé le bon document sans le mot « refonte » ? | ? |
+| b | Pourquoi répond-il 47 et non 60 ? | ? |
+| c | Noah a changé de modèle sans reconstruire l'index. Que risque-t-il ? | ? |
+
+??? question "🔓 Ouvrir le rapport d'expertise"
+
+    | # | Réponse | Pourquoi |
+    |---|---|---|
+    | a | **Par le sens** | La question et le compte rendu donnent des vecteurs proches. La base compare des vecteurs, pas des mots. |
+    | b | **Son index est ancien** | Il répète fidèlement un document d'avant la correction. Le calcul n'y est pour rien : le chiffre était dans les données. |
+    | c | **Des résultats absurdes, en silence** | Vecteurs de deux modèles mélangés. Il faut tout recalculer avec un seul modèle — et noter lequel, dans Git. |
+
+    **Le piège** : croire que l'assistant « sait ». Il ne sait que ce que
+    contient son index, à la date où on l'a construit. Encore un chiffre sans
+    date ni source — la leçon de la séance 3.
+
+---
+
+## 🧭 ACTE V — OUVREZ LE CAPOT *(≈ 2 min)*
 
 Sur GitHub, ouvrez n'importe quel projet public et cliquez sur **Commits**.
 
@@ -298,7 +396,8 @@ Sur GitHub, ouvrez n'importe quel projet public et cliquez sur **Commits**.
 3. Combien de **branches** le projet compte-t-il ?
 
 > C'est le geste n° 5 du métier : **une version se désigne par son identifiant,
-> jamais par « la dernière » ni par « la finale ».**
+> jamais par « la dernière » ni par « la finale »** — qu'il s'agisse du code, du
+> modèle ou de l'index.
 
 ---
 
@@ -319,29 +418,29 @@ réponses ensuite** — dans cet ordre, sinon ça ne sert à rien.
 **1.** Dans un cycle en cascade, quand découvre-t-on le plus souvent qu'on s'est trompé de besoin ?
 `A` au moment d'écrire le cahier des charges avec le client · `B` à la fin, quand le client voit enfin le produit · `C` à chaque itération de deux semaines · `D` dès la première ligne de code écrite
 
-**2.** Ce qui distingue le cycle en V de la cascade :
-`A` il supprime complètement l'étape des tests · `B` il livre une nouvelle version toutes les deux semaines · `C` il confie la conception entière au client · `D` chaque étape de conception a son test en miroir
-
-**3.** Une méthode agile cherche à :
+**2.** Une méthode agile cherche à :
 `A` livrer souvent, par petits morceaux, pour corriger tôt · `B` livrer une seule fois, quand tout est entièrement terminé · `C` suivre un plan fixé d'avance sans jamais le modifier · `D` supprimer les réunions avec le client pour aller plus vite
 
-**4.** Les trois gestes de la culture DevOps vus dans cette séance :
+**3.** Les trois gestes de la culture DevOps vus dans cette séance :
 `A` coder, tester, documenter · `B` planifier, livrer, facturer · `C` automatiser, mesurer, collaborer · `D` sécuriser, chiffrer, sauvegarder chaque soir
 
-**5.** Un commit, c'est :
+**4.** Un commit, c'est :
 `A` une copie du dossier envoyée par courriel à l'équipe · `B` un instantané du projet, avec un auteur, une date et un message · `C` une sauvegarde automatique du poste faite chaque nuit · `D` un fichier renommé « version finale » dans le dossier partagé
 
-**6.** Pourquoi travailler sur une branche ?
-`A` pour avancer sans toucher à la version principale · `B` pour que le code s'exécute plus vite en production · `C` pour empêcher les collègues de lire son travail · `D` pour ne plus avoir besoin d'écrire de messages
-
-**7.** Une pull request sert à :
+**5.** Une pull request sert à :
 `A` copier le dépôt d'un autre sur son propre poste · `B` supprimer une branche devenue inutile · `C` envoyer le code directement en production, sans passer par main · `D` faire relire des changements avant de les fusionner
 
-**8.** Thomas avait bien fait un commit de sa correction, et pourtant la production ne l'avait pas. Pourquoi ?
+**6.** Thomas avait bien fait un commit de sa correction, et pourtant la production ne l'avait pas. Pourquoi ?
 `A` la production refuse tout commit fait le lundi · `B` Git avait effacé la correction pendant la nuit · `C` le commit était resté sur son poste, jamais poussé · `D` la correction contenait elle-même une erreur de calcul
 
-**9.** Pour annuler un commit déjà partagé sans réécrire l'historique, on :
+**7.** Pour annuler un commit déjà partagé sans réécrire l'historique, on :
 `A` crée un nouveau commit qui défait le précédent · `B` supprime le dépôt et on le recrée depuis zéro · `C` modifie le fichier directement sur le serveur · `D` demande à chacun d'effacer sa copie locale du dépôt
+
+**8.** Une base de données vectorielle retrouve un document parce que :
+`A` il contient exactement les mêmes mots que la question · `B` son vecteur est proche de celui de la question · `C` il a été ajouté le plus récemment dans la base · `D` son identifiant est égal à celui qu'on demande
+
+**9.** On change de modèle d'embedding. Que faut-il faire de l'index vectoriel ?
+`A` ne rien faire, les anciens vecteurs restent valables · `B` recalculer seulement les documents ajoutés depuis · `C` supprimer les documents les plus anciens de la base · `D` recalculer tous les vecteurs avec le nouveau modèle
 
 **10.** Pourquoi « ça marche sur mon poste » ne prouve-t-il rien ?
 `A` parce que les postes des développeurs sont moins puissants que les serveurs · `B` parce que Git ne fonctionne que sur un serveur · `C` parce que les tests sont toujours faux sur un poste · `D` parce que la production ne tourne pas avec ce qui est sur le poste
@@ -350,15 +449,17 @@ réponses ensuite** — dans cet ordre, sinon ça ne sert à rien.
 
     | Q | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
     |---|---|---|---|---|---|---|---|---|---|----|
-    | **Rép.** | B | D | A | C | B | A | D | C | A | D |
+    | **Rép.** | B | A | C | B | D | C | A | B | D | D |
 
-    - **8 à 10** — Vous savez ce qu'est une version et comment elle voyage. En S5,
-      on regardera la machine qui la **teste et la livre toute seule**.
+    - **8 à 10** — Vous savez ce qu'est une version et comment elle voyage — celle
+      du code comme celle d'un index. En S5, on regardera la machine qui la
+      **teste et la livre toute seule**.
     - **5 à 7** — Commit, push, merge se mélangent encore. Reprenez les six cartes
       de l'indice n° 3 : tout le trajet y est.
     - **0 à 4** — Retenez **deux** choses : un commit est un instantané daté et
       signé, qui reste sur le poste tant qu'on ne l'a pas poussé ; on travaille sur
-      une branche et on fait relire avant de fusionner. Le reste s'accroche là.
+      une branche et on fait relire avant de fusionner. Et une base vectorielle
+      compare des sens, pas des mots. Le reste s'accroche là.
 
 ### Le test des trois messages
 
@@ -383,12 +484,15 @@ changement.
 > collaborer autour d'une source unique du code. Cette source est un dépôt **Git** :
 > un **commit** est un instantané daté, signé et expliqué ; on travaille sur une
 > **branche**, on fait relire par une **pull request**, on **fusionne** dans main — et
-> on peut toujours **revenir en arrière**.
+> on peut toujours **revenir en arrière**. Une **base vectorielle** range des textes
+> transformés en vecteurs par un modèle, et retrouve ce qui a le **même sens** ; son
+> index est fabriqué, daté, et se versionne avec le modèle qui l'a produit.
 
 Thomas avait raison : ça marchait sur son poste. Mais une correction qui n'a pas
 quitté le poste n'existe pour personne d'autre. Désormais, quand on vous dira
 « ça marche sur mon poste », vous saurez quoi répondre : **montre-moi le commit,
-et dis-moi s'il est dans main.**
+et dis-moi s'il est dans main.** Et à l'assistant qui répond avec assurance :
+**de quand date ton index, et avec quel modèle ?**
 
 ---
 
@@ -399,15 +503,15 @@ et dis-moi s'il est dans main.**
 concepts que portera le contrôle d'entrée de la séance suivante.*
 
 1. **Les cycles de vie** — la cascade découvre ses erreurs à la fin, le V met un test
-   en face de chaque étape, l'agile livre souvent pour corriger tôt. [1 2 3]
+   en face de chaque étape, l'agile livre souvent pour corriger tôt. [1 2]
 2. **La culture DevOps** — automatiser, mesurer, collaborer : abattre le mur entre ceux
-   qui écrivent le code et ceux qui le font tourner. [4 10]
+   qui écrivent le code et ceux qui le font tourner. [3 10]
 3. **Le commit** — un instantané daté, signé et expliqué, qui reste sur le poste tant
-   qu'on ne l'a pas poussé. [5 8 10]
-4. **Branche, pull request, fusion** — on travaille à côté, on fait relire, puis on
-   fusionne dans la version principale. [6 7]
-5. **Revenir en arrière** — un nouveau commit qui défait le précédent, sans effacer
-   l'histoire : c'est ce qui rend le changement sans danger. [9]
+   qu'on ne l'a pas poussé. [4 6 10]
+4. **Branche, pull request, retour en arrière** — on travaille à côté, on fait relire, on
+   fusionne ; un nouveau commit défait le précédent sans effacer l'histoire. [5 7]
+5. **Une base vectorielle** — elle compare des sens, pas des mots ; son index est fabriqué
+   par un modèle, daté, et se versionne avec lui. [8 9]
 
 ---
 
@@ -415,7 +519,8 @@ concepts que portera le contrôle d'entrée de la séance suivante.*
 
 La correction de Thomas est enfin dans main. Mardi, elle part en production…
 et casse la page d'accueil. Personne n'avait relancé les tests : « on n'avait pas
-le temps ». Et si ce n'était pas à un humain de s'en souvenir ?
+le temps ». L'assistant, lui, répond toujours 47 : personne n'a reconstruit son
+index. Et si ce n'était pas à un humain de s'en souvenir ?
 
 **Séance 5 : la machine qui teste et qui livre — et la boîte qui fait tourner le
 code partout pareil.**

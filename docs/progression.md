@@ -109,9 +109,9 @@ Chaque fiche suit le même canevas : **objectif** · **notions-clés** · **dér
 ### ACTE 1 — DevOps : INDUSTRIALISER LE CODE (S4 → S6)
 
 #### Séance 4 — Culture DevOps, cycle de vie & versioning Git
-- **Objectif** : comprendre pourquoi DevOps rapproche Dev et Ops, et manipuler la notion de versioning.
-- **Notions-clés** : cycles cascade / V / agile, culture DevOps (automatisation, mesure, collaboration), Git (commit, branche, merge, pull request).
-- **Déroulé (1 h)** : « qui a déjà perdu du code ? » (5’) → cycles de vie comparés (15’) → principes DevOps (10’) → Git en pratique : workflow feature branch (25’) → synthèse (5’).
+- **Objectif** : comprendre pourquoi DevOps rapproche Dev et Ops, manipuler la notion de versioning — du code, et de ce qui fabrique les données (index d'une base vectorielle).
+- **Notions-clés** : cycles cascade / V / agile, culture DevOps (automatisation, mesure, collaboration), Git (commit, branche, merge, pull request, revert), bases de données vectorielles (embedding, recherche par similarité, RAG, pgvector) et versionnement de l'index.
+- **Déroulé (1 h)** : cold open « ça marche sur mon poste » + l'assistant qui répète un vieux chiffre (3’) → cycles de vie comparés (9’) → principes DevOps (8’) → Git : commit, branche, pull request, push (14’) → la base qui cherche par le sens : vecteurs, similarité, index à versionner (9’) → capot (2’) → quiz (10’).
 - **💻 Machine** : `git init / add / commit / branch / merge` sur un mini-dépôt local. **📄 Papier** : dérouler un workflow Git sur schéma (cartes « commits » à ordonner), rédiger 3 messages de commit.
 - **Supports** : ♻ *CDT — Séance DevOps (Git, CI/CD)*, ressources Git officielles.
 - **Lien métiers** : cœur du métier Ingénieur DevOps.

@@ -77,6 +77,7 @@ C'est l'objet de cette heure.
 | 🧩 | Dire quand un **schéma souple** vaut mieux qu'un tableau | Acte II |
 | 🔀 | Choisir entre **SQL et NoSQL** selon l'usage | Indice n° 2 |
 | 🏞️ | Distinguer un **lac** d'un **entrepôt** de données | Acte III |
+| 🧲 | Dire ce que fait une **base vectorielle** et quand elle sert | Indice n° 4 |
 | 🔴 | Expliquer pourquoi 60, 47 et 72 sont tous les trois justes | Indice n° 3 |
 
 *Compétence visée : **A4.1.3** — exploiter des données à des fins d'analyse.*
@@ -158,7 +159,7 @@ de tâches restantes. Répondez sans écrire de code :
 
 ---
 
-## 🧩 ACTE II — QUAND LE TABLEAU NE SUFFIT PLUS *(≈ 17 min)*
+## 🧩 ACTE II — QUAND LE TABLEAU NE SUFFIT PLUS *(≈ 14 min)*
 
 Le relationnel est excellent. Il a pourtant deux limites, et elles sont
 devenues gênantes vers 2005, quand les applications ont commencé à recevoir des
@@ -194,6 +195,9 @@ selon la forme de ce qu'on range :
 | **Document** | Des fiches libres, souvent en JSON | Des objets de formes variées |
 | **Colonnes** | Des colonnes par groupes | De très gros volumes d'événements |
 | **Graphe** | Des points et des liens | Des réseaux, des recommandations |
+
+Une cinquième famille, la base **vectorielle**, est arrivée avec l'IA : elle a
+son propre acte, plus loin.
 
 La plus courante est la **base documentaire**. Chaque enregistrement est une
 fiche complète, qui n'a pas besoin de ressembler à sa voisine :
@@ -246,7 +250,7 @@ Deux conséquences, et il faut assumer les deux :
 
 ---
 
-## 🏞️ ACTE III — LE LAC ET L'ENTREPÔT *(≈ 12 min)*
+## 🏞️ ACTE III — LE LAC ET L'ENTREPÔT *(≈ 10 min)*
 
 Reste le 47 et le 72. Ni l'un ni l'autre ne sort de la base de l'application.
 
@@ -309,7 +313,85 @@ choix « on monte un lac de données », et dites en une phrase pourquoi.
 
 ---
 
-## 🧭 ACTE IV — OUVREZ LE CAPOT *(≈ 3 min)*
+## 🧲 ACTE IV — LA BASE QUI CHERCHE PAR LE SENS *(≈ 7 min)*
+
+La réunion n'est pas finie. Léa ouvre un quatrième écran : l'**assistant** de
+l'équipe. On lui pose une question en français, il cherche dans les documents
+de l'entreprise et il répond.
+
+```
+> Le nouveau site, on en est où ?
+Assistant : « D'après le rapport hebdomadaire du 27 septembre,
+              la refonte du site est avancée à 47 %. »
+```
+
+Léa n'a écrit ni « refonte », ni « projet 42 ». Et il a pourtant trouvé le bon
+document.
+
+### Chercher un mot, chercher un sens
+
+Une requête SQL cherche ce qui est **égal** : `nom = 'nouveau site'` ne trouve
+rien, aucune ligne ne s'appelle ainsi.
+
+### Transformer un texte en nombres
+
+Un **modèle d'embedding** — un petit modèle d'IA — lit un texte et le
+transforme en **vecteur** : une liste de plusieurs centaines de nombres. Deux
+textes qui veulent dire la même chose donnent deux vecteurs **proches**, même
+sans un seul mot en commun.
+
+```
+« Le nouveau site, on en est où ? »          → [ 0.12, -0.48, 0.91, … ]
+« Refonte du site : avancement 47 % »        → [ 0.10, -0.51, 0.88, … ]  proche
+« Contrat de maintenance des imprimantes »   → [-0.73,  0.22, 0.05, … ]  loin
+```
+
+### La base de données vectorielle
+
+Elle range ces vecteurs, avec le texte d'origine. Et elle sait répondre très
+vite à une seule question : **quels sont les plus proches de celui-ci ?** C'est
+la **recherche par similarité** — pas « égal ou différent », mais un classement
+du plus proche au plus lointain.
+
+| | Base relationnelle | Base vectorielle |
+|---|---|---|
+| Elle range | des lignes et des colonnes | des vecteurs, avec leur texte |
+| Elle répond à | « qu'est-ce qui est **égal** à… ? » | « qu'est-ce qui **ressemble** à… ? » |
+| Exemple | le projet n° 42 | les trois documents les plus proches de la question |
+
+C'est parfois une simple extension : **pgvector** ajoute les vecteurs à
+PostgreSQL. L'assistant de Léa travaille en deux temps : la base retrouve les
+passages les plus proches, puis un modèle de langage rédige la réponse à partir
+d'eux. C'est le **RAG**, la génération augmentée par la recherche.
+
+> 🔑 **Encore la même leçon.** L'assistant ne « sait » rien : il répète le
+> document retrouvé. Son 47 vient du rapport de la direction — donc de
+> l'entrepôt, calculé dimanche soir. Un chiffre qui sort d'une IA se lit, lui
+> aussi, **avec sa date et sa source**.
+
+### 🧪 Indice n° 4 — égal ou ressemble ?
+
+| # | La question posée | Relationnelle ou vectorielle ? |
+|---|---|---|
+| a | « Donne-moi la fiche du client n° 1207 » | ? |
+| b | « Retrouve les tickets d'incident qui parlent du même problème que celui-ci » | ? |
+| c | « Quels comptes rendus parlent de retard de livraison ? », sans savoir quels mots ils emploient | ? |
+
+??? question "🔓 Ouvrir le rapport d'expertise"
+
+    | # | Choix | Pourquoi |
+    |---|---|---|
+    | a | **Relationnelle** | On cherche un identifiant exact. Rien ne « ressemble » au client 1207 : c'est lui ou ce n'est pas lui. |
+    | b | **Vectorielle** | Deux personnes décrivent la même panne avec des mots différents. On cherche un sens proche. |
+    | c | **Vectorielle** | « Retard », « livraison décalée », « on a glissé de deux semaines » : trois façons de dire la même chose. |
+
+    **La question qui décide** : *est-ce que je cherche ce qui est **égal**, ou ce
+    qui **ressemble** ?* Et dans une vraie application, les deux cohabitent —
+    souvent dans la même base, grâce à pgvector.
+
+---
+
+## 🧭 ACTE V — OUVREZ LE CAPOT *(≈ 3 min)*
 
 Reprenez le geste de la semaine dernière — **F12**, onglet **Réseau** — sur une
 application que vous utilisez. Cliquez sur une ligne qui renvoie du JSON.
@@ -366,8 +448,8 @@ réponses ensuite** — dans cet ordre, sinon ça ne sert à rien.
 **8.** Un entrepôt de données se distingue d'un lac parce que :
 `A` on décide d'avance des questions et on range en conséquence · `B` il contient toujours beaucoup moins de données · `C` il n'accepte que des fichiers au format JSON · `D` il ne conserve jamais rien plus de trois mois
 
-**9.** Le risque principal d'un lac mal tenu :
-`A` il oblige à recharger toutes les données à chaque requête · `B` il finit par refuser les nouvelles données versées · `C` il devient un marécage dont plus personne ne connaît le contenu · `D` il supprime automatiquement les données les plus anciennes
+**9.** Une base de données vectorielle sert d'abord à répondre à :
+`A` « quelle ligne porte exactement cet identifiant ? » · `B` « quelles tables faut-il relier par une jointure ? » · `C` « quel chiffre a été recalculé dimanche soir ? » · `D` « quels textes ressemblent le plus à celui-ci ? »
 
 **10.** Pourquoi 60, 47 et 72 peuvent-ils être justes tous les trois ?
 `A` parce que les trois systèmes sont mal synchronisés · `B` parce qu'ils ne parlent ni du même moment ni de la même chose · `C` parce que deux d'entre eux ne sont que des estimations · `D` parce que l'un des trois chiffres a été arrondi
@@ -376,7 +458,7 @@ réponses ensuite** — dans cet ordre, sinon ça ne sert à rien.
 
     | Q | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
     |---|---|---|---|---|---|---|---|---|---|----|
-    | **Rép.** | C | A | D | B | C | B | D | A | C | B |
+    | **Rép.** | C | A | D | B | C | B | D | A | D | B |
 
     - **8 à 10** — Vous savez où vit une donnée et ce que cela change. En S4, on
       regardera comment le **code** qui la manipule est versionné.
@@ -384,7 +466,8 @@ réponses ensuite** — dans cet ordre, sinon ça ne sert à rien.
       chiffres : c'est lui qui contient tout le raisonnement.
     - **0 à 4** — Retenez **deux** choses : le relationnel refuse ce qui ne rentre
       pas, le NoSQL accepte et vous fait confiance ; le lac garde brut, l'entrepôt
-      range à l'avance. Le reste s'accroche là-dessus.
+      range à l'avance. Le reste s'accroche là-dessus — y compris la base
+      vectorielle, qui cherche ce qui ressemble plutôt que ce qui est égal.
 
 ### Le test du chiffre orphelin
 
@@ -411,8 +494,10 @@ On vous montre un écran qui affiche « satisfaction client : 82 % ». Écrivez 
 > Le **NoSQL** accepte des formes variables et évite les jointures en acceptant de
 > répéter — souplesse et volume contre garanties. Un **lac** garde tout brut, au
 > cas où ; un **entrepôt** range à l'avance les réponses aux questions qu'on sait
-> déjà poser. Et un chiffre se lit **avec sa date et sa source** : sans elles, ce
-> n'est pas une information.
+> déjà poser. Une base **vectorielle** range des textes changés en nombres par un
+> modèle, et répond à « qu'est-ce qui ressemble à… ? » plutôt qu'à « qu'est-ce qui
+> est égal à… ? ». Et un chiffre se lit **avec sa date et sa source** — y compris
+> quand c'est une IA qui le donne : sans elles, ce n'est pas une information.
 
 ---
 
@@ -430,9 +515,12 @@ concepts que portera le contrôle d'entrée de la séance suivante.*
 3. **Choisir entre SQL et NoSQL** — la question n'est jamais « lequel est le meilleur »,
    mais **« qu'est-ce qui doit être garanti ici ? »**. [4 6]
 4. **Lac et entrepôt** — le **lac** garde tout, brut, au cas où ; l'**entrepôt** range à
-   l'avance les réponses aux questions qu'on sait déjà poser. [7 8 9]
-5. **Un chiffre sans date ni source n'est pas une information** — 60, 47 et 72 étaient
-   justes tous les trois. La bonne question n'était pas « lequel est faux ». [10]
+   l'avance les réponses aux questions qu'on sait déjà poser. [7 8]
+5. **Une base vectorielle** — un modèle change chaque texte en vecteur ; la base répond à
+   « qu'est-ce qui **ressemble** à… ? », pas à « qu'est-ce qui est égal à… ? ». [9]
+6. **Un chiffre sans date ni source n'est pas une information** — 60, 47 et 72 étaient
+   justes tous les trois, et le 47 de l'assistant venait de l'entrepôt. La bonne question
+   n'était pas « lequel est faux ». [10]
 
 ---
 
@@ -441,6 +529,7 @@ concepts que portera le contrôle d'entrée de la séance suivante.*
 Le 47 de l'entrepôt était faux pendant six jours. Pas le calcul : le code du
 calcul. Quelqu'un l'avait corrigé lundi… sur son poste, et jamais ailleurs.
 Thomas jure qu'il a « poussé la version ». Personne ne sait laquelle tourne en
-production, ni depuis quand.
+production, ni depuis quand. Et l'assistant, lui, continue de répéter 47 :
+son index date d'avant la correction.
 
 **Séance 4 : qui a écrit quoi, quand, et comment revenir en arrière.**

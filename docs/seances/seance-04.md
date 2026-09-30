@@ -55,9 +55,10 @@ Maya ouvre les quatre fichiers. Deux se ressemblent à une ligne près. Personne
 ne sait lequel tourne en production, ni depuis quand, ni ce que contenait la
 version d'avant.
 
-Et ce n'est pas le seul témoin qui se trompe. Depuis la rentrée, l'équipe a un
-**assistant** : on lui pose une question en français, il cherche dans les
-comptes rendus et il répond. Léa essaie :
+Et ce n'est pas le seul témoin qui se trompe. Vous vous souvenez de
+l'**assistant** de la semaine dernière, celui qui cherche par le sens ? On lui
+pose une question en français, il cherche dans les comptes rendus et il répond.
+Léa essaie de nouveau :
 
 ```
 > Le nouveau site, on en est où ?
@@ -308,7 +309,9 @@ poste à la production.
 
 ## 🧲 ACTE IV — LA BASE QUI CHERCHE PAR LE SENS *(≈ 9 min)*
 
-Reste l'assistant. Il ne cherche pas comme les bases de la séance 3.
+Reste l'assistant. Vous avez découvert en séance 3 la base qui le fait
+fonctionner ; on la reprend en quelques lignes, parce qu'aujourd'hui c'est son
+**index** qui nous intéresse.
 
 ### Chercher un mot, chercher un sens
 

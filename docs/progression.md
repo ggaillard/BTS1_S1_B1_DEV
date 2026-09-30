@@ -98,8 +98,8 @@ Chaque fiche suit le même canevas : **objectif** · **notions-clés** · **dér
 
 #### Séance 3 — Données & écosystèmes : SQL, NoSQL, Data Lake/Warehouse
 - **Objectif** : distinguer les grands modèles de données et où elles vivent, pré-requis de l'acte DataOps.
-- **Notions-clés** : relationnel (SQL, clé primaire/étrangère), NoSQL (documents, clé-valeur), Data Lake / Warehouse / Lakehouse, BDD managées.
-- **Déroulé (1 h)** : histoire éclair « de l'argile aux algorithmes » (10’) → relationnel vs NoSQL, cas d'usage (20’) → écosystèmes Data Lake/Warehouse (15’) → mini-exercice modélisation (10’) → synthèse (5’).
+- **Notions-clés** : relationnel (SQL, clé primaire/étrangère), NoSQL (documents, clé-valeur), Data Lake / Warehouse / Lakehouse, BDD managées, bases de données vectorielles (embedding, recherche par similarité, pgvector, RAG).
+- **Déroulé (1 h)** : cold open « 60, 47, 72 » (3’) → relationnel (13’) → NoSQL, cas d'usage (14’) → lac et entrepôt (10’) → la base qui cherche par le sens : embedding, similarité, base vectorielle (7’) → capot (3’) → quiz (10’).
 - **💻 Machine** : quelques requêtes SQL `SELECT` sur base d'exemple. **📄 Papier** : modéliser un schéma relationnel simple (2-3 tables) + choisir SQL/NoSQL selon 4 scénarios.
 - **Supports** : ♻ *Cours bases de données BTS SIO* (pptx/pdf), ♻ *Écosystèmes Digitaux et Données*, ♻ *De l'argile aux algorithmes*.
 - **Lien métiers** : socle du Data Engineer (DataOps).

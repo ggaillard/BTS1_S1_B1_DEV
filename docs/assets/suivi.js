@@ -64,6 +64,39 @@
     return node;
   }
 
+  /* Lire avant de répondre (02/10/2026). Les options restent grisées le
+   * temps de lire la question : 3,5 mots par seconde, entre 4 et 25 s. La
+   * MÊME formule vit dans le portail (js/lecture.js) et dans la base
+   * (temps_lecture()), qui compte les réponses passées trop vite malgré tout.
+   * Changer l'une, c'est changer les trois. */
+  function tempsLecture(intitule, options) {
+    const t = String(intitule || "").trim();
+    if (!t) return 0;
+    const mots = (t + " " + (options || []).join(" ")).trim().split(/\s+/).length;
+    return Math.min(25, Math.max(4, Math.ceil(mots / 3.5)));
+  }
+
+  // Une question redessinée garde son heure de fin : ni zéro (contournement),
+  // ni tout recommencer (relire ce qu'on vient de lire).
+  const finLecture = {};
+  function verrouillerLecture(cle, intitule, options, champs, zone) {
+    if (!(cle in finLecture)) finLecture[cle] = Date.now() + tempsLecture(intitule, options) * 1000;
+    // Recalculé sur l'heure à chaque tic : un onglet en arrière-plan voit ses
+    // minuteurs ralentis, un décompte compté à la main y prendrait du retard.
+    const reste = () => Math.ceil((finLecture[cle] - Date.now()) / 1000);
+    if (reste() <= 0) return;
+    champs.forEach((c) => { c.disabled = true; });
+    const ecrire = () => { zone.textContent = "Prenez le temps de lire… " + reste() + " s"; };
+    zone.className = "tdc-lecture";
+    ecrire();
+    const tic = setInterval(() => {
+      if (reste() > 0) { ecrire(); return; }
+      clearInterval(tic);
+      champs.forEach((c) => { c.disabled = false; });
+      zone.textContent = "";
+    }, 1000);
+  }
+
   function lireEleve() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -406,8 +439,13 @@
 
       widget.appendChild(entete);
       widget.appendChild(form);
+      const lecture = el("p", { class: "tdc-lecture" });
+      form.insertBefore(lecture, fieldset);
+      verrouillerLecture("q-" + seance.id + "-" + q.id, q.texte,
+        q.options.map((o) => o.libelle),
+        Array.from(form.querySelectorAll("input, button[type=submit]")), lecture);
       const premierChamp = form.querySelector('input[type="radio"]');
-      if (premierChamp) premierChamp.focus();
+      if (premierChamp && !premierChamp.disabled) premierChamp.focus();
     }
 
     afficherQuestion();
@@ -504,6 +542,32 @@
     ]);
     form.appendChild(retour);
     form.appendChild(bouton);
+    if (point.intitule) {
+      // Le décompte ne part qu'une fois le point de passage À L'ÉCRAN : il est
+      // à la fin d'un acte, on ne le lit pas en ouvrant la page.
+      const lecture = el("p", { class: "tdc-lecture" });
+      form.insertBefore(lecture, form.firstChild);
+      const champs = Array.from(form.querySelectorAll("input, button[type=submit]"));
+      champs.forEach((c) => { c.disabled = true; });
+      lecture.textContent = "Faites défiler jusqu'ici, puis prenez le temps de lire.";
+      const lancer = () => verrouillerLecture("pp-" + seance.id + "-" + point.acte,
+        point.intitule, point.options, champs, lecture);
+      if ("IntersectionObserver" in window) {
+        const obs = new IntersectionObserver((ent) => {
+          if (ent.some((x) => x.isIntersecting)) {
+            obs.disconnect();
+            champs.forEach((c) => { c.disabled = false; });
+            lecture.textContent = "";
+            lancer();
+          }
+        }, { threshold: 0.6 });
+        setTimeout(() => obs.observe(bloc), 0);
+      } else {
+        champs.forEach((c) => { c.disabled = false; });
+        lecture.textContent = "";
+        lancer();
+      }
+    }
     form.addEventListener("submit", async (ev) => {
       ev.preventDefault();
       let rep = null;

@@ -258,3 +258,10 @@
 .tdc-main-actions .tdc-bouton {
   min-height: 44px;
 }
+
+/* Lire avant de répondre (02/10/2026) : le décompte au-dessus des options,
+   et des options visiblement en attente plutôt que mortes. */
+.tdc-lecture { font-size: .85rem; color: var(--md-default-fg-color--light, #5A6B7B);
+  margin: .2rem 0 .5rem; min-height: 1.2em; }
+.tdc-lecture:empty { display: none; }
+.tdc-form input:disabled + span, .tdc-form button:disabled { opacity: .55; cursor: progress; }

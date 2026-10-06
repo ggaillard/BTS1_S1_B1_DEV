@@ -11,23 +11,25 @@
 
 ---
 
-## 🗓️ Aujourd'hui — séance 2 : « À la seconde près »
+## 🗓️ Aujourd'hui — séance 4 : « Ça marche sur mon poste »
 
-Neuf mille quatre cents personnes ont vu la panne de DevSecure **au même instant**.
-Une heure pour comprendre ce que cela dit de la façon dont une application parle à
-ses utilisateurs — et pour apprendre à lire une conversation entre un navigateur et
-un serveur.
+Quatre fichiers `calcul_avancement`, un correctif « testé sur mon poste », et un
+rapport de direction qui affiche toujours le mauvais chiffre. Une heure pour
+comprendre ce que la culture DevOps change à la façon de travailler en équipe —
+et pour apprendre à savoir, avec Git, qui a changé quoi, quand, et comment
+revenir en arrière.
 
-> Séance précédente : [« 03 h 47 »](seances/seance-01.md) — les métiers du dev et
-> les cinq composants d'un système d'information.
+> Séance précédente : [« 60, 47, 72 »](seances/seance-03.md) — SQL, NoSQL, lac et
+> entrepôt de données, et la base qui cherche par le sens.
+> **Si vous étiez absent, lisez-la d'abord** : la séance 4 en part.
 
-- **Vous n'avez rien à préparer.** Aucun prérequis, aucune installation.
-- **Aucune note ne sera mise.** Les séances de cadrage servent à savoir d'où vous partez.
+- **Rien à installer.** Tout se passe dans le navigateur.
+- **Aucune note ne sera mise.** Répondre faux ne coûte rien, ne pas répondre, si.
 - **Vous avancez à votre rythme**, acte par acte. Vos réponses sont enregistrées à
   chaque étape : si le poste plante, rien n'est perdu.
 
 La **trace écrite** de la séance — à relire après, ou à lire si vous étiez absent —
-est ici : [« À la seconde près »](seances/seance-02.md).
+est ici : [« Ça marche sur mon poste »](seances/seance-04.md).
 
 ### Si ça coince
 

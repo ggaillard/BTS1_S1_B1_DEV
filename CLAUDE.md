@@ -65,6 +65,86 @@ Répartir les bonnes réponses sur A, B, C et D : une classe repère très vite 
 La séance doit exister en base (`seances`, numéro = le NN du nom de fichier) **avant**
 le cours, sinon `repondre()` échoue et rien n'est enregistré.
 
+## Le parcours guidé — depuis le 19/10/2026 (séance 5)
+
+**Le constat.** Sur la page de la séance 4, à 390 px, la PREMIÈRE chose qu'un
+étudiant voyait était « Question 1 / 10 » du quiz de fin, avant le cold open ;
+et rien ne l'empêchait de défiler au-delà des points de passage. Il ne savait
+pas à quel moment répondre, et pouvait tout lire sans rien répondre.
+
+**Désormais, pendant l'heure** (séance ouverte, élève identifié), `suivi.js`
+transforme la page en une suite d'**étapes**, dans l'ordre de la page :
+
+| Étape | Où elle apparaît | D'où elle vient |
+|---|---|---|
+| une question du quiz | à son **ancre** `<div class="tdc-ici" data-q="N"></div>`, juste après la notion qu'elle vérifie | la page (énoncé, options) + la base (bonne réponse) |
+| un point de passage | à la fin de chaque acte | la base (`points_passage`) |
+| une question sans ancre | à l'épilogue — jamais en tête de page (séances 1 à 4) | la page |
+
+- **La suite attend la réponse.** Tout ce qui suit l'étape en cours est masqué,
+  avec « 🔒 La suite s'affiche dès que vous avez répondu ».
+- **Répondre faux ne bloque pas.** La bonne réponse, l'explication et l'idée
+  clé du passage (le dernier encadré `> 🔑` de l'acte) s'affichent ; « J'ai
+  compris, je continue » reste grisé le temps de les lire.
+- **Le rapport d'expertise attend l'essai** : un `??? question "… rapport
+  d'expertise"` ne s'ouvre qu'une fois le point de passage de son acte répondu.
+- **Un fil collant** en haut : « Étape 4 / 15 · Acte II — … », une barre, la
+  flèche ↓ vers la question en cours, et le rythme de la classe (« ⏱ Dans le
+  rythme » / « La classe devrait être à l'acte III »), lu sur `demarree_le` et
+  les `fin_min` des points de passage.
+- **Six minutes sur la même étape** : la page propose « ✋ Je bloque ».
+- **Contre « je demande à une IA »** : quitter la page (onglet, application)
+  PENDANT une question est dit à l'étudiant sur la carte, puis enregistré
+  (`signaler_sortie()`) et remonte à l'enseignant dans « À aller voir » ; on ne
+  copie pas le texte d'une question. Le vrai rempart est ailleurs : des
+  questions **ancrées dans le cas de la séance** (le journal, le Dockerfile,
+  le fichier de Maya…), auxquelles on ne répond pas sans avoir lu la page, et
+  **aucune grille de réponses dans la page** (voir ci-dessous).
+
+**Le repli est permissif, toujours** : séance close, élève non identifié,
+fonction absente en base, erreur au chargement — tout est lisible, rien n'est
+verrouillé. « Clore la séance » rouvre tout, y compris chez l'élève en train de
+répondre. Une page à moitié verrouillée par accident coûte une heure de cours ;
+une page lisible trop tôt ne coûte presque rien.
+
+**Après l'heure**, la page redevient la trace écrite : les dix questions de
+« Réviser après la séance » sont visibles (elles étaient masquées jusqu'au 19/10,
+même séance close). La correction se fait par « Réviser la séance N », proposé
+depuis le portail.
+
+### Les règles de rédaction qui en découlent (séance 5 et suivantes)
+
+1. **Une ancre par question**, sur sa propre ligne, entourée de lignes vides,
+   juste après le passage qui enseigne la notion :
+   `<div class="tdc-ici" data-q="3"></div>`. Les dix ancres sont entre le cold
+   open et l'épilogue. `controler.py fiche` (point 14) refuse une ancre
+   manquante, en double, hors des actes ou vers une question inexistante.
+2. **Pas de grille « Rép. » dans la page.** Le dépôt est public : une grille
+   donne les réponses à quiconque ouvre la page — ou la colle dans une IA. La
+   base fait foi, seule ; les contrôles y lisent la bonne lettre. `fiche`
+   refuse une grille revenue.
+3. **Au moins la moitié des questions portent sur ce que montre la page** —
+   un journal, une ligne de fichier, une réplique d'un personnage.
+4. **Chaque acte a son encadré `> 🔑`** : c'est lui que la page remontre après
+   une erreur.
+5. **Le point de passage applique l'acte** (souvent : la question de l'indice),
+   puisque le rapport d'expertise de l'indice attend sa réponse.
+
+### Le vérifier
+
+```bash
+python -m mkdocs build --strict
+pip install playwright && python -m playwright install chromium
+python tests/t_parcours.py site
+```
+
+`tests/t_parcours.py` joue la séance 5 comme un étudiant à 360 et 390 px, avec
+une fausse base (`tests/faux-supabase.js`) : aucune carte avant le cold open, la
+suite masquée, l'explication lue avant de passer, le rapport verrouillé, la
+sortie de page signalée, la reprise après rechargement, et les trois replis
+(séance close, non identifié, close en cours de route). Essayé en le cassant
+trois fois — sans verrou, sans délai de lecture, sans rapport verrouillé.
+
 ## Format d'une séance
 
 C'est l'atout du cours : chaque séance est un **récit d'enquête**, pas un chapitre.
@@ -76,7 +156,7 @@ Toute nouvelle séance reprend cette trame.
 4. **Actes numérotés** (I, II, III…) avec durée indicative en minutes
 5. **Indices** — exercices intercalés, corrigés en bloc replié `??? question`
 6. **Épilogue** — auto-évaluation, renvoi vers le suivi en ligne
-7. **Quiz de révision** — 10 questions à 4 options (A/B/C/D)
+7. **Quiz de révision** — 10 questions à 4 options (A/B/C/D), chacune **ancrée** dans l'acte qui l'enseigne (depuis la séance 5)
 8. **À retenir** — synthèse courte, en bloc de citation
 9. **Concepts à connaître** — la liste projetée au débriefing de fin d'heure
 10. **Teaser** de la séance suivante
@@ -215,8 +295,8 @@ Avant chaque séance, ajouter une question nommée `appel-AAAA-MM-JJ` : script
 l'appel est fait sans le faire.
 
 Cette question ouvre la séance. Simple, dix secondes, elle réactive la séance
-précédente. Elle ne fait **pas** partie du quiz de révision de 10 questions :
-celui-ci reste en fin de séance, sur la séance numérotée.
+précédente. Elle ne fait **pas** partie du quiz de 10 questions : celui-ci est
+posé au fil des actes (parcours guidé), sur la séance numérotée.
 
 Pendant l'heure : portail → espace enseignant → classe `BTS1-DEV-2026` → la
 séance du jour. Progression, Classement et Répartition se mettent à jour au fil
@@ -277,7 +357,7 @@ jour J.
 ```bash
 python -m mkdocs serve          # vérifier en local
 git add .
-git commit -m "Seance 5 : CI/CD et conteneurisation"
+git commit -m "Seance 6 : atelier pipeline"
 git push                        # le site se reconstruit tout seul
 ```
 

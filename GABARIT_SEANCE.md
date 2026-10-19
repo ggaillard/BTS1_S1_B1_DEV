@@ -54,7 +54,9 @@ notee: false
 
 # **[ggaillard.github.io/portail-bts](https://ggaillard.github.io/portail-bts/)**
 
-<le bloc d'entrée, recopié de la séance précédente sans y toucher>
+<le bloc d'entrée, recopié de la séance précédente sans y toucher — depuis la
+séance 5, il dit que les questions arrivent au fil de la lecture, que la suite
+attend la réponse, et que quitter la page pendant une question est signalé>
 
 ---
 
@@ -82,6 +84,11 @@ Le titre de récit se trouve ici.>
 ## <emoji> ACTE III — <TITRE> *(≈ 12 min)*
 ## 🧭 ACTE IV — <TITRE> *(≈ 3 min)*
 
+<Dans chaque acte : la notion, son encadré « > 🔑 … », puis l'ANCRE de la
+question qui la vérifie, sur sa propre ligne :>
+
+<div class="tdc-ici" data-q="3"></div>
+
 <Chacun se termine par un « 🧪 Indice n° N — à vous », suivi d'un bloc replié :>
 
 ??? question "🔓 Ouvrir le rapport d'expertise"
@@ -98,11 +105,8 @@ Le titre de récit se trouve ici.>
 
 <… dix questions …>
 
-??? question "🔓 Vérifier mes réponses"
-
-    | Q | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
-    |---|---|---|---|---|---|---|---|---|---|----|
-    | **Rép.** | … | … | … | … | … | … | … | … | … | … |
+<Depuis la séance 5 : PAS de grille « Rép. » ici — la base fait foi, seule.
+Une phrase renvoie à « Réviser la séance N », proposé sur le portail.>
 
 ---
 
@@ -143,6 +147,13 @@ Elles ne sont pas des préférences de style : chacune vient d'un défaut consta
 | 7 | **La boucle du cold open se referme** — le titre de récit revient après les actes | L'heure s'arrête sans conclure. C'était le cas des séances 1 et 2 |
 | 8 | **Les deux blocs d'une migration s'accordent** — `insert` puis `update` de rattrapage | Le rattrapage remet l'ancienne version au rejeu suivant, en silence |
 
+Et depuis la séance 5 (19/10/2026), deux règles du **parcours guidé** :
+
+| # | La règle | Ce qui arrive sinon |
+|---|---|---|
+| 9 | **Chaque question a son ancre dans l'acte qui l'enseigne** — `<div class="tdc-ici" data-q="N"></div>`, une seule, entre le cold open et l'épilogue | La question tombe à l'épilogue, loin de sa notion : on répond de mémoire, ou au hasard |
+| 10 | **Pas de grille de réponses dans la page** | Le dépôt est public : la grille donne les réponses à qui ouvre la page, ou la colle dans une IA |
+
 Et trois règles de forme, vérifiées par la fiche :
 
 - **pas d'accent grave dans un énoncé** de question — le parseur de `suivi.js`
@@ -159,7 +170,8 @@ Une migration par séance, nommée `AAAAMMJJHHMMSS_bts1_seanceNN.sql`, et le glo
 des contrôles la trouve seul. Quatre sections, dans cet ordre :
 
 1. **le titre de récit** — `update public.seances … set titre = 'Seance NN - …'` ;
-2. **les dix corrigés** — `with q (numero, cle, bonne, intitule, options, explication)` ;
+2. **les dix corrigés** — `with q (numero, cle, bonne, intitule, options, explication)` —
+   depuis la séance 5, **seule source de la bonne lettre** (la page n'a plus de grille) ;
 3. **le rattrapage** — le même tuple, pour un corrigé créé à la main et resté vide ;
 4. **le contrôle d'entrée** de la séance — les `pre-NN` : une question par
    concept de la séance précédente, plus sa certitude `pre-NN-c`. Par `insert`,
@@ -215,7 +227,8 @@ muette.
 
 ## 5. L'ordre des gestes, une séance à produire
 
-1. Écrire la trace à partir de ce gabarit — cold open d'abord, quiz en dernier.
+1. Écrire la trace à partir de ce gabarit — cold open d'abord, quiz en dernier,
+   puis poser les dix ancres `tdc-ici` dans les actes.
 2. Ajouter la ligne au `nav:` de `mkdocs.yml`.
 3. Écrire la migration des corrigés, **options recopiées de la page**.
 4. Écrire les cinq concepts dans une migration `…_debriefing.sql` par
@@ -226,6 +239,7 @@ muette.
    lettre reste en base, jamais dans la page. `fiche` refuse une séance, à
    partir de la 4, dont un acte n'a pas son point : pendant les actes, c'est
    la seule chose que le portail voit.
-6. Rejouer les trois contrôles en local ; corriger jusqu'au vert.
+6. Rejouer les trois contrôles en local ; corriger jusqu'au vert. Puis
+   `python tests/t_parcours.py site` sur le site construit.
 7. Pousser les deux dépôts. La migration s'applique toute seule.
 8. Le jour J : « Démarrer la séance » — qui ouvre, publie et lance le chrono.

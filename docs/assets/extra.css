@@ -1,5 +1,13 @@
 /* Tour de contrôle — styles du composant de suivi élève (suivi.js) */
 
+/* L'attribut hidden doit gagner, toujours (19/10/2026). Material donne un
+   « display » aux admonitions repliées (details) et aux traits (hr) : sur
+   eux, hidden ne masquait RIEN. Mesuré sur la séance 4 : le bloc « Vérifier
+   mes réponses » — la grille des réponses — restait affiché pendant l'heure,
+   alors que suivi.js le masquait depuis septembre ; et le parcours guidé
+   laissait voir les rapports d'expertise des actes suivants. */
+.md-typeset [hidden] { display: none !important; }
+
 .tdc-widget {
   margin: 1.5rem 0 2rem;
   padding: 1.25rem 1.5rem;
@@ -265,3 +273,189 @@
   margin: .2rem 0 .5rem; min-height: 1.2em; }
 .tdc-lecture:empty { display: none; }
 .tdc-form input:disabled + span, .tdc-form button:disabled { opacity: .55; cursor: progress; }
+
+/* ═══ Le parcours guidé (19/10/2026) ═══════════════════════════════════════
+   Une question juste après la notion qu'elle vérifie, la suite qui attend la
+   réponse, et un fil collant qui dit où l'on en est. Tout est en jetons du
+   thème Material : rien de codé en dur qui casserait le mode sombre. */
+
+:root {
+  --tdc-ok: #1b5e20;
+  --tdc-ko: #b71c1c;
+  --tdc-signal: #8a4b00;
+  --tdc-signal-fond: #fff4e5;
+  --tdc-trait: var(--md-default-fg-color--lightest, #dcdcdc);
+  --tdc-fond: var(--md-code-bg-color, #f5f5f5);
+}
+[data-md-color-scheme="slate"] {
+  --tdc-ok: #81c784;
+  --tdc-ko: #ef9a9a;
+  --tdc-signal: #ffcc80;
+  --tdc-signal-fond: rgba(255, 183, 77, 0.12);
+}
+
+/* Le fil : collant sous l'en-tête, une ligne de texte et une barre. */
+.tdc-fil {
+  position: sticky;
+  top: 2.4rem;                       /* la hauteur de .md-header */
+  z-index: 3;
+  margin: 0 -0.4rem 1rem;
+  padding: 0.45rem 0.75rem 0.5rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  background: var(--md-default-bg-color, #fff);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+.tdc-fil-ligne {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.md-typeset .tdc-fil-ou {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tdc-fil-aller {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin: -0.4rem -0.4rem -0.4rem 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--md-typeset-a-color, #00796b);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tdc-fil-aller:hover { background: var(--tdc-fond); }
+.tdc-fil-barre {
+  display: flex;
+  gap: 3px;
+  margin-top: 0.3rem;
+}
+.tdc-fil-barre span {
+  flex: 1 1 0;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--tdc-trait);
+}
+.tdc-fil-barre span.fait { background: var(--md-primary-fg-color, #009688); }
+.tdc-fil-barre span.faux { background: var(--md-primary-fg-color, #009688); opacity: 0.5; }
+.tdc-fil-barre span.ici { background: transparent; box-shadow: inset 0 0 0 2px var(--md-primary-fg-color, #009688); }
+.md-typeset .tdc-fil-rythme { margin: 0.3rem 0 0; font-size: 0.75rem; line-height: 1.3; }
+.tdc-fil-rythme.ok { color: var(--tdc-ok); }
+.tdc-fil-rythme.retard { color: var(--tdc-signal); font-weight: 700; }
+
+/* Le mode d'emploi, déplié la première fois. */
+.tdc-widget.tdc-widget-emploi { padding: 0; margin-top: 0; border: none; background: none; }
+.tdc-widget-emploi .tdc-emploi { margin: 0; }
+.tdc-emploi summary { min-height: 44px; display: flex; align-items: center; font-weight: 600; cursor: pointer; }
+.tdc-emploi ul { margin-top: 0.25rem; }
+.tdc-widget-discret { padding: 0.5rem 1rem; }
+
+/* Une étape : la carte de la question ou du point de passage. On ne
+   sélectionne pas son texte — le copier pour le coller ailleurs, c'est
+   exactement ce qu'on veut rendre moins naturel. */
+.tdc-etape {
+  margin: 1.5rem 0;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--tdc-trait);
+  border-left: 5px solid var(--md-primary-fg-color, #009688);
+  border-radius: 0 0.6rem 0.6rem 0;
+  background: var(--tdc-fond);
+  -webkit-user-select: none;
+  user-select: none;
+  scroll-margin-top: 6.5rem;         /* sous l'en-tête et le fil */
+}
+.tdc-etape-titre {
+  margin: 0 0 0.6rem !important;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--md-primary-fg-color, #009688);
+}
+.tdc-etape .tdc-option { min-height: 44px; }
+.tdc-etape .tdc-bouton { min-height: 44px; }
+.tdc-etape[data-fait] {
+  padding: 0.55rem 0.9rem;
+  border-left-color: var(--md-default-fg-color--lighter, #bbb);
+  background: transparent;
+}
+.tdc-etape[data-fait="faux"] { border-left-color: var(--tdc-signal); }
+.tdc-etape-resume { margin: 0 !important; font-size: 0.8rem; }
+.tdc-etape-resume > span:first-child { font-weight: 700; }
+
+/* Une réponse fausse : la bonne, l'explication, l'idée clé à relire. */
+.tdc-cle {
+  margin: 0.6rem 0 0.4rem !important;
+  border-left-color: var(--md-primary-fg-color, #009688) !important;
+  font-size: 0.85rem;
+}
+.tdc-lien {
+  min-height: 44px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--md-typeset-a-color, #00796b);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+@keyframes tdc-relire { from { background: rgba(0, 150, 136, 0.28); } to { background: transparent; } }
+.tdc-relire { animation: tdc-relire 2.4s ease-out; border-radius: 0.3rem; }
+
+/* La suite attend. */
+.tdc-suite {
+  margin: 0.5rem 0 3rem !important;
+  padding: 0.75rem 1rem;
+  border: 2px dashed var(--tdc-trait);
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--md-default-fg-color--light, #555);
+}
+.tdc-suite .tdc-lien { min-height: 0; }
+
+/* Le rapport d'expertise fermé tant qu'on n'a pas cherché. */
+details.tdc-verrouille > summary { opacity: 0.6; cursor: not-allowed; }
+details.tdc-verrouille > summary::after { content: " 🔒"; }
+.tdc-verrou-msg { font-size: 0.85rem; color: var(--tdc-signal); font-weight: 600; }
+
+/* Sortie de page pendant une question : dit à l'étudiant, d'abord. */
+.tdc-sortie {
+  margin: 0 0 0.6rem !important;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.4rem;
+  background: var(--tdc-signal-fond);
+  color: var(--tdc-signal);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* Le bilan, quand tout est fait. */
+.tdc-bilan {
+  margin: 2rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--tdc-trait);
+  background: var(--tdc-fond);
+}
+.tdc-correct { color: var(--tdc-ok); }
+.tdc-incorrect, .tdc-erreur { color: var(--tdc-ko); }
+
+/* « Je bloque » ne doit pas masquer le bouton de la carte en bas d'écran. */
+@media (max-width: 44.9375em) {
+  .tdc-etape { margin-bottom: 5rem; }
+}
+@media (max-width: 44.9375em) {
+  .tdc-main-bouton:not(.levee) .tdc-main-texte { display: none; }
+  .tdc-main-bouton:not(.levee) { width: 52px; height: 52px; padding: 0; border-radius: 50%; font-size: 1.35rem; }
+}

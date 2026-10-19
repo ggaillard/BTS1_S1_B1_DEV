@@ -73,6 +73,18 @@ Trois règles qui en découlent :
 Une séance n'est prête que si les trois le sont. **Ordre de fusion** : portail-bts
 d'abord (la base), puis ce dépôt (la page) ; la conduite quand on veut.
 
+**Un atelier a un quatrième dépôt** : le dépôt MODÈLE que chaque étudiant
+recopie (*Use this template*) — pour la séance 6, `ggaillard/BTS1-Atelier-Pipeline`.
+Ses points de passage portent sur le dépôt de l'étudiant (« quelle étape est
+rouge ? ») : on n'y répond qu'en ayant fait l'étape. Le relevé des dépôts pour la
+grille vit dans le dépôt privé (`outils/atelier-pipeline/relever.py`).
+
+**L'ordre des étapes est aussi en base** (depuis le 19/10) : le générateur de la
+séance l'écrit dans `…_etapes.sql` en relisant cette trace (ancres et fins
+d'actes). C'est lui qui permet au portail de dire « le 07 est sur la question 6
+depuis 9 min ». Déplacer une ancre ici, c'est relancer le générateur là-bas —
+`controler.py fiche` (point 15) refuse les deux ordres divergents.
+
 Répartir les bonnes réponses sur A, B, C et D : une classe repère très vite un motif.
 
 La séance doit exister en base (`seances`, numéro = le NN du nom de fichier) **avant**

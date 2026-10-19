@@ -56,9 +56,22 @@ Trois règles qui en découlent :
    `<code>` du paragraphe comme début des options : un `` `truc` `` dans la question
    tronque l'énoncé et ajoute une fausse option. Mettre l'élément en **gras**.
 2. **Quatre options, dans cet ordre A B C D**, séparées par ` · `.
-3. **Les bonnes réponses vivent en base**, pas dans la page : `BTS1_SEANCES.sql` du
-   dépôt `portail-bts`. Changer l'ordre des options ici oblige à changer la
-   `bonne_reponse` là-bas — l'un ne se déduit pas de l'autre.
+3. **Les bonnes réponses vivent en base**, pas dans la page : depuis la séance 4,
+   dans les migrations produites par `outils/seances/seanceNN/generer.py` du
+   dépôt `portail-bts` (séances 1-2 : `…_bts1_seances.sql`, historique). Changer
+   l'ordre des options ici oblige à changer la `bonne_reponse` là-bas — l'un ne
+   se déduit pas de l'autre.
+
+**Les trois dépôts d'une séance**, et ce que chacun porte :
+
+| Dépôt | Ce qu'il porte pour une séance |
+|---|---|
+| `BTS1_S1_B1_DEV` (public, celui-ci) | la trace `docs/seances/seance-NN.md`, ses ancres, `suivi.js`, `tests/` |
+| `portail-bts` (public) | le générateur `outils/seances/seanceNN/` et ses migrations : corrigés, contrôle d'entrée, concepts, points de passage ; les contrôles `coherence`, `fiche`, `pedagogie`, qui relisent ce dépôt-ci |
+| `BTS1_S1_B1_DEV_Prof` (privé) | `conduite/CONDUITE_SEANCE_NN.md`, `conduite/SUIVI_EN_DIRECT.md`, la progression |
+
+Une séance n'est prête que si les trois le sont. **Ordre de fusion** : portail-bts
+d'abord (la base), puis ce dépôt (la page) ; la conduite quand on veut.
 
 Répartir les bonnes réponses sur A, B, C et D : une classe repère très vite un motif.
 

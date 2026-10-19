@@ -11,25 +11,30 @@
 
 ---
 
-## 🗓️ Aujourd'hui — séance 4 : « Ça marche sur mon poste »
+## 🗓️ Aujourd'hui — séance 5 : « Mardi, 14 h 02 »
 
-Quatre fichiers `calcul_avancement`, un correctif « testé sur mon poste », et un
-rapport de direction qui affiche toujours le mauvais chiffre. Une heure pour
-comprendre ce que la culture DevOps change à la façon de travailler en équipe —
-et pour apprendre à savoir, avec Git, qui a changé quoi, quand, et comment
-revenir en arrière.
+La correction de Thomas part en production… et la page d'accueil tombe à
+14 h 02. Personne n'avait relancé les tests, et le serveur n'avait pas la
+bibliothèque installée sur son poste. Une heure pour découvrir la machine qui
+teste et qui livre à la place des humains — l'intégration continue — et la
+boîte qui fait tourner le code partout pareil : le conteneur.
 
-> Séance précédente : [« 60, 47, 72 »](seances/seance-03.md) — SQL, NoSQL, lac et
-> entrepôt de données, et la base qui cherche par le sens.
-> **Si vous étiez absent, lisez-la d'abord** : la séance 4 en part.
+> Séance précédente : [« Ça marche sur mon poste »](seances/seance-04.md) — cycles de
+> vie, culture DevOps, Git, et l'index de la base vectorielle.
+> **Si vous étiez absent, lisez-la d'abord** : la séance 5 en part.
 
 - **Rien à installer.** Tout se passe dans le navigateur.
-- **Aucune note ne sera mise.** Répondre faux ne coûte rien, ne pas répondre, si.
-- **Vous avancez à votre rythme**, acte par acte. Vos réponses sont enregistrées à
-  chaque étape : si le poste plante, rien n'est perdu.
+- **Les questions arrivent au fil de la lecture**, juste après la notion qu'elles
+  vérifient. La suite de la page s'affiche quand vous avez répondu.
+- **Aucune note ne sera mise.** Répondre faux ne coûte rien : l'explication
+  s'affiche et vous continuez. Ne pas répondre, si.
+- **Vos réponses viennent de vous.** Quitter la page pendant une question est
+  signalé à l'enseignant.
+- **Vos réponses sont enregistrées à chaque étape** : si le poste plante, vous
+  reprenez là où vous en étiez.
 
 La **trace écrite** de la séance — à relire après, ou à lire si vous étiez absent —
-est ici : [« Ça marche sur mon poste »](seances/seance-04.md).
+est ici : [« Mardi, 14 h 02 »](seances/seance-05.md).
 
 ### Si ça coince
 
@@ -38,6 +43,8 @@ est ici : [« Ça marche sur mon poste »](seances/seance-04.md).
 | « Chargement de la liste de classe… » qui ne part pas | Rechargez la page (F5). |
 | Votre numéro ou votre code est refusé | Levez la main : votre enseignant vérifie en dix secondes. |
 | L'avatar que vous vouliez est grisé | Il est déjà pris. Choisissez-en un autre, il sera à vous toute l'année. |
+| 🔒 « La suite de la séance s'affiche dès que vous avez répondu » | Remontez d'un cran : la question est juste au-dessus. La flèche ↓ du bandeau en haut y mène. |
+| Vous ne savez pas quoi répondre | Relisez le passage juste avant la question. Toujours coincé : ✋ en bas à droite. |
 | Vous avez fermé l'onglet par erreur | Rouvrez le portail : vous reprenez où vous en étiez, rien n'est perdu. |
 
 ---

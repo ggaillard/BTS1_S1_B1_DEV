@@ -48,8 +48,7 @@ production, à la main, comme d'habitude. Voici sa fenêtre de terminal :
 18:09  ✓ Retour à la version précédente
 ```
 
-Dix-sept minutes de page blanche, un mardi soir. La correction était juste. Ce
-qui manquait : **personne n'avait relancé les tests** — « on n'avait pas le
+La correction était juste. Ce qui manquait : **personne n'avait relancé les tests** — « on n'avait pas le
 temps » —, et le serveur n'avait pas la même version de Python que le poste de
 Thomas.
 
@@ -99,8 +98,8 @@ Voici la check-list de Noah, recopiée telle quelle du wiki de l'équipe :
 6. Sauvegarder la base              12. Noter la version en production
 ```
 
-Mardi, il a sauté la 3, la 4 et la 11. Pas par paresse : il était 17 h 44, la
-réunion avait débordé, et les tests prennent six minutes.
+Mardi, il a sauté la 3, la 4 et la 11 : il était 17 h 44, et les tests
+prennent six minutes.
 
 Une **mise en production à la main**, c'est une suite de gestes qui reposent
 **sur la mémoire de quelqu'un**. Elle a trois défauts :
@@ -127,8 +126,8 @@ seule, à chaque fois, sans rien demander à personne ?
     reconstruire l'index, noter la version : ce sont des commandes. Une machine les
     tape sans fatigue, dans le même ordre, un mardi à 17 h 44 comme un lundi à 9 h.
 
-    Seule la 5 — **prévenir l'équipe** — demande un humain… et encore : un message
-    automatique peut le faire.
+    Seule la 5 — **prévenir l'équipe** — demande un humain, et un message
+    automatique s'en charge.
 
     **Le piège** : croire qu'une meilleure check-list aurait suffi. La check-list
     était bonne. C'est la **mémoire humaine** qui ne tient pas à 17 h 44.
@@ -158,6 +157,11 @@ La règle : **au premier rouge, la chaîne s'arrête.** Un test qui échoue, et 
 n'est déployé. Mardi, un pipeline aurait vu l'erreur à 17 h 46 sur la machine de
 test — et la page d'accueil n'aurait jamais été blanche.
 
+!!! fil "Au fil de l'heure — question 1"
+    **Le build est vert, mais un test est rouge. Que reçoit la production ?**
+
+    `A` la nouvelle version, installée quand même · `B` rien : la chaîne s'arrête avant le déploiement · `C` la nouvelle version, sans ses tests · `D` un build relancé jusqu'à ce qu'il passe
+
 ### CI et CD : deux lettres, deux promesses
 
 - **CI** — *Continuous Integration*, l'**intégration continue** : à chaque push,
@@ -166,6 +170,11 @@ test — et la page d'accueil n'aurait jamais été blanche.
 - **CD** — *Continuous Delivery*, la **livraison continue** : ce qui a passé les
   tests est prêt à partir, en un clic. Quand ce clic lui-même disparaît et que la
   production se met à jour seule, on parle de **déploiement continu**.
+
+!!! fil "Au fil de l'heure — question 2"
+    **Livraison continue, déploiement continu : qu'est-ce qui les sépare ?**
+
+    `A` le langage de programmation utilisé · `B` le nombre de tests lancés à chaque push · `C` un humain clique pour mettre en production, ou plus personne · `D` le nombre de développeurs de l'équipe
 
 ### Les tests automatisés : trois tailles
 
@@ -178,9 +187,13 @@ Un test automatisé est un petit programme qui vérifie un autre programme. On e
 | **D'intégration** | plusieurs morceaux qui se parlent | « le calcul lit bien la table des tâches » | quelques secondes |
 | **De bout en bout** | le parcours d'un utilisateur, comme dans un navigateur | « la page d'accueil s'affiche et montre 60 % » | quelques minutes |
 
-Beaucoup de petits tests rapides, quelques grands tests lents : c'est ce qui
-garde un pipeline court. Le test de bout en bout de la page d'accueil, mardi,
-aurait suffi.
+Beaucoup de petits tests rapides, quelques grands tests lents : le pipeline
+reste court.
+
+!!! fil "Au fil de l'heure — question 3"
+    **« La page d'accueil s'affiche et montre 60 % » : de quel test s'agit-il ?**
+
+    `A` un test unitaire · `B` un test d'intégration · `C` un test de charge · `D` un test de bout en bout
 
 ### Préproduction et production
 
@@ -228,16 +241,20 @@ l'autre sens de « ça marche sur mon poste ».
 
 ### Le conteneur, comme au port
 
-Avant 1956, on chargeait les bateaux sac par sac, caisse par caisse : chaque
-port, chaque grue, chaque cargaison était différente. Puis est arrivé le
-**conteneur** : une boîte de taille standard. La grue ne sait pas ce qu'il y a
-dedans, et n'a pas besoin de le savoir.
+Avant 1956, on chargeait les bateaux caisse par caisse. Puis est arrivé le
+**conteneur** : une boîte de taille standard, que la grue soulève sans savoir
+ce qu'il y a dedans.
 
 Un **conteneur logiciel** fait la même chose pour le code : une boîte qui emporte
 **le code et tout ce dont il a besoin pour tourner** — la bonne version de
 Python, les bibliothèques, la configuration. La boîte tourne pareil sur le poste
 de Thomas, sur la machine de test et sur le serveur. L'outil le plus répandu
 s'appelle **Docker**.
+
+!!! fil "Au fil de l'heure — question 4"
+    **Qu'est-ce qu'un conteneur emporte avec le code ?**
+
+    `A` tout ce dont il a besoin pour tourner · `B` le serveur entier, matériel compris · `C` les données des utilisateurs · `D` une copie du poste du développeur
 
 ### Trois mots à ne pas confondre
 
@@ -249,6 +266,11 @@ s'appelle **Docker**.
 
 Les images se rangent dans un **registre** — Docker Hub, ou celui de GitHub —
 d'où chaque machine peut les télécharger.
+
+!!! fil "Au fil de l'heure — question 5"
+    **On lance trois exemplaires du rapport à partir de l'image 1.4. Combien y a-t-il d'images ?**
+
+    `A` trois · `B` une seule · `C` six · `D` aucune
 
 ### Lire un Dockerfile
 
@@ -266,19 +288,12 @@ CMD ["python", "rapport.py"]       # 6. la commande lancée au démarrage
 La ligne 1 règle la panne de mardi : la version de Python **est écrite dans le
 fichier**. Ce n'est plus celle du serveur qui décide, c'est celle de l'image.
 
-Et le Dockerfile est un fichier texte : il se **commite dans Git**, comme le code.
-« Avec quoi tourne la production ? » a désormais une réponse : un commit.
+Et le Dockerfile se **commite dans Git**, comme le code.
 
-### Les gestes, en ligne de commande
+!!! fil "Au fil de l'heure — question 6"
+    **Dans le Dockerfile du rapport, quelle ligne fixe la version de Python ?**
 
-```bash
-docker build -t rapport:1.4 .   # fabriquer l'image depuis le Dockerfile
-docker run -p 8000:8000 rapport:1.4   # lancer un conteneur à partir de l'image
-docker push ghcr.io/devsecure/rapport:1.4   # envoyer l'image au registre
-```
-
-Remarquez le **1.4** : une image se désigne par un numéro de version, jamais par
-« la dernière ». La leçon de la séance 4 vaut aussi pour les boîtes.
+    `A` la ligne CMD · `B` la ligne COPY · `C` la ligne FROM · `D` la ligne WORKDIR
 
 > 🔑 **Le conteneur ne corrige pas le code : il garantit que le code tourne dans
 > le même environnement partout.** C'est lui que le pipeline fabrique à l'étape
@@ -348,10 +363,13 @@ Quatre mots suffisent pour le lire :
 | **steps** | *comment* ? — les commandes, une par ligne, dans l'ordre |
 | **needs** | *dans quel ordre* ? — livrer attend que tester soit vert |
 
-Relisez la check-list de Noah : les lignes 1, 2, 3, 4, 9 et 11 sont toutes là.
-La ligne 4 — la version de Python — a disparu : c'est l'image qui la porte.
-Et la reconstruction de l'index fait partie de la chaîne : l'assistant ne
-répétera plus un vieux chiffre parce que quelqu'un a oublié.
+Les lignes 1, 2, 3, 9 et 11 de la check-list de Noah sont là ; la 4 — la
+version de Python — est portée par l'image.
+
+!!! fil "Au fil de l'heure — question 7"
+    **Dans le workflow, que veut dire « needs: tester » sous le travail livrer ?**
+
+    `A` livrer et tester tournent en même temps · `B` livrer attend qu'un testeur humain valide · `C` tester attend que livrer soit terminé · `D` livrer ne démarre que si tester est vert
 
 > 🎯 **Le twist** : le pipeline est lui-même du code. Il se commite, se relit en
 > pull request, et se défait par un revert. **La façon de livrer se versionne

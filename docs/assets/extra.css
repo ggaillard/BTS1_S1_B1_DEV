@@ -265,3 +265,14 @@
   margin: .2rem 0 .5rem; min-height: 1.2em; }
 .tdc-lecture:empty { display: none; }
 .tdc-form input:disabled + span, .tdc-form button:disabled { opacity: .55; cursor: progress; }
+
+/* Questions au fil de l'heure (03/11) : un encadré à part, distinct des
+   corrigés repliés (« ??? question ») et des points de passage. */
+.md-typeset .admonition.fil{border-color:#0e6e6e}
+.md-typeset .fil > .admonition-title{background-color:rgba(14,110,110,.1)}
+.md-typeset .fil > .admonition-title::before{background-color:#0e6e6e;
+  -webkit-mask-image:var(--md-admonition-icon--question);mask-image:var(--md-admonition-icon--question)}
+.tdc-fil-choix{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0}
+.tdc-fil-choix .tdc-bouton{flex:1 1 12rem;min-height:44px}
+.tdc-voile{margin:1rem 0;padding:.8rem 1rem;border:1px dashed #0e6e6e;border-radius:6px;
+  font-weight:600;color:#0e6e6e;text-align:center}

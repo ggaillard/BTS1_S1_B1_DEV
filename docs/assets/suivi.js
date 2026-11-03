@@ -702,6 +702,208 @@
     if (data.ouverte) document.body.appendChild(boutonMain(seance, actes, data.main || null));
   }
 
+
+  /* ------------------------------------------------------------------ */
+  /* Questions au fil de l'heure (03/11/2026)                            */
+  /* ------------------------------------------------------------------ */
+  /* Un bloc `!!! fil` de la trace = une question posée juste après le
+   * concept qu'elle vérifie. L'étudiant répond, voit tout de suite juste ou
+   * faux avec l'explication, puis dit s'il se sent sûr. Alors seulement la
+   * suite de la page se dévoile — une réponse FAUSSE NE BLOQUE PAS : elle
+   * s'explique, et l'on continue.
+   *
+   * Clés fNN (corrigé en base, compté dans la réussite) et fNN-c (certitude,
+   * sans corrigé : enregistrée, jamais évaluée). L'enseignant lit le
+   * croisement des deux dans le portail (fil_seance()).
+   *
+   * Séance fermée, ou étudiant non identifié : rien n'est bloqué, les blocs
+   * restent lisibles comme des questions de révision. */
+
+  const CERTITUDES = ["Je saurais l'expliquer", "Je crois avoir compris",
+                      "J'ai un doute", "Je ne sais plus"];
+
+  function optionsDe(p) {
+    return Array.from(p.querySelectorAll("code")).map((c) => {
+      let apres = c.nextSibling ? c.nextSibling.textContent : "";
+      apres = apres.replace(/^[\s·-]+/, "").split(" · ")[0].trim();
+      return { lettre: c.textContent.trim(), libelle: apres || c.textContent.trim() };
+    });
+  }
+
+  function extraireFil(racine) {
+    return Array.from(racine.querySelectorAll("div.admonition.fil")).map((bloc, i) => {
+      const ps = Array.from(bloc.querySelectorAll(":scope > p:not(.admonition-title)"));
+      const pOpt = ps.find((p) => p.querySelectorAll("code").length >= 2);
+      const pTxt = ps.find((p) => p !== pOpt);
+      return {
+        cle: "f" + String(i + 1).padStart(2, "0"),
+        rang: i + 1,
+        bloc: bloc,
+        texte: pTxt ? pTxt.textContent.trim() : "",
+        options: pOpt ? optionsDe(pOpt) : []
+      };
+    }).filter((q) => q.texte && q.options.length >= 2);
+  }
+
+  // Ce qui suit un bloc, au même niveau, jusqu'à la fin de la trace.
+  function suiteDe(bloc) {
+    const r = [];
+    let n = bloc.nextElementSibling;
+    while (n) { r.push(n); n = n.nextElementSibling; }
+    return r;
+  }
+
+  async function initFil(seance, eleve, racine) {
+    const fil = extraireFil(racine);
+    if (!fil.length) return;
+
+    const { data: deja } = await sb.from("reponses")
+      .select("question, reponse, correct")
+      .eq("eleve_id", eleve.eleve_id).eq("seance_id", seance.id);
+    const rep = new Map((deja || []).map((r) => [r.question, r]));
+
+    const voile = el("p", { class: "tdc-voile", role: "status" }, [
+      "🔒 La suite s'affiche quand vous avez répondu à la question ci-dessus."
+    ]);
+    let caches = [];
+
+    function fini(q) { return rep.has(q.cle) && rep.has(q.cle + "-c"); }
+
+    function appliquerVoile() {
+      caches.forEach((n) => n.removeAttribute("hidden"));
+      caches = [];
+      if (voile.parentNode) voile.parentNode.removeChild(voile);
+      const q = fil.find((x) => !fini(x));
+      if (!q) return;
+      caches = suiteDe(q.bloc).filter((n) => !n.hasAttribute("hidden"));
+      caches.forEach((n) => n.setAttribute("hidden", "hidden"));
+      q.bloc.parentNode.insertBefore(voile, q.bloc.nextSibling);
+    }
+
+    function rendre(q) {
+      const b = q.bloc;
+      Array.from(b.children).forEach((c) => {
+        if (!c.classList.contains("admonition-title")) c.setAttribute("hidden", "hidden");
+      });
+      const zone = el("div", { class: "tdc-fil" });
+      b.appendChild(zone);
+
+      function etapeCertitude() {
+        const z = el("div", { class: "tdc-fil-certitude" });
+        z.appendChild(el("p", { class: "tdc-question-texte" }, ["Sur ce point, vous diriez :"]));
+        const ligne = el("div", { class: "tdc-fil-choix" });
+        CERTITUDES.forEach((libelle, i) => {
+          const lettre = "ABCD"[i];
+          const bt = el("button", { type: "button", class: "tdc-bouton" }, [libelle]);
+          bt.addEventListener("click", async () => {
+            ligne.querySelectorAll("button").forEach((x) => { x.disabled = true; });
+            try {
+              const { error } = await sb.rpc("repondre", {
+                p_seance_id: seance.id, p_question: q.cle + "-c", p_reponse: lettre });
+              if (error) throw error;
+              rep.set(q.cle + "-c", { reponse: lettre });
+              vider(z);
+              z.appendChild(el("p", { class: "tdc-note" }, [
+                "Noté : « " + libelle + " ». " + fil.filter(fini).length + " / " + fil.length +
+                " questions au fil de l'heure. Continuez ↓"
+              ]));
+              appliquerVoile();
+            } catch (err) {
+              ligne.querySelectorAll("button").forEach((x) => { x.disabled = false; });
+              z.appendChild(el("p", { class: "tdc-erreur", role: "alert" }, [messageLisible(err)]));
+            }
+          });
+          ligne.appendChild(bt);
+        });
+        z.appendChild(ligne);
+        return z;
+      }
+
+      function verdict(r) {
+        if (typeof r.correct !== "boolean") return el("p", {}, ["Réponse enregistrée."]);
+        const d = el("div", {});
+        d.appendChild(el("p", { class: r.correct ? "tdc-correct" : "tdc-incorrect" }, [
+          r.correct ? "✅ Juste."
+            : "❌ Pas tout à fait" + (r.bonne_reponse ? " — la bonne réponse était " + r.bonne_reponse : "") + "."
+        ]));
+        if (r.explication) d.appendChild(el("p", { class: "tdc-explication" }, [r.explication]));
+        return d;
+      }
+
+      // Déjà répondu (page rechargée) : le verdict, puis la certitude si elle manque.
+      if (rep.has(q.cle)) {
+        zone.appendChild(el("p", { class: "tdc-question-texte" }, [q.texte]));
+        zone.appendChild(verdict(rep.get(q.cle)));
+        if (!rep.has(q.cle + "-c")) zone.appendChild(etapeCertitude());
+        return;
+      }
+
+      const form = el("form", { class: "tdc-form" });
+      const groupe = el("div", { class: "tdc-options", role: "radiogroup", "aria-label": q.texte });
+      q.options.forEach((o) => {
+        const id = "tdc-fil-" + q.cle + "-" + o.lettre;
+        groupe.appendChild(el("label", { class: "tdc-option", for: id }, [
+          el("input", { type: "radio", name: "fil-" + q.cle, id: id, value: o.lettre }),
+          el("span", {}, [o.lettre + " — " + o.libelle])
+        ]));
+      });
+      form.appendChild(el("fieldset", { class: "tdc-fieldset" }, [
+        el("legend", { class: "tdc-question-texte" }, [q.texte]), groupe]));
+      const retour = el("div", { class: "tdc-retour", "aria-live": "polite" });
+      const bouton = el("button", { type: "submit", class: "tdc-bouton tdc-bouton-principal" }, ["Valider"]);
+      const lecture = el("p", { class: "tdc-lecture" });
+      form.appendChild(retour);
+      form.appendChild(bouton);
+      form.insertBefore(lecture, form.firstChild);
+      zone.appendChild(form);
+
+      // Le temps de lecture ne part qu'une fois la question à l'écran.
+      const champs = Array.from(form.querySelectorAll("input, button[type=submit]"));
+      const lancer = () => verrouillerLecture("fil-" + seance.id + "-" + q.cle, q.texte,
+        q.options.map((o) => o.libelle), champs, lecture);
+      if ("IntersectionObserver" in window) {
+        champs.forEach((c) => { c.disabled = true; });
+        const obs = new IntersectionObserver((ent) => {
+          if (ent.some((x) => x.isIntersecting)) {
+            obs.disconnect();
+            champs.forEach((c) => { c.disabled = false; });
+            lancer();
+          }
+        }, { threshold: 0.5 });
+        setTimeout(() => obs.observe(b), 0);
+      } else { lancer(); }
+
+      form.addEventListener("submit", async (ev) => {
+        ev.preventDefault();
+        const c = form.querySelector("input:checked");
+        if (!c) {
+          vider(retour);
+          retour.appendChild(el("p", { class: "tdc-erreur", role: "alert" }, ["Choisissez une réponse."]));
+          return;
+        }
+        bouton.disabled = true;
+        try {
+          const { data, error } = await sb.rpc("repondre", {
+            p_seance_id: seance.id, p_question: q.cle, p_reponse: c.value });
+          if (error) throw error;
+          rep.set(q.cle, { reponse: c.value, correct: data && data.correct });
+          form.querySelectorAll("input").forEach((i) => { i.disabled = true; });
+          bouton.setAttribute("hidden", "hidden");
+          vider(retour);
+          retour.appendChild(verdict(data || {}));
+          zone.appendChild(etapeCertitude());
+        } catch (err) {
+          vider(retour);
+          retour.appendChild(el("p", { class: "tdc-erreur", role: "alert" }, [messageLisible(err)]));
+          bouton.disabled = false;
+        }
+      });
+    }
+
+    fil.forEach(rendre);
+    appliquerVoile();
+  }
+
   /* ------------------------------------------------------------------ */
   /* Initialisation                                                       */
   /* ------------------------------------------------------------------ */
@@ -856,7 +1058,10 @@
         widget.parentNode.insertBefore(bandeauConnecte(eleve.numero), widget);
       }
       ecranQuestionnaire(widget, eleve, seance, questions);
-      initPassages(seance, racine);
+      // Les passages d'abord : ils s'insèrent dans la page, et le voile des
+      // questions au fil doit les cacher avec le reste de la suite.
+      await initPassages(seance, racine);
+      initFil(seance, eleve, racine);
     } else {
       ecranPortail(widget);
     }

@@ -11,17 +11,17 @@
 
 ---
 
-## 🗓️ Aujourd'hui — séance 4 : « Ça marche sur mon poste »
+## 🗓️ Aujourd'hui — séance 5 : « Mardi, 17 h 52 »
 
-Quatre fichiers `calcul_avancement`, un correctif « testé sur mon poste », et un
-rapport de direction qui affiche toujours le mauvais chiffre. Une heure pour
-comprendre ce que la culture DevOps change à la façon de travailler en équipe —
-et pour apprendre à savoir, avec Git, qui a changé quoi, quand, et comment
-revenir en arrière.
+Une correction juste, une mise en production faite à la main, et dix-sept
+minutes de page blanche. Une heure pour comprendre la chaîne qui teste et qui
+livre toute seule à chaque push — le pipeline CI/CD —, la boîte qui fait tourner
+le code partout pareil — le conteneur —, et pour lire le fichier qui décrit
+tout cela dans le dépôt.
 
-> Séance précédente : [« 60, 47, 72 »](seances/seance-03.md) — SQL, NoSQL, lac et
-> entrepôt de données, et la base qui cherche par le sens.
-> **Si vous étiez absent, lisez-la d'abord** : la séance 4 en part.
+> Séance précédente : [« Ça marche sur mon poste »](seances/seance-04.md) — cycles
+> de vie, culture DevOps, Git, et l'index d'une base vectorielle.
+> **Si vous étiez absent, lisez-la d'abord** : la séance 5 en part.
 
 - **Rien à installer.** Tout se passe dans le navigateur.
 - **Aucune note ne sera mise.** Répondre faux ne coûte rien, ne pas répondre, si.
@@ -29,7 +29,7 @@ revenir en arrière.
   chaque étape : si le poste plante, rien n'est perdu.
 
 La **trace écrite** de la séance — à relire après, ou à lire si vous étiez absent —
-est ici : [« Ça marche sur mon poste »](seances/seance-04.md).
+est ici : [« Mardi, 17 h 52 »](seances/seance-05.md).
 
 ### Si ça coince
 

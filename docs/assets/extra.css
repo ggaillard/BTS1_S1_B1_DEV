@@ -276,3 +276,10 @@
 .tdc-fil-choix .tdc-bouton{flex:1 1 12rem;min-height:44px}
 .tdc-voile{margin:1rem 0;padding:.8rem 1rem;border:1px dashed #0e6e6e;border-radius:6px;
   font-weight:600;color:#0e6e6e;text-align:center}
+
+/* 04/11 : l'attribut hidden doit gagner partout. Le thème donne un display
+   aux encadrés (.admonition, details) qui écrasait celui du navigateur : le
+   voile des questions au fil de l'heure cachait le texte mais laissait les
+   encadrés suivants à l'écran — toutes les questions empilées au même
+   endroit, sans le texte qui les amène. */
+.md-typeset [hidden]{display:none !important}

@@ -898,6 +898,12 @@
           if (error) throw error;
           rep.set(q.cle, { reponse: c.value, correct: data && data.correct });
           form.querySelectorAll("input").forEach((i) => { i.disabled = true; });
+          // Une fois répondu, on ne garde que l'option choisie : l'encadré
+          // se resserre et la lecture reprend juste en dessous.
+          form.querySelectorAll(".tdc-option").forEach((l) => {
+            if (!l.querySelector("input:checked")) l.classList.add("tdc-ecartee");
+          });
+          lecture.textContent = "";
           bouton.setAttribute("hidden", "hidden");
           vider(retour);
           retour.appendChild(verdict(data || {}));

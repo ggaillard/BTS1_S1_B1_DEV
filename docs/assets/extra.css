@@ -283,3 +283,25 @@
    encadrés suivants à l'écran — toutes les questions empilées au même
    endroit, sans le texte qui les amène. */
 .md-typeset [hidden]{display:none !important}
+
+/* 04/11, pendant la séance : les questions au fil de l'heure héritaient de
+   trois tailles de texte différentes (celle de l'encadré, celle du quiz,
+   celle des notes). Une seule échelle dans l'encadré, et des options serrées. */
+.md-typeset .admonition.fil .tdc-fil{font-size:.78rem;line-height:1.45}
+.md-typeset .admonition.fil .tdc-question-texte{font-size:.85rem;font-weight:700;margin:.4rem 0 .5rem;padding:0}
+.md-typeset .admonition.fil .tdc-fieldset{margin:0;padding:0;border:0}
+.md-typeset .admonition.fil .tdc-option{padding:.45rem .7rem;margin:0}
+.md-typeset .admonition.fil .tdc-options{gap:.35rem}
+.md-typeset .admonition.fil .tdc-lecture,
+.md-typeset .admonition.fil .tdc-note,
+.md-typeset .admonition.fil .tdc-retour p{font-size:.78rem;opacity:1;margin:.35rem 0}
+.md-typeset .admonition.fil .tdc-bouton-principal{margin-top:.5rem}
+.md-typeset .admonition.fil .tdc-option.tdc-ecartee{display:none}
+.md-typeset .admonition.fil .tdc-fil-certitude{margin-top:.6rem;padding-top:.5rem;border-top:1px solid rgba(14,110,110,.25)}
+.md-typeset .admonition.fil .tdc-fil-choix .tdc-bouton{font-size:.75rem;flex:1 1 9rem}
+
+/* « Je bloque » flotte en bas à droite : la page garde de quoi ne jamais
+   finir sous lui. */
+.md-content__inner{padding-bottom:5rem}
+@media (max-width: 30rem){ .tdc-main{right:.5rem;bottom:.5rem} .tdc-main-bouton{padding:.4rem .8rem;font-size:.8rem} }
+.md-typeset .admonition.fil .tdc-retour:empty{display:none}

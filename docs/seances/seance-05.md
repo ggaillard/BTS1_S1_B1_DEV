@@ -58,6 +58,11 @@ reconstruire son index.
 > — *« Il faudrait une check-list »*, propose Maya.
 > — *« Il y en a une »*, répond Noah. *« Douze lignes. J'en ai sauté une. »*
 
+!!! fil "Au fil de l'heure"
+    **D'après le terminal de Noah, juste après quelle commande la page d'accueil est-elle tombée ?**<span class="fil-cle" hidden>f08</span>
+
+    `A` la connexion au serveur · `B` la récupération de main · `C` le redémarrage du service · `D` l'installation des dépendances
+
 **Trois oublis, trois humains. Et si ce n'était plus à un humain de s'en
 souvenir ?** C'est l'objet de cette heure.
 
@@ -110,6 +115,11 @@ Une **mise en production à la main**, c'est une suite de gestes qui reposent
 | On ne fait **jamais deux fois pareil** | Le serveur n'avait pas la version de Python du poste |
 | On ne **sait pas après coup** ce qui a été fait | Il a fallu dix-sept minutes pour comprendre et revenir en arrière |
 
+!!! fil "Au fil de l'heure"
+    **La panne de Python vient de quel défaut du déploiement à la main ?**<span class="fil-cle" hidden>f09</span>
+
+    `A` on oublie une étape · `B` on ne fait jamais deux fois pareil · `C` on ne sait pas après coup ce qui a été fait · `D` on va trop vite
+
 > 🔑 **Ce qui se répète doit être fait par une machine.** C'est le premier geste
 > DevOps de la séance 4 — **automatiser** —, appliqué au trajet du code vers la
 > production.
@@ -136,6 +146,12 @@ seule, à chaque fois, sans rien demander à personne ?
 
 ## 🔗 ACTE II — LA CHAÎNE QUI S'ARRÊTE AU PREMIER ROUGE *(≈ 14 min)*
 
+> **Mercredi, 8 h 30.** Maya a réuni l'équipe autour d'un café. Sur le tableau
+> blanc, elle a recopié les douze lignes de Noah, puis barré tout ce qu'une
+> machine sait faire. Il reste une seule ligne. *« Le reste, on le confie à une
+> chaîne. »* Thomas lève la main : *« Et qui la lance, la chaîne ? »* —
+> *« Personne. Ton push. »*
+
 La machine qui fait la check-list à la place de Noah s'appelle un **pipeline** :
 une chaîne d'étapes qui s'enchaînent toutes seules, **à chaque push**.
 
@@ -157,8 +173,8 @@ La règle : **au premier rouge, la chaîne s'arrête.** Un test qui échoue, et 
 n'est déployé. Mardi, un pipeline aurait vu l'erreur à 17 h 46 sur la machine de
 test — et la page d'accueil n'aurait jamais été blanche.
 
-!!! fil "Au fil de l'heure — question 1"
-    **Le build est vert, mais un test est rouge. Que reçoit la production ?**
+!!! fil "Au fil de l'heure"
+    **Le build est vert, mais un test est rouge. Que reçoit la production ?**<span class="fil-cle" hidden>f01</span>
 
     `A` la nouvelle version, installée quand même · `B` rien : la chaîne s'arrête avant le déploiement · `C` la nouvelle version, sans ses tests · `D` un build relancé jusqu'à ce qu'il passe
 
@@ -171,8 +187,8 @@ test — et la page d'accueil n'aurait jamais été blanche.
   tests est prêt à partir, en un clic. Quand ce clic lui-même disparaît et que la
   production se met à jour seule, on parle de **déploiement continu**.
 
-!!! fil "Au fil de l'heure — question 2"
-    **Livraison continue, déploiement continu : qu'est-ce qui les sépare ?**
+!!! fil "Au fil de l'heure"
+    **Livraison continue, déploiement continu : qu'est-ce qui les sépare ?**<span class="fil-cle" hidden>f02</span>
 
     `A` le langage de programmation utilisé · `B` le nombre de tests lancés à chaque push · `C` un humain clique pour mettre en production, ou plus personne · `D` le nombre de développeurs de l'équipe
 
@@ -190,8 +206,8 @@ Un test automatisé est un petit programme qui vérifie un autre programme. On e
 Beaucoup de petits tests rapides, quelques grands tests lents : le pipeline
 reste court.
 
-!!! fil "Au fil de l'heure — question 3"
-    **« La page d'accueil s'affiche et montre 60 % » : de quel test s'agit-il ?**
+!!! fil "Au fil de l'heure"
+    **« La page d'accueil s'affiche et montre 60 % » : de quel test s'agit-il ?**<span class="fil-cle" hidden>f03</span>
 
     `A` un test unitaire · `B` un test d'intégration · `C` un test de charge · `D` un test de bout en bout
 
@@ -201,6 +217,11 @@ Avant la production, une étape intermédiaire : la **préproduction** — en an
 *staging*. C'est une copie de la production, **sans les vrais utilisateurs**. On y
 essaie la version dans les mêmes conditions, et on regarde. Si elle casse là,
 elle casse devant l'équipe, pas devant le client.
+
+!!! fil "Au fil de l'heure"
+    **Pourquoi essayer une version en préproduction avant la production ?**<span class="fil-cle" hidden>f10</span>
+
+    `A` pour qu'une panne arrive devant l'équipe, pas devant le client · `B` pour que la production aille plus vite · `C` pour garder une sauvegarde de la base · `D` pour éviter d'écrire des tests
 
 > 🔑 **Un pipeline ne rend pas le code meilleur. Il rend l'erreur visible tôt,
 > au même endroit, à chaque fois** — avant qu'elle n'arrive en production.
@@ -235,6 +256,19 @@ elle casse devant l'équipe, pas devant le client.
 
 ## 📦 ACTE III — LE COLIS STANDARDISÉ *(≈ 12 min)*
 
+> **Mercredi, 10 h 15.** Thomas ouvre deux terminaux côte à côte. À gauche, son
+> poste ; à droite, le serveur.
+>
+> ```
+> thomas@poste:~$ python --version        noah@prod:~$ python --version
+> Python 3.12.4                            Python 3.8.10
+> ```
+>
+> *« Même code, deux Python. Mardi, c'est ça qui a planté »*, soupire-t-il.
+> Noah hausse les épaules : *« Le serveur a quatre ans. On ne va pas le
+> réinstaller à chaque fois que tu changes de version. »* Maya sourit :
+> *« Et si c'était le code qui emportait son Python avec lui ? »*
+
 Reste la deuxième panne de mardi : Python 3.12 sur le poste de Thomas, Python 3.8
 sur le serveur. Le code était juste, **l'environnement** était différent. C'est
 l'autre sens de « ça marche sur mon poste ».
@@ -251,8 +285,8 @@ Python, les bibliothèques, la configuration. La boîte tourne pareil sur le pos
 de Thomas, sur la machine de test et sur le serveur. L'outil le plus répandu
 s'appelle **Docker**.
 
-!!! fil "Au fil de l'heure — question 4"
-    **Qu'est-ce qu'un conteneur emporte avec le code ?**
+!!! fil "Au fil de l'heure"
+    **Qu'est-ce qu'un conteneur emporte avec le code ?**<span class="fil-cle" hidden>f04</span>
 
     `A` tout ce dont il a besoin pour tourner · `B` le serveur entier, matériel compris · `C` les données des utilisateurs · `D` une copie du poste du développeur
 
@@ -267,8 +301,8 @@ s'appelle **Docker**.
 Les images se rangent dans un **registre** — Docker Hub, ou celui de GitHub —
 d'où chaque machine peut les télécharger.
 
-!!! fil "Au fil de l'heure — question 5"
-    **On lance trois exemplaires du rapport à partir de l'image 1.4. Combien y a-t-il d'images ?**
+!!! fil "Au fil de l'heure"
+    **On lance trois exemplaires du rapport à partir de l'image 1.4. Combien y a-t-il d'images ?**<span class="fil-cle" hidden>f05</span>
 
     `A` trois · `B` une seule · `C` six · `D` aucune
 
@@ -290,8 +324,8 @@ fichier**. Ce n'est plus celle du serveur qui décide, c'est celle de l'image.
 
 Et le Dockerfile se **commite dans Git**, comme le code.
 
-!!! fil "Au fil de l'heure — question 6"
-    **Dans le Dockerfile du rapport, quelle ligne fixe la version de Python ?**
+!!! fil "Au fil de l'heure"
+    **Dans le Dockerfile du rapport, quelle ligne fixe la version de Python ?**<span class="fil-cle" hidden>f06</span>
 
     `A` la ligne CMD · `B` la ligne COPY · `C` la ligne FROM · `D` la ligne WORKDIR
 
@@ -322,6 +356,20 @@ Et le Dockerfile se **commite dans Git**, comme le code.
 ---
 
 ## 📄 ACTE IV — LA CHAÎNE ÉCRITE DANS LE DÉPÔT *(≈ 8 min)*
+
+> **Mercredi, 15 h 40.** Premier essai de la chaîne. Thomas pousse une petite
+> modification du rapport, et l'onglet **Actions** de GitHub s'allume :
+>
+> ```
+> ● Livrer le rapport   #1   main   push par thomas
+>   ✓ tester › build            42 s
+>   ✗ tester › tests            1 test en échec : test_page_accueil
+>   ⏸ livrer                    non lancé — « tester » a échoué
+> ```
+>
+> Rouge. Personne n'est content — et pourtant c'est la meilleure nouvelle de la
+> semaine : l'erreur a été vue **sur une machine de test, à 15 h 41**, pas
+> **par le client, à 17 h 52**. Thomas corrige, repousse : tout passe au vert.
 
 Un pipeline n'est pas un logiciel qu'on achète : c'est **un fichier**, rangé dans
 le dépôt, à côté du code. Sur GitHub, ces fichiers vivent dans le dossier
@@ -354,6 +402,11 @@ jobs:
       - run: ./deployer.sh production
 ```
 
+!!! fil "Au fil de l'heure"
+    **À quel moment le workflow de l'équipe de Noah se lance-t-il ?**<span class="fil-cle" hidden>f11</span>
+
+    `A` chaque nuit à minuit · `B` quand Noah clique sur un bouton · `C` à chaque modification du wiki · `D` à chaque push sur la branche main
+
 Quatre mots suffisent pour le lire :
 
 | Mot | Il répond à |
@@ -366,8 +419,8 @@ Quatre mots suffisent pour le lire :
 Les lignes 1, 2, 3, 9 et 11 de la check-list de Noah sont là ; la 4 — la
 version de Python — est portée par l'image.
 
-!!! fil "Au fil de l'heure — question 7"
-    **Dans le workflow, que veut dire « needs: tester » sous le travail livrer ?**
+!!! fil "Au fil de l'heure"
+    **Dans le workflow, que veut dire « needs: tester » sous le travail livrer ?**<span class="fil-cle" hidden>f07</span>
 
     `A` livrer et tester tournent en même temps · `B` livrer attend qu'un testeur humain valide · `C` tester attend que livrer soit terminé · `D` livrer ne démarre que si tester est vert
 
@@ -395,6 +448,13 @@ version de Python — est portée par l'image.
     **Le piège** : croire que le workflow tourne sur le poste du développeur. Il
     tourne sur une **machine neuve** prêtée par GitHub, à chaque fois. C'est
     justement ce qui le rend fiable : rien ne traîne d'une fois sur l'autre.
+
+---
+
+> **Vendredi, 17 h 52.** Trois jours plus tard, à la minute près. Une nouvelle
+> version part en production. Personne n'est connecté au serveur, Noah est
+> déjà dans le train. L'assistant de Léa répond enfin **60 %** : son index a
+> été reconstruit par la chaîne, comme le reste.
 
 ---
 

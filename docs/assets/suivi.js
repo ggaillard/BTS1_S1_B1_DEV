@@ -730,13 +730,23 @@
     });
   }
 
+  // La clé vient du bloc lui-même (<span class="fil-cle">f08</span>, 04/11) :
+  // ajouter une question au milieu du récit ne décale plus celles d'après.
+  // Sans span, on retombe sur l'ordre de la page (blocs d'avant le 04/11).
+  // Le numéro affiché, lui, suit l'ordre de lecture : « question 3 / 11 ».
   function extraireFil(racine) {
-    return Array.from(racine.querySelectorAll("div.admonition.fil")).map((bloc, i) => {
+    const blocs = Array.from(racine.querySelectorAll("div.admonition.fil"));
+    return blocs.map((bloc, i) => {
+      const span = bloc.querySelector(".fil-cle");
+      const cle = span ? span.textContent.trim() : "f" + String(i + 1).padStart(2, "0");
+      if (span) span.parentNode.removeChild(span);
+      const titre = bloc.querySelector(".admonition-title");
+      if (titre) titre.textContent = "Au fil de l'heure — question " + (i + 1) + " / " + blocs.length;
       const ps = Array.from(bloc.querySelectorAll(":scope > p:not(.admonition-title)"));
       const pOpt = ps.find((p) => p.querySelectorAll("code").length >= 2);
       const pTxt = ps.find((p) => p !== pOpt);
       return {
-        cle: "f" + String(i + 1).padStart(2, "0"),
+        cle: cle,
         rang: i + 1,
         bloc: bloc,
         texte: pTxt ? pTxt.textContent.trim() : "",

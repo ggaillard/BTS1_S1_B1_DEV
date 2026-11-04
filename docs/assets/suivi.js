@@ -302,7 +302,14 @@
     if (/introuvable/i.test(msg)) return "Numéro introuvable dans cette classe. Vérifiez auprès de votre enseignant.";
     if (/deja pris|déjà pris/i.test(msg)) return "Cet avatar est déjà pris, choisissez-en un autre.";
     if (/classe inconnue/i.test(msg)) return "Classe inconnue. Vérifiez l'adresse ou contactez votre enseignant.";
-    return "Une erreur est survenue. Réessayez dans un instant.";
+    // 04/11, en classe : « Une erreur est survenue » cachait la vraie cause.
+    // Le cas fréquent : la connexion de cette page n'est plus celle du portail
+    // (session expirée, ou même numéro ouvert sur un autre poste).
+    if (/non identifi|session|jwt|token/i.test(msg))
+      return "Votre connexion n'est plus reconnue. Rouvrez le portail, reconnectez-vous, puis revenez sur cette page.";
+    if (/ferm/i.test(msg)) return "La séance est fermée : les réponses ne sont plus enregistrées.";
+    if (/fetch|network|réseau|failed/i.test(msg)) return "Le réseau ne répond pas. Réessayez dans un instant.";
+    return "Une erreur est survenue (" + (msg || "sans détail").slice(0, 80) + "). Réessayez, ou prévenez votre enseignant.";
   }
 
   /* ---- Écran 2 : questionnaire ----------------------------------------- */
@@ -1062,13 +1069,18 @@
     }
 
     // Identité ouverte sur le portail : on la reprend sans rien redemander.
-    let moi = null;
+    let moi = null, portailRepond = false;
     try {
-      const { data } = await sb.rpc("qui_suis_je");
+      const { data, error } = await sb.rpc("qui_suis_je");
+      if (!error) portailRepond = true;
       if (data && data.classe_code === CFG.classeCode) moi = data;
     } catch (e) {
       // Portail pas encore déployé : on retombe sur l'ancien parcours.
     }
+    // Le portail répond mais ne reconnaît pas cette connexion : l'identité
+    // gardée dans ce navigateur est périmée. S'en servir donnait des réponses
+    // refusées une à une (« Une erreur est survenue »). On renvoie au portail.
+    if (portailRepond && !moi) { try { localStorage.removeItem(STORAGE_KEY); } catch (e) {} }
 
     // qui_suis_je() renvoie classe_code ; le stockage local utilise classeCode.
     if (moi) {

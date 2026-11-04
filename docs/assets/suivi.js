@@ -1015,15 +1015,28 @@
 
     masquerContenuStatique(questions, racine);
 
+    // Le quiz se place à l'ÉPILOGUE, là où la trace l'annonce — plus en tête
+    // de page (04/11) : posé sous le titre, il donnait les dix questions d'un
+    // coup, avant même la lecture. À sa place, il arrive après les actes, et
+    // le voile des questions au fil de l'heure le cache avec le reste de la
+    // suite tant qu'elles ne sont pas faites.
     const widget = creerWidget();
     const premierTitre = racine.querySelector("h1");
-    if (premierTitre && premierTitre.parentNode) {
+    const epilogue = Array.from(racine.querySelectorAll("h2"))
+      .find((h) => /ÉPILOGUE|Réviser après la séance/i.test(h.textContent));
+    if (epilogue && epilogue.parentNode) {
+      epilogue.parentNode.insertBefore(widget, epilogue.nextSibling);
+    } else if (premierTitre && premierTitre.parentNode) {
       premierTitre.parentNode.insertBefore(widget, premierTitre.nextSibling);
     } else {
       racine.insertBefore(widget, racine.firstChild);
     }
 
     if (!seance.ouverte) {
+      // Fermée : l'avis se lit en haut, pas à l'épilogue.
+      if (premierTitre && premierTitre.parentNode) {
+        premierTitre.parentNode.insertBefore(widget, premierTitre.nextSibling);
+      }
       vider(widget);
       widget.appendChild(el("h2", { class: "tdc-titre" }, ["Séance fermée"]));
       widget.appendChild(el("p", {}, [
@@ -1055,7 +1068,13 @@
     const eleve = moi || lireEleve();
     if (eleve && eleve.classeCode === CFG.classeCode) {
       if (eleve.numero) {
-        widget.parentNode.insertBefore(bandeauConnecte(eleve.numero), widget);
+        // Le bandeau « Connecté » reste en haut, sous le titre.
+        const bandeau = bandeauConnecte(eleve.numero);
+        if (premierTitre && premierTitre.parentNode) {
+          premierTitre.parentNode.insertBefore(bandeau, premierTitre.nextSibling);
+        } else {
+          widget.parentNode.insertBefore(bandeau, widget);
+        }
       }
       ecranQuestionnaire(widget, eleve, seance, questions);
       // Les passages d'abord : ils s'insèrent dans la page, et le voile des

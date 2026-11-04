@@ -38,7 +38,7 @@ extra_javascript:
   # L'ordre compte : la librairie, puis la config, puis le composant.
   - https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js
   - assets/config.js
-  - assets/suivi.js
+  - assets/suivi.js?v=20261104-1240
 
 extra_css:
   - assets/extra.css
